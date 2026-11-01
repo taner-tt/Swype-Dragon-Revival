@@ -1,0 +1,43 @@
+name: Build Swype theme catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/build_theme_catalog.py'
+      - '.github/workflows/build-theme-catalog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate catalog from themes-v1 release assets
+        run: python3 tools/build_theme_catalog.py
+      - name: Verify catalog
+        run: |
+          python3 - <<'PY'
+          import json
+          with open('themes.json', encoding='utf-8') as f:
+              d=json.load(f)
+          assert d['count'] == 270, d['count']
+          assert len(d['themes']) == 270
+          assert all(x['url'].startswith('https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/') for x in d['themes'])
+          assert all(len(x['sha256']) == 64 for x in d['themes'])
+          print('Verified 270 themes, URLs and SHA-256 digests')
+          PY
+      - name: Commit generated themes.json
+        run: |
+          if git diff --quiet -- themes.json; then
+            echo 'themes.json already current'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add themes.json
+          git commit -m 'Update generated Swype theme catalog'
+          git push
