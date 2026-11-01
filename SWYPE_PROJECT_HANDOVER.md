@@ -1,226 +1,221 @@
 # Swype Dragon Revival — Project Handover
 
-Last reconstructed: 2026-11-01
+Last updated: 2026-11-01
 
-## Purpose of this file
+## Purpose
 
-This is the persistent handover / recovery document for the Swype revival project. It exists because the previous ChatGPT project conversation reached its maximum length before a full handover could be generated. This document records everything currently recovered and verified so a future conversation can resume without guessing.
+Persistent recovery/handover document for the Swype revival project. The previous ChatGPT project conversation reached its maximum length. This file is the durable project memory and must be updated when new evidence is recovered from chats, APKs, ZIPs, source trees, builds, or tests.
 
-This document MUST be updated as additional history is recovered from the old ChatGPT export or from APK/ZIP/source artifacts.
+Guiding rule: preserve and port Nuance/Swype's real implementation wherever possible rather than inventing a replacement architecture.
 
-## Project goal
+## Known baseline and regression rules
 
-Revive the old Swype keyboard on modern Android while preserving the original Swype implementation and behavior as far as possible. The guiding rule established during development is to patch/port the original implementation rather than reimplement Swype unnecessarily.
+The recovered conversation identifies FIX40 as the safe working baseline. Dragon, languages, Shift behavior, and previous Settings fixes were reported working there and must not be disturbed by theme work.
 
-The project includes compatibility work already performed around areas such as Dragon, languages, Shift behavior, Settings, and themes. The exact history of all FIX revisions has not yet been recovered; do not infer missing revisions from this document.
-
-## Known working baseline
-
-The recovered conversation identifies FIX40 as the safe working baseline.
-
-Important rule: preserve the parts already working in FIX40. In particular, the recovered discussion says Dragon, languages, Shift, and previous Settings fixes were working and should not be disturbed by the theme work.
-
-FIX48 and FIX48B are NOT baselines. They were experimental theme-integration attempts and are considered discarded. Both stopped before APK build/installation, so according to the recovered conversation they did not modify the Swype installation on the phone.
-
-## Current theme objective
-
-Restore the old downloadable Swype themes using a replacement distribution backend hosted in this GitHub repository while retaining Swype's real theme handling mechanism.
-
-Desired conceptual flow:
-
-Settings -> original Theme UI -> catalog -> download theme -> Swype internal theme storage/registration -> original theme/resource manager -> select theme
-
-The rejected conceptual flow was:
-
-Settings -> new independent list -> Android package installer -> install theme APK as if it were a normal application
-
-The latter is considered architecturally wrong for these theme resources and potentially problematic on modern Android.
-
-## GitHub theme infrastructure — VERIFIED
-
-Repository: taner-tt/Swype-Dragon-Revival
-
-The current repository does not contain the FIX40/FIX48 Swype source tree or decompiled APK. It currently contains the theme distribution/catalog infrastructure. Therefore Git history in this repository must NOT be treated as the history of FIX1..FIX48.
-
-The repository currently has a `themes-v1` release containing the theme archives.
-
-There are exactly 270 expected theme ZIP assets.
-
-`tools/build_theme_catalog.py`:
-
-- reads the GitHub release tagged `themes-v1`
-- paginates through release assets
-- selects `.zip` assets
-- sorts them by filename
-- writes `themes.json`
-- records `id`, `filename`, download `url`, `size`, and `sha256`
-- fails if the result is not exactly 270 themes
-
-`.github/workflows/build-theme-catalog.yml` verifies:
-
-- `themes.json` count is 270
-- there are exactly 270 theme entries
-- every download URL starts with the repository's `releases/download/themes-v1/` path
-- every SHA-256 value is 64 characters
-
-The latest inspected catalog workflow completed successfully. Therefore the GitHub catalog/distribution layer is currently considered working unless new evidence shows otherwise.
-
-## Recovered theme investigation
-
-FIX48 initially attempted to add/find a Settings entry and integrate a new catalog activity. This led to build-time detection failures such as:
+FIX48 and FIX48B were failed/abandoned theme experiments, not baselines. They stopped before APK build/install and did not change the installed phone app. FIX48B failed with:
 
 `FIX48B: could not locate the top-level Settings XML by its original Themes entry`
 
-The recovered investigation concluded that this was the wrong level to patch.
+Do not resume by making another guessed Settings XML patch merely to get a build through.
 
-Important findings from that investigation:
+## Theme objective
 
-1. The GitHub/catalog address was not duplicated across multiple relevant FIX48 locations in a way that explained the failure.
+Restore Swype's downloadable themes using the replacement GitHub distribution backend while retaining Swype's genuine theme/resource mechanism.
 
-2. The `themes.json` -> `themes-v1` links were internally consistent.
+Desired flow:
 
-3. Attempting to locate/add a Settings XML theme row was based on an incorrect assumption about this Swype build.
+`Swype Theme UI -> catalog -> download -> Swype-owned theme storage/registration -> Nuance theme loader -> ThemeManager -> select/apply theme`
 
-4. The original code path includes classes/methods discussed as `SettingsLauncher.showThemes()`, `ThemesActivity`, and `ThemesCategoryActivity`.
+Rejected flow:
 
-5. The investigated Swype build had `enable_in_app_purchasable_themes` set to false, which helped explain why the assumed Settings/theme resources did not have the expected form.
+`Settings -> independent list -> Android normal APK installer -> theme treated as an ordinary installed app`
 
-6. The approximately 270 historical themes were found in an old archive in a layout resembling:
+## GitHub theme infrastructure — VERIFIED
+
+Repository: `taner-tt/Swype-Dragon-Revival`
+
+The repository currently contains theme distribution/catalog infrastructure, not the full FIX1..FIX48 source history. Git history here must therefore not be interpreted as the FIX history.
+
+The `themes-v1` release contains exactly 270 expected theme ZIP assets.
+
+`tools/build_theme_catalog.py` reads the release, paginates assets, selects ZIPs, sorts them, and writes `themes.json` entries containing `id`, `filename`, `url`, `size`, and `sha256`. It fails unless exactly 270 themes are found.
+
+`.github/workflows/build-theme-catalog.yml` verifies 270 entries, validates the release URL prefix and 64-character SHA-256 values, and commits an updated catalog when necessary. The inspected workflow completed successfully.
+
+Conclusion: do not repeatedly debug the GitHub catalog unless new evidence shows a catalog/backend failure.
+
+## Historical archive evidence
+
+Recovered old theme data contains approximately/exactly 270 theme packages arranged like:
 
 `files/themes/<theme>/<theme>.apk`
 
-There was also a `shared_prefs/installed_themes.xml` file.
+and includes `installed_themes.xml` / `shared_prefs/installed_themes.xml` evidence.
 
-This is strong evidence that the historical theme packages were managed as Swype-owned downloaded theme resources rather than simply launched through Android's normal APK installer.
+A real downloaded theme APK was previously reported as generation/version `5.0.1-1624448` with package names like `com.nuance.swype.theme...`.
 
-7. A recovered investigation of the old code found that `PurchasedList` used the preference file `tme`. Therefore `installed_themes.xml` should NOT automatically be assumed to be identical to the old Google-IAP purchased-theme registry.
+The working/ported Swype history also contained an older-version identification (`1.8.16.1081600.40345`), which originally led to the hypothesis that the external loader existed only in a later Swype generation.
 
-## Critical version mismatch
+That hypothesis has now been materially revised by direct inspection of FIX47C; see below.
 
-A major finding in the recovered conversation is a version mismatch between the Swype base being ported and the downloaded theme packages.
+## FIX48 / FIX48B lesson
 
-The decompiled Swype code used for the working project reportedly identifies itself as:
+FIX48 attacked the problem at the wrong layer by trying to locate/add a Settings theme entry and by considering a separate catalog/install flow. The original code has theme UI concepts including `SettingsLauncher.showThemes()`, `ThemesActivity`, and `ThemesCategoryActivity`. The investigated build also had `enable_in_app_purchasable_themes=false`, which helped explain why the expected Settings resource structure was absent.
 
-`1.8.16.1081600.40345`
+The GitHub/catalog URL structure itself was not the root cause. `themes.json` and `themes-v1` were internally consistent.
 
-A real downloaded theme APK inspected during the old conversation reportedly identifies with Swype/theme generation:
+## NEW DIRECT APK EVIDENCE — FIX47C
 
-`5.0.1-1624448`
+Analyzed artifact:
 
-and package names of the form:
+`Swype-ARM64-S25-FIX47C-GIF-BEFORE-SMILEY.apk`
 
-`com.nuance.swype.theme...`
+This APK is now a primary evidence source for the theme investigation.
 
-The old theme archive contains approximately 270 such APK-based themes.
+Direct inspection of its `classes.dex` proves that it contains Nuance external/downloadable-theme machinery. The following classes and symbols are present:
 
-The recovered investigation searched the older Swype code for mechanisms associated with dynamic external APK/resource loading, including concepts such as `addAssetPath`, `createPackageContext`, `getPackageArchiveInfo`, `installed_themes`, and external theme installation. According to that investigation, the required later-generation external theme loader was not found in this older codebase.
+- `com.nuance.swype.plugin.ThemeApkInfo`
+- `com.nuance.swype.plugin.ThemeApkResourceBroker`
+- `com.nuance.swype.plugin.ThemeResourceAccessor`
+- `com.nuance.swype.plugin.ThemeLoader`
+- `com.nuance.swype.plugin.ThemeMetaData`
+- `com.nuance.swype.input.ThemeManager`
+- `com.nuance.swype.inapp.CatalogManager`
 
-The older `ThemeManager` was described as building its available themes from internal `svgSwype.*` resources plus old Google-IAP-related logic.
+Relevant method/symbol names present include:
 
-Working hypothesis, requiring verification against actual APKs:
+- `loadThemeApkFile`
+- `readThemeMetaDataFromFile`
+- `getThemeApkPath`
+- `getNewThemeApkPath`
+- `applyDownloadedTheme`
+- `setThemeFromApk`
+- `getDrawableFromThemeApk`
+- `openRawResourceInThemeApk`
+- `obtainTypedValuesFromThemeApk`
+- `createPackageContext`
+- `getPackageArchiveInfo`
+- `downloadTheme`
+- `cancelDownloadTheme`
+- `applyThemeFromCurrentThemeApk`
 
-The 270 downloaded theme APKs belong to a later Swype generation than the Swype base currently being ported. The later Nuance external-theme loader may therefore need to be ported from a compatible later Swype APK into the FIX40 baseline.
+Relevant state/storage/string evidence includes:
 
-Do NOT treat this hypothesis as proven until the relevant APKs are available and compared directly.
+- `installed_themes`
+- `/Download//themes/`
+- `/themes/`
+- `Theme loaded from APK`
+- `Theme is a downloaded theme`
+- `Theme is a embedded theme`
+- `Loading downloadable theme`
+- `Downloaded theme sku is:`
+- `returning downloaded theme`
+- `purchased or free downloaded themes sku:`
+- `Uninstalled theme sku is:`
+- `bThemeApkLoaded`
+- `themeApkFile`
+- `themeApkPath`
+- `themeApkInfo`
+- `themeApkResourceBroker`
 
-## Why FIX48 / FIX48B were abandoned
+This is a major correction to the earlier working hypothesis. We no longer need to assume that FIX47C lacks the later Nuance external theme loader. At least substantial portions of the genuine loader are demonstrably present in FIX47C.
 
-FIX48 treated the theme problem too much like a new Android application-install flow and also attempted a Settings integration based on resource assumptions that were not valid for the base APK.
+## Current architectural model from FIX47C evidence
 
-FIX48B still relied on locating a top-level Settings XML via an assumed original Themes entry and stopped with the error noted above.
+The symbols strongly support this Nuance-owned chain:
 
-Rather than making a FIX48C that merely compiles, the decision was made to stop and identify the real Nuance theme loading architecture first.
+`download/catalog SKU`
+` -> downloaded theme file/APK`
+` -> ThemeApkInfo / metadata parsing`
+` -> ThemeApkResourceBroker / ThemeResourceAccessor / ThemeLoader`
+` -> ThemeManager`
+` -> resource lookup from theme APK`
+` -> applyDownloadedTheme / setThemeFromApk`
+` -> active keyboard theme`
 
-This is important: DO NOT resume by making another guessed Settings XML search or by simply sending the downloaded theme APKs to Android's normal package installer.
+The exact control flow, storage path construction, validation rules, metadata format, and registration semantics still require method-level decompilation/disassembly before patching.
 
-## Evidence still missing
+## Important distinction: what is proven vs not yet proven
 
-The previous ChatGPT conversation contained much more project history than has currently been recovered. The following must still be obtained where possible:
+PROVEN from FIX47C DEX strings/class descriptors:
 
-- ChatGPT account data export containing the old Swype conversation
-- FIX40 APK and/or its decompiled source tree
-- original/base Swype APK used to produce FIX40
-- later FIX APKs/source trees if retained
+- external/downloadable theme classes exist
+- APK/resource broker classes exist
+- package/archive APIs are referenced
+- methods for loading/applying a theme APK exist
+- `installed_themes` exists
+- downloaded-theme state/SKU handling exists
+- theme resource access methods exist
+
+NOT YET PROVEN:
+
+- which exact method owns each full call sequence
+- the exact on-disk path expected on current Android
+- whether the theme APK must be extracted from the GitHub ZIP first and to what final filename/path
+- the exact XML/preferences schema of `installed_themes`
+- whether signatures/package names/version metadata are validated
+- whether old Nuance server dependencies block the loader before local loading begins
+- whether FIX47C's existing loader is already fully functional and only its catalog/download backend is dead
+- which minimum patch is required to bridge GitHub `themes.json` to the existing loader
+
+Do not turn inferred architecture into code until these are resolved from actual bytecode/decompiled source and tests.
+
+## Revised next technical step
+
+Do NOT build FIX48C by guessing.
+
+Use FIX47C as the primary client-side reference and map the real Nuance theme pipeline method-by-method, concentrating on:
+
+1. `ThemeManager`
+2. `ThemeApkInfo`
+3. `ThemeApkResourceBroker`
+4. `ThemeResourceAccessor`
+5. `ThemeLoader`
+6. `ThemeMetaData`
+7. `CatalogManager`
+8. calls to `createPackageContext` / `getPackageArchiveInfo`
+9. `installed_themes` reads/writes
+10. theme APK path construction and file movement
+11. `downloadTheme` -> install/register -> `applyDownloadedTheme`
+12. resource lookup from the external APK
+13. signature/package/SKU/version checks
+14. deletion/update lifecycle
+
+Then identify the smallest dead-network boundary that can be replaced by the already working GitHub catalog while leaving Nuance's downstream loader intact.
+
+## Preferred patch strategy if evidence confirms the model
+
+The likely safest strategy is NOT to port a new theme engine. It is to retain FIX47C/FIX40-compatible Nuance classes and replace only the unavailable catalog/download source so that a selected GitHub theme is delivered in exactly the file/layout/metadata form expected by the existing loader.
+
+This remains a hypothesis until method-level analysis confirms the entry point and expected file lifecycle.
+
+## Files/evidence still needed when available
+
+- ChatGPT account data export containing the full old Swype conversation
+- FIX40 APK and/or decompiled FIX40 tree
+- original/base APK used for FIX40
+- any retained FIX41..FIX48 source/build scripts/logs
 - old `themes.zip`
 - old `files.zip`
-- later Swype 5.x APK (or preferably the exact Swype APK under which the 270 downloaded themes originally worked)
-- any build scripts/logs/artifacts from FIX1..FIX48 not stored in this repository
+- if available, a known historical Swype APK from the exact period when the 270 themes worked, for comparison against FIX47C
 
-## Next technical step
+A later original APK is now useful as a comparison/reference, but FIX47C itself already proves that the external theme architecture exists in the current project lineage.
 
-Do NOT modify FIX40 merely to make a new theme build compile.
+## Safety rules
 
-First obtain the later Swype APK associated with the 5.x theme packages.
+1. Preserve the known-good working baseline and working Dragon/language/Shift/Settings behavior.
+2. Treat FIX48/FIX48B as discarded experiments.
+3. Do not use Android's normal package installer unless Nuance's bytecode proves that is part of the real flow.
+4. Do not rewrite the theme engine while the genuine Nuance loader exists in FIX47C.
+5. Do not modify GitHub catalog infrastructure without evidence it is the failing layer.
+6. Prefer evidence from actual APK/source/build artifacts over recollection from the truncated chat.
+7. Mark hypotheses as hypotheses.
+8. Update this file after every major verified finding so a future chat can resume safely.
 
-Then compare the old FIX40/base Swype implementation with that later Swype generation and locate Nuance's actual external-theme mechanism. Investigation should include, but not be limited to:
+## Conversation continuity
 
-- discovery of external theme packages
-- package/resource loading
-- AssetManager/resource-path manipulation
-- package context creation
-- parsing/registration of downloaded themes
-- `files/themes` handling
-- `installed_themes.xml`
-- theme metadata
-- interaction with `ThemeManager`
-- selection and activation of a downloaded theme
-- any signature/package validation
-- download/update/deletion lifecycle
-
-Only after the real mechanism is understood should the dead Nuance server/backend portion be replaced by the already working GitHub catalog.
-
-## Current architecture model
-
-Known/desired backend:
-
-GitHub `themes-v1` release
-  -> 270 ZIP assets
-  -> generated `themes.json`
-  -> URL + size + SHA-256 metadata
-
-Missing client bridge:
-
-Swype Theme UI
-  -> fetch/read replacement catalog
-  -> download chosen theme
-  -> unpack/store package correctly
-  -> register/discover theme using Nuance mechanism
-  -> load external theme resources
-  -> expose through ThemeManager
-  -> activate theme
-
-The missing client bridge is the main theme-engineering problem.
-
-## Safety / regression rules for future work
-
-1. FIX40 remains the baseline until evidence establishes a better known-good baseline.
-2. Preserve known working Dragon, language, Shift, and Settings behavior.
-3. FIX48 and FIX48B are discarded experiments, not foundations.
-4. Do not invent a replacement theme architecture before examining Nuance's later implementation.
-5. Do not assume Android's ordinary APK installer is the correct way to install these theme APK resources.
-6. Do not repeatedly debug the GitHub catalog unless evidence indicates it is broken; the catalog generation and validation have already been verified.
-7. Separate VERIFIED facts from hypotheses reconstructed from the truncated conversation.
-8. Update this handover whenever additional old-chat history or source artifacts are recovered.
-
-## Recovery status
-
-What is currently backed up outside the lost/full conversation:
-
-- the GitHub theme release and catalog infrastructure
-- this handover file
-- recovered late-stage conversation describing FIX48/FIX48B and the theme architecture investigation
-
-What is NOT yet safely reconstructed:
-
-- complete FIX1..FIX40 history
-- exact changes that produced FIX40
-- full chronology after FIX40
-- all compatibility findings around modern Android
-- all earlier Dragon/language/Shift/Settings reasoning
-- complete inventory of APKs/files previously supplied in the old conversation
-
-The ChatGPT data export should be used to reconstruct these missing sections when available.
+The user specifically wants to avoid another project loss caused by a ChatGPT conversation reaching its maximum length. ChatGPT does not expose an exact reliable percentage of remaining conversation context to the assistant, so an exact automatic 10%-remaining alert cannot be guaranteed. The mitigation is to keep this handover current throughout the work rather than waiting for the end of the chat.
 
 ## Continuation instruction for a future assistant
 
-Before changing code, read this entire file and inspect the actual available APK/source artifacts. If a ChatGPT export of the old conversation is available, extract the complete Swype conversation and merge its confirmed technical history into this document. Clearly mark contradictions and prefer evidence from actual APK/source/build artifacts over recollection.
+Read this file before changing code. Inspect the actual APK/source artifacts. Continue from the FIX47C external-theme-loader investigation, not from the abandoned FIX48 Settings-XML strategy. If a full ChatGPT export becomes available, merge confirmed historical FIX chronology into this file and resolve contradictions in favor of direct artifact evidence.
