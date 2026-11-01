@@ -72,91 +72,166 @@ Direct DEX parsing confirms that FIX47C contains Nuance's external/downloadable-
 - `getCatalogService`
 - `getThemesForCategory`
 
-This is strong evidence that the local install/register lifecycle already exists in FIX47C and that the correct patch boundary may be upstream of `installDownloadedFile`, rather than inside ThemeManager/resource loading.
+### Exact install flow — VERIFIED FROM BYTECODE
+Method-level DEX disassembly now establishes the downstream install path precisely.
+
+`CatalogManager.downloadTheme(index, wrapper)` obtains the theme SKU and calls:
+
+`ACCatalogService.downloadCatalogItem(sku, new CatalogManager$4(...))`
+
+The success callback is:
+
+`CatalogManager$4.downloadComplete(File downloadedFile)`
+
+On success it calls:
+
+`CatalogManager.installDownloadedFile(sku, downloadedFile.getAbsolutePath())`
+
+`installDownloadedFile(sku, downloadedPath)` then:
+1. calls `installPath(sku)` to calculate the destination;
+2. deletes an existing destination file if present;
+3. creates a `File` for the downloaded temporary file;
+4. creates a `File` for the destination;
+5. copies bytes with `copyFile(source, destination)`.
+
+`installPath(sku)` delegates to `IMEApplication.getNewThemeApkPath(sku)` and creates the parent directories when missing.
+
+`IMEApplication.getNewThemeApkPath(sku)` is now fully resolved. It constructs:
+
+`<Context.getFilesDir()>/themes/<sku>/<sku>.apk`
+
+This exactly matches the historical archive layout `files/themes/<theme>/<theme>.apk`. This is no longer a hypothesis.
+
+### Exact installed_themes schema — VERIFIED
+`InstalledList(Context)` opens Android SharedPreferences named exactly:
+
+`installed_themes`
+
+`InstalledList.loadAll()` simply loads all entries from that preference file into its map.
+
+After a successful theme download/install, `CatalogManager$4.downloadComplete()` obtains the installed `ThemeItemSeed.sku` and writes:
+
+`installed_themes[sku] = true`
+
+using `SharedPreferences.Editor.putBoolean(sku, true)`, then reloads `InstalledList` and updates theme status to `THEME_INSTALLED`.
+
+Therefore the historical `shared_prefs/installed_themes.xml` is directly explained: it is a boolean set keyed by theme SKU.
+
+### Post-install handling — VERIFIED
+After successful copy, the callback also calls `addWordListFromApk(...)` using the installed APK path, handles theme categories, sets installing percentage to 100, marks the `ThemeItemSeed` installed/not installing, updates `ThemeManager` status, notifies UI callbacks, and records completion telemetry.
+
+This confirms that the ordinary success path does not use Android's package installer. The APK is copied into Swype private app storage and registered in Swype state.
+
+### Theme selection/activation — VERIFIED
+The theme UI methods `Themes.applyTheme(...)` and `ThemesCategory.applyTheme(...)` distinguish downloaded themes by `SwypeTheme.THEME_SOURCE.CONNECT`.
+
+For a downloaded theme they:
+1. call `UserPreferences.setActiveDownloadedTheme(sku)`;
+2. resolve `IMEApplication.getThemeApkPath(sku)`;
+3. store that APK path as `UserPreferences.setCurrentThemeId(path)`;
+4. notify `ThemeManager.onThemeChanged(...)` / themed-resource refresh logic.
+
+`IMEApplication.checkIfThemeLoaded()` reads `UserPreferences.getActiveDownloadedTheme()` and calls `applyDownloadedTheme(sku)`.
+
+`IMEApplication.applyDownloadedTheme(sku)`:
+1. initializes `ThemeLoader` if needed;
+2. resolves `getThemeApkPath(sku)`;
+3. calls `ThemeLoader.loadThemeApkFile(themedContext, apkPath)`;
+4. logs `Theme loaded from APK`.
+
+`IMEApplication.checkThemeChanged()` also directly reloads an APK through `ThemeLoader.loadThemeApkFile(...)` when the current theme points at an APK path.
+
+This proves that download/install and apply are separate phases: successful download copies/registers the APK; selecting/current-theme lifecycle loads it.
+
+### Theme APK loading — VERIFIED
+`ThemeLoader.loadThemeApkFile(context, path)` calls `ThemeApkInfo.fromStaticApkFile(context, path)`, then hands the resulting object to `ThemeApkResourceBroker.setThemeFromApk(...)`.
+
+`ThemeApkInfo.fromStaticApkFile(...)`:
+- requires an existing path ending in `.apk`;
+- calls Android `PackageManager.getPackageArchiveInfo(path, ...)`;
+- obtains `Resources` for the archive application;
+- sets up a private `dex` directory;
+- records APK/package/resource information;
+- calls `readThemeMetaDataFromFile(resources, packageName)`.
+
+`readThemeMetaDataFromFile(...)` resolves resource `theme_metadata` of type `xml` inside the theme APK and constructs `ThemeMetaData` from it.
+
+`ThemeMetaData` parses theme metadata including fields/tags such as `id`, `name`, `description`, `snapshot`, `version`, `date`, `author`, and optional `wordlist` entries with `type`, `version`, and `file` attributes.
+
+`ThemeApkResourceBroker.setThemeFromApk(...)` uses a `DexClassLoader`, loads the theme package's generated `.R$styleable` class, accesses `SwypeThemeTemplate`, resolves theme styles/resources and builds a `ThemeResourceAccessor`. This is genuine dynamic external-APK resource loading, not normal Android package installation.
+
+### Sideload path — VERIFIED
+`ThemeManager.scanSideloadedThemes(...)` separately scans external storage under:
+
+`<external-storage>/Download//themes/`
+
+when storage permission/state allows it. This is a separate sideload discovery path and must not be confused with the normal Connect download destination in private `files/themes/...` storage.
 
 ### Confirmed CatalogService contract
 The embedded Nuance catalog API exposes catalog items with SKU, title, canonical name, categories, preview URLs, thumbnail URL, price, type, installed/purchased/update flags, plus `downloadCatalogItem`, `installedCatalogItem`, `uninstallCatalogItem`, SKU-list methods and catalog callbacks.
 
 Download callbacks include `downloadStarted`, `downloadPercentage`, `downloadComplete`, `downloadFailed`, and `downloadStopped`.
 
-This provides a concrete model for the data/events the GitHub replacement may need to emulate or bypass.
-
 ### Confirmed storage/state strings and endpoints
-DEX strings include:
-- `installed_themes`
-- `/Download//themes/`
-- `Theme loaded from APK`
-- `Theme is a downloaded theme`
-- `Loading downloadable theme`
-- `Downloaded theme sku is:`
-- `applyThemeFromCurrentThemeApk()`
-- `https://api-swype.swypeconnect.com/`
-- `https://ccp-swype.swypeconnect.com/`
-- `https://lbs-swype.swypeconnect.com/`
-- older `https://api.swypeconnect.com/` and `https://lbs.swypeconnect.com/` references
+DEX strings include `installed_themes`, `/Download//themes/`, `Theme loaded from APK`, `Theme is a downloaded theme`, `Loading downloadable theme`, `Downloaded theme sku is:`, `applyThemeFromCurrentThemeApk()`, and old Swype Connect endpoints including `api-swype.swypeconnect.com`, `ccp-swype.swypeconnect.com`, and `lbs-swype.swypeconnect.com` variants.
 
 The exact endpoint used by the theme catalog still needs call-level attribution; endpoint presence alone is not enough to assign a specific service.
 
-### Theme UI/resources are also present in FIX47C
-The APK contains actual theme UI resources including:
-- `res/xml/themespreferences.xml` and density/device variants
-- `res/layout/theme_main_page.xml`
-- `theme_item.xml`
-- `theme_grid_view.xml`
-- `theme_bundle_grid_view.xml`
-- `theme_category_item.xml`
-- preview/download layouts
-- theme download/check/update/stop graphics
+### Theme UI/resources are present in FIX47C
+The APK contains actual theme UI resources including `res/xml/themespreferences.xml`, `theme_main_page.xml`, `theme_item.xml`, `theme_grid_view.xml`, `theme_bundle_grid_view.xml`, `theme_category_item.xml`, preview/download layouts and theme download/check/update/stop graphics.
 
-This means the theme feature is not represented only by dormant class strings; substantial UI/resources are packaged in FIX47C too. The old FIX48B XML-detection failure must therefore be treated as a failure of that patch's lookup assumption, not proof that FIX47C has no theme preference resources.
+The old FIX48B XML-detection failure was therefore a failure of that patch's lookup assumption, not proof that FIX47C lacks theme resources.
 
-## Current architecture model
-Evidence now supports:
+## Current architecture model — NOW METHOD-VERIFIED DOWNSTREAM
+The normal Nuance flow is now established as:
 
-`Nuance CatalogService / Connect catalog`
+`CatalogService catalog item / SKU`
 ` -> CatalogManager.downloadTheme()`
-` -> download callback`
-` -> CatalogManager.installDownloadedFile(...)`
-` -> install path / copy / registration`
-` -> ThemeApkInfo metadata`
-` -> ThemeApkResourceBroker / ThemeLoader`
-` -> ThemeManager downloaded theme`
-` -> external APK resource lookup`
+` -> ACCatalogService.downloadCatalogItem(sku, callback)`
+` -> callback receives temporary File`
+` -> installDownloadedFile(sku, tempPath)`
+` -> copy to <filesDir>/themes/<sku>/<sku>.apk`
+` -> installed_themes[sku] = true`
+` -> ThemeManager/UI status = THEME_INSTALLED`
+` -> user selects theme`
+` -> activeDownloadedTheme = sku`
+` -> currentThemeId = installed APK path`
+` -> IMEApplication / ThemeLoader.loadThemeApkFile()`
+` -> ThemeApkInfo.fromStaticApkFile()`
+` -> theme_metadata XML`
+` -> ThemeApkResourceBroker.setThemeFromApk()`
+` -> DexClassLoader + theme R.styleable / resources`
+` -> ThemeResourceAccessor`
 ` -> active keyboard theme`
 
-The exact bytecode call edges still need full disassembly/decompilation, but the method inventory narrows the likely replacement boundary substantially.
-
 ## Most promising patch boundary
-Do NOT replace ThemeManager or build a new theme engine.
+The safest boundary is now even clearer: preserve everything from `installDownloadedFile(sku, downloadedPath)` downstream if possible.
 
-First determine whether GitHub can replace only the dead Nuance catalog/download source while feeding the result into existing `CatalogManager.installDownloadedFile(...)` and the downstream Nuance loader. If yes, that is preferred because it preserves original installation, metadata parsing, registration, APK resource loading, selection, update and uninstall semantics.
+A GitHub replacement only needs to supply a valid downloaded theme APK plus its correct SKU to the existing local install path, and supply enough catalog/UI data for the user to choose/download it. The existing Nuance code already knows how to copy, register, list, select and dynamically load the APK.
 
-A second possible path, if CatalogService is too tightly coupled to dead Connect infrastructure, is to create a minimal adapter that maps `themes.json` entries to the data required immediately before `installDownloadedFile(...)`. This is still preferable to replacing the downstream theme engine.
+The preferred implementation target is therefore a small adapter at or immediately upstream of `CatalogManager.downloadTheme()` / `ACCatalogService.downloadCatalogItem()`, not a replacement ThemeManager or theme engine.
+
+Important: GitHub currently publishes ZIP assets. Before patching, verify the ZIP payload structure. If each ZIP contains the expected `<sku>.apk`, the bridge must download/extract that APK and then feed the extracted APK path plus SKU into the existing install path. Do not pass the ZIP itself to `installDownloadedFile` unless artifact inspection proves the existing code expects ZIP (current bytecode strongly indicates the installed destination is an APK).
 
 ## Next technical investigation
-1. Disassemble/decompile `CatalogManager.downloadTheme`, callback `CatalogManager$4.downloadComplete`, `installDownloadedFile`, and `installPath`.
-2. Establish the exact downloaded temporary filename/path and final `files/themes/...` layout.
-3. Determine how SKU and installed state are written to `installed_themes`.
-4. Trace `ThemeManager.scanSideloadedThemes` and `syncPurchasedOrInstalledList`.
-5. Trace `ThemeApkInfo.readThemeMetaDataFromFile` to document required manifest/meta-data keys.
-6. Trace `ThemeApkResourceBroker.setThemeFromApk` and `ThemeLoader.loadThemeApkFile` to establish package/resource loading and validation.
-7. Attribute the dead Nuance endpoint actually used by the catalog.
-8. Compare one historical theme APK against those exact metadata/resource requirements.
-9. Only then implement the smallest GitHub bridge.
+1. Inspect one actual `themes-v1` ZIP and its contained APK against the now-known SKU/path rules.
+2. Verify the theme APK contains `theme_metadata.xml`, generated `R$styleable.SwypeThemeTemplate`, expected package/resource names and any required wordlists.
+3. Attribute the exact Nuance catalog endpoint/service and identify how much of CatalogService initialization is dead.
+4. Map the minimum fields needed to construct/display a `ThemeItemSeed` / `ConnectDownloadableThemeWrapper` from GitHub `themes.json`.
+5. Decide whether to patch `downloadTheme()` directly or insert a minimal replacement CatalogService adapter.
+6. Only then create the next theme FIX build.
 
 ## Still not proven
-- exact final on-disk path construction on current Android
-- exact `installed_themes` preference schema
-- exact manifest/meta-data fields required in theme APKs
-- signature/package/version validation rules
-- exact network endpoint/service responsible for catalog data
-- whether existing local loader works unchanged on the target Android version
-- whether GitHub ZIPs already contain exactly the payload expected by `installDownloadedFile`
+- exact Nuance endpoint responsible for theme catalog data
+- whether existing local loader works unchanged on the target Android version when given a valid historical theme APK
+- exact structure of each current GitHub ZIP asset (must inspect one directly)
+- whether current `themes.json` has enough UI metadata or needs extension for display/category/preview information
+- any signature/package/version compatibility checks beyond those already observed in `ThemeApkInfo`
 
 ## Safety rules
 1. Preserve known-good Dragon/language/Shift/Settings behavior.
 2. Treat FIX48/FIX48B as discarded experiments.
-3. Do not use Android's normal APK installer unless Nuance bytecode proves it belongs in the flow.
+3. Do not use Android's normal package installer; verified Nuance flow copies APKs into private storage.
 4. Do not rewrite the theme engine while the genuine Nuance loader exists.
 5. Do not modify GitHub catalog infrastructure without evidence it is the failing layer.
 6. Prefer direct APK/source/build evidence over recollection.
@@ -167,4 +242,4 @@ A second possible path, if CatalogService is too tightly coupled to dead Connect
 The user wants to avoid another project loss caused by a ChatGPT conversation reaching its maximum length. ChatGPT does not expose an exact reliable percentage of remaining conversation context to the assistant, so an exact automatic 10%-remaining alert cannot be guaranteed. Mitigation: keep this handover current throughout the work rather than waiting for the end.
 
 ## Continuation instruction
-Read this file before changing code. Continue from the FIX47C `CatalogManager -> installDownloadedFile -> ThemeApkInfo/ThemeLoader -> ThemeManager` investigation, not from the abandoned FIX48 Settings-XML strategy. If full old-chat history becomes available, merge confirmed FIX chronology and resolve contradictions in favor of direct artifact evidence.
+Read this file before changing code. Continue from the now-verified FIX47C flow: `CatalogManager.downloadTheme -> downloadComplete -> installDownloadedFile(sku,tempPath) -> files/themes/<sku>/<sku>.apk -> installed_themes[sku]=true -> selection -> ThemeLoader -> ThemeApkInfo -> ThemeApkResourceBroker`. Do not return to the abandoned FIX48 Settings-XML strategy.
