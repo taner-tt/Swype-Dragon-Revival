@@ -32,7 +32,7 @@ jobs:
           PY
       - name: Commit generated themes.json
         run: |
-          if git diff --quiet -- themes.json; then
+          if [ -z "$(git status --porcelain -- themes.json)" ]; then
             echo 'themes.json already current'
             exit 0
           fi
