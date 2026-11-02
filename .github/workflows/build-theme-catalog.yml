@@ -16,12 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install preview renderer
+        run: python3 -m pip install --disable-pip-version-check pillow
       - name: Generate catalog and previews from themes-v1 release assets
         run: python3 tools/build_theme_catalog.py
       - name: Verify catalog
         run: |
           python3 - <<'PY'
-          import json, os
+          import hashlib, json, os
+          from collections import Counter
           with open('themes.json', encoding='utf-8') as f:
               d=json.load(f)
           assert d['schema'] == 2
@@ -31,8 +34,10 @@ jobs:
           assert all(len(x['sha256']) == 64 for x in d['themes'])
           previews=[x for x in d['themes'] if x.get('preview')]
           assert len(previews) >= 250, len(previews)
-          assert all(os.path.isfile('theme-previews/' + x['id'] + '.png') for x in previews)
-          print(f"Verified 270 themes and {len(previews)} generated previews")
+          paths=['theme-previews/' + x['id'] + '.png' for x in previews]
+          assert all(os.path.isfile(p) and os.path.getsize(p) > 1000 for p in paths)
+          hashes=Counter(hashlib.sha256(open(p,'rb').read()).hexdigest() for p in paths)
+          print(f"Verified 270 themes and {len(previews)} rendered previews; {len(hashes)} distinct preview images")
           PY
       - name: Commit generated catalog and previews
         run: |
