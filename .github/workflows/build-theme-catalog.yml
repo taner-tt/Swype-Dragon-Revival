@@ -16,28 +16,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Generate catalog from themes-v1 release assets
+      - name: Generate catalog and previews from themes-v1 release assets
         run: python3 tools/build_theme_catalog.py
       - name: Verify catalog
         run: |
           python3 - <<'PY'
-          import json
+          import json, os
           with open('themes.json', encoding='utf-8') as f:
               d=json.load(f)
+          assert d['schema'] == 2
           assert d['count'] == 270, d['count']
           assert len(d['themes']) == 270
           assert all(x['url'].startswith('https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/') for x in d['themes'])
           assert all(len(x['sha256']) == 64 for x in d['themes'])
-          print('Verified 270 themes, URLs and SHA-256 digests')
+          previews=[x for x in d['themes'] if x.get('preview')]
+          assert len(previews) >= 250, len(previews)
+          assert all(os.path.isfile('theme-previews/' + x['id'] + '.png') for x in previews)
+          print(f"Verified 270 themes and {len(previews)} generated previews")
           PY
-      - name: Commit generated themes.json
+      - name: Commit generated catalog and previews
         run: |
-          if [ -z "$(git status --porcelain -- themes.json)" ]; then
-            echo 'themes.json already current'
+          if [ -z "$(git status --porcelain -- themes.json theme-previews)" ]; then
+            echo 'catalog and previews already current'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add themes.json
-          git commit -m 'Update generated Swype theme catalog'
+          git add themes.json theme-previews
+          git commit -m 'Update generated Swype theme catalog and previews'
           git push
