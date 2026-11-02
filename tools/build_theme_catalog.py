@@ -82,7 +82,6 @@ def load_png(apk, info):
     try:
         data = apk.read(info)
         im = Image.open(io.BytesIO(data)).convert("RGBA")
-        # Android nine-patches have a one-pixel metadata border.
         if info.filename.lower().endswith(".9.png") and im.width > 2 and im.height > 2:
             im = im.crop((1, 1, im.width - 1, im.height - 1))
         return im, data
@@ -97,13 +96,14 @@ def fit(im, size):
 
 
 def extract_preview(zip_path, theme_id):
-    """Render a useful catalog preview from the actual theme APK artwork.
+    """Create a catalog preview from one coherent piece of real theme artwork.
 
-    A single 'largest PNG' was not reliable: many old Nuance packages share a
-    generic drawable, while their useful artwork lives in smaller or nine-patch
-    resources.  Rank theme/background resources, deduplicate identical images,
-    then make a small composite from the best real APK assets.  No synthetic
-    theme art is invented.
+    The previous renderer combined the four highest-scoring drawables. That was
+    structurally wrong: a Swype theme APK contains keyboard backgrounds, key
+    nine-patches and other UI parts, so the result looked like two unrelated
+    images glued together. Prefer the strongest theme/background drawable and
+    render only that resource. This keeps the catalog preview coherent and does
+    not invent a keyboard composition that Swype itself never renders this way.
     """
     with zipfile.ZipFile(zip_path) as outer:
         apk_names = [n for n in outer.namelist() if n.lower().endswith(".apk") and not n.endswith("/")]
@@ -120,7 +120,7 @@ def extract_preview(zip_path, theme_id):
         ]
         candidates.sort(key=lambda i: (png_score(i, theme_id), i.file_size), reverse=True)
 
-        selected = []
+        selected = None
         seen = set()
         for info in candidates:
             im, data = load_png(apk, info)
@@ -130,32 +130,17 @@ def extract_preview(zip_path, theme_id):
             if digest in seen:
                 continue
             seen.add(digest)
-            selected.append((info, im))
-            if len(selected) == 4:
-                break
+            selected = (info, im)
+            break
 
-    if not selected:
+    if selected is None:
         return None
 
-    # Main artwork plus three supporting resources. This exposes theme-specific
-    # key/background art even when the old package's metadata snapshot is stale.
     canvas = Image.new("RGBA", (640, 360), (28, 28, 28, 255))
-    main = fit(selected[0][1], (640, 270))
-    if main is not None:
-        canvas.alpha_composite(main, (0, 0))
-
-    thumbs = selected[1:4]
-    if thumbs:
-        w = 640 // len(thumbs)
-        for idx, (_, im) in enumerate(thumbs):
-            thumb = fit(im, (w, 90))
-            if thumb is not None:
-                canvas.alpha_composite(thumb, (idx * w, 270))
-    else:
-        # Repeat the real main artwork rather than leaving a blank strip.
-        strip = fit(selected[0][1], (640, 90))
-        if strip is not None:
-            canvas.alpha_composite(strip, (0, 270))
+    artwork = fit(selected[1], (640, 360))
+    if artwork is None:
+        return None
+    canvas.alpha_composite(artwork, (0, 0))
 
     os.makedirs(PREVIEW_DIR, exist_ok=True)
     out_name = f"{theme_id}.png"
