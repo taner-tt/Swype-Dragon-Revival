@@ -1,1896 +1,2436 @@
 {
-  "schema": 1,
+  "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
   "count": 270,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
+      "name": "Garfield Bestfriends",
       "filename": "btm.theme.garfield_bestfriends.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_bestfriends.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_bestfriends.png",
       "size": 673795,
       "sha256": "ab60bf9d7c6a74f2117640ef4d761ea37fc0c824ef5727f4cfc1eb1dcc89d329"
     },
     {
       "id": "btm.theme.garfield_bigpurrsonality",
+      "name": "Garfield Bigpurrsonality",
       "filename": "btm.theme.garfield_bigpurrsonality.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_bigpurrsonality.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_bigpurrsonality.png",
       "size": 621688,
       "sha256": "a5609a814a490649660af91285765bac0173dc0dddb6a42487d0bc86ece566c1"
     },
     {
       "id": "btm.theme.garfield_cattitude",
+      "name": "Garfield Cattitude",
       "filename": "btm.theme.garfield_cattitude.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_cattitude.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_cattitude.png",
       "size": 506920,
       "sha256": "e0ac1e62f7ef45b93f18e1b2c630cc771d7c4ab56dd284e7652a5c20f0df0830"
     },
     {
       "id": "btm.theme.garfield_garfieldchristmas",
+      "name": "Garfield Garfieldchristmas",
       "filename": "btm.theme.garfield_garfieldchristmas.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_garfieldchristmas.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_garfieldchristmas.png",
       "size": 684548,
       "sha256": "947c852f4b0eaed285dc5290d9b447a30b2e0dec0e124c2461e089cc8428899a"
     },
     {
       "id": "btm.theme.garfield_justbeclaws",
+      "name": "Garfield Justbeclaws",
       "filename": "btm.theme.garfield_justbeclaws.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_justbeclaws.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_justbeclaws.png",
       "size": 684976,
       "sha256": "626061489b261e0dae8feaafdaf6933d4b3668e34eef8f111bb5052003562edc"
     },
     {
       "id": "btm.theme.garfield_lasagna",
+      "name": "Garfield Lasagna",
       "filename": "btm.theme.garfield_lasagna.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_lasagna.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_lasagna.png",
       "size": 664042,
       "sha256": "2b60feba3ba3daf062cd6abfcc1ab38b0a485135d4b26bb29fc958103b324947"
     },
     {
       "id": "btm.theme.garfield_pookie",
+      "name": "Garfield Pookie",
       "filename": "btm.theme.garfield_pookie.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/btm.theme.garfield_pookie.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_pookie.png",
       "size": 574261,
       "sha256": "c3c47ea49d6e21a595134b683fe37b3dafc88505720e573f8577eda7b08a3f7c"
     },
     {
       "id": "nuance.theme.colorful_black",
+      "name": "Colorful Black",
       "filename": "nuance.theme.colorful_black.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_black.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_black.png",
       "size": 294829,
       "sha256": "8b67c1cd15ebaf3e496c194484cffafb2e1dbf11c71e0dfd9f4a1919cfe01d9a"
     },
     {
       "id": "nuance.theme.colorful_blue",
+      "name": "Colorful Blue",
       "filename": "nuance.theme.colorful_blue.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_blue.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_blue.png",
       "size": 296560,
       "sha256": "1d5fcfa6bcf5d372e51b41a345d67115f5931d80c9fba85b68282dd51841ec71"
     },
     {
       "id": "nuance.theme.colorful_brown",
+      "name": "Colorful Brown",
       "filename": "nuance.theme.colorful_brown.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_brown.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_brown.png",
       "size": 296418,
       "sha256": "b3c63b839512dadec46491b182b6063ee4ee2d8adac4bf089966a2d4bbb72846"
     },
     {
       "id": "nuance.theme.colorful_fuchsia",
+      "name": "Colorful Fuchsia",
       "filename": "nuance.theme.colorful_fuchsia.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_fuchsia.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_fuchsia.png",
       "size": 296704,
       "sha256": "f63ea5efef208212cef9bfeab6682e6918e9d6d8d9f4bd2f83fd19466c916849"
     },
     {
       "id": "nuance.theme.colorful_green",
+      "name": "Colorful Green",
       "filename": "nuance.theme.colorful_green.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_green.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_green.png",
       "size": 296695,
       "sha256": "30908957c338fe9905a53e24377436483aa7abbdf77bb163822f79fa3ef0d2aa"
     },
     {
       "id": "nuance.theme.colorful_grey",
+      "name": "Colorful Grey",
       "filename": "nuance.theme.colorful_grey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_grey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_grey.png",
       "size": 296773,
       "sha256": "9c7cb171f197ed96ddeaca057e02483f423c210e2d205f6d9d9fe87556c7fabd"
     },
     {
       "id": "nuance.theme.colorful_navy",
+      "name": "Colorful Navy",
       "filename": "nuance.theme.colorful_navy.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_navy.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_navy.png",
       "size": 296722,
       "sha256": "89d0fa29859ad87c469dcf7cb8f09d47ba05bcc166a2081acb62523ebed8004d"
     },
     {
       "id": "nuance.theme.colorful_orange",
+      "name": "Colorful Orange",
       "filename": "nuance.theme.colorful_orange.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_orange.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_orange.png",
       "size": 296451,
       "sha256": "77c05fd7c2e4ca97f3a1cdba0f506640234ce09f53505fbff8265f456a04a28c"
     },
     {
       "id": "nuance.theme.colorful_pink",
+      "name": "Colorful Pink",
       "filename": "nuance.theme.colorful_pink.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_pink.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_pink.png",
       "size": 296659,
       "sha256": "a101d4e43d8ee3f1c114bffe069312f063d21a834d9de494748607b48000c152"
     },
     {
       "id": "nuance.theme.colorful_purple",
+      "name": "Colorful Purple",
       "filename": "nuance.theme.colorful_purple.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_purple.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_purple.png",
       "size": 296669,
       "sha256": "cdcb0f203af0e29cec4986a74205abd05f9cf85c2dfb18ddb4f181cd90ddcfaf"
     },
     {
       "id": "nuance.theme.colorful_red",
+      "name": "Colorful Red",
       "filename": "nuance.theme.colorful_red.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_red.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_red.png",
       "size": 296609,
       "sha256": "99d77922cf0b7296486ddc7e3ff883d97eaeeb30ea111dfc74976b4cf32290a1"
     },
     {
       "id": "nuance.theme.colorful_teal",
+      "name": "Colorful Teal",
       "filename": "nuance.theme.colorful_teal.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_teal.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_teal.png",
       "size": 296494,
       "sha256": "e95deab19fa5c26f8f51b298028d45952add103307989060431225903793eb1e"
     },
     {
       "id": "nuance.theme.colorful_white",
+      "name": "Colorful White",
       "filename": "nuance.theme.colorful_white.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_white.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_white.png",
       "size": 297140,
       "sha256": "9d583006f1601c82ba4a17f5551cdfac9e1931fb3824de1b55174d1080b8ee21"
     },
     {
       "id": "nuance.theme.colorful_yellow",
+      "name": "Colorful Yellow",
       "filename": "nuance.theme.colorful_yellow.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.colorful_yellow.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.colorful_yellow.png",
       "size": 296482,
       "sha256": "6785764f6306bad015854d7a89e04c976f40801f582ab5a1f1ce03a16067b361"
     },
     {
       "id": "nuance.theme.country_bangladesh",
+      "name": "Country Bangladesh",
       "filename": "nuance.theme.country_bangladesh.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh.png",
       "size": 738999,
       "sha256": "e1fc8d060c77569045eaef2488741d68c2e11b780c45b92737ea919829de9a12"
     },
     {
       "id": "nuance.theme.country_bangladesh_basketball",
+      "name": "Country Bangladesh Basketball",
       "filename": "nuance.theme.country_bangladesh_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_basketball.png",
       "size": 800775,
       "sha256": "6528fb42442e6a3ff3533805d76ea817c723d2b28dd22f11911ab75485b011bc"
     },
     {
       "id": "nuance.theme.country_bangladesh_cricket",
+      "name": "Country Bangladesh Cricket",
       "filename": "nuance.theme.country_bangladesh_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_cricket.png",
       "size": 759943,
       "sha256": "7cc548f618a9e6a9612df944d875b0b007c8fddf047ed0357b9422b9689a86d4"
     },
     {
       "id": "nuance.theme.country_bangladesh_cycling",
+      "name": "Country Bangladesh Cycling",
       "filename": "nuance.theme.country_bangladesh_cycling.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_cycling.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_cycling.png",
       "size": 765373,
       "sha256": "3930bb1026651b4d1cac06458fc696c5b2ab7f36dc09e5705503f9c21a23e1b8"
     },
     {
       "id": "nuance.theme.country_bangladesh_golfmen",
+      "name": "Country Bangladesh Golfmen",
       "filename": "nuance.theme.country_bangladesh_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_golfmen.png",
       "size": 760376,
       "sha256": "787686b860dc31dcf67f3b0cb3def8de3a18ca0eb4971fe2d81d7e1f3b2b3cf4"
     },
     {
       "id": "nuance.theme.country_bangladesh_golfwomen",
+      "name": "Country Bangladesh Golfwomen",
       "filename": "nuance.theme.country_bangladesh_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_golfwomen.png",
       "size": 758900,
       "sha256": "14ac4593bd2b42b75f2bc158a15dce38ec1f678f43a69aed6799e905320f10fd"
     },
     {
       "id": "nuance.theme.country_bangladesh_soccermen",
+      "name": "Country Bangladesh Soccermen",
       "filename": "nuance.theme.country_bangladesh_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_soccermen.png",
       "size": 770375,
       "sha256": "f20f41a95244965abb5aac85b4392faa9e21af57daa3b3978bc45201335a1cf8"
     },
     {
       "id": "nuance.theme.country_bangladesh_soccerwomen",
+      "name": "Country Bangladesh Soccerwomen",
       "filename": "nuance.theme.country_bangladesh_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_soccerwomen.png",
       "size": 758865,
       "sha256": "261bf3ba9c81f7634d8d09376344979384a45b28b9a24ec8a5ac8914df99d726"
     },
     {
       "id": "nuance.theme.country_bangladesh_tennismen",
+      "name": "Country Bangladesh Tennismen",
       "filename": "nuance.theme.country_bangladesh_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_tennismen.png",
       "size": 760893,
       "sha256": "062d5b6fe1388b080d7a7da12db35c6c7b960ecd3c1a3ba39ba430ecb1cab823"
     },
     {
       "id": "nuance.theme.country_bangladesh_tenniswomen",
+      "name": "Country Bangladesh Tenniswomen",
       "filename": "nuance.theme.country_bangladesh_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_bangladesh_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_bangladesh_tenniswomen.png",
       "size": 757837,
       "sha256": "e803bd5a61ea63cf32de8b8a69c687c6c25e0299b4282b776460f8f19fb71d67"
     },
     {
       "id": "nuance.theme.country_brazil",
+      "name": "Country Brazil",
       "filename": "nuance.theme.country_brazil.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil.png",
       "size": 754467,
       "sha256": "5d8a5ba6f9bb7bc4f2136c47b2fd6d33260b6c3291ad39eb91cf499b2cb3ee33"
     },
     {
       "id": "nuance.theme.country_brazil_basketball",
+      "name": "Country Brazil Basketball",
       "filename": "nuance.theme.country_brazil_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_basketball.png",
       "size": 816392,
       "sha256": "679a546f791e33918ee9fd6ccbad6c43d2e458b833824309b84c2d6d4b3ce806"
     },
     {
       "id": "nuance.theme.country_brazil_golfmen",
+      "name": "Country Brazil Golfmen",
       "filename": "nuance.theme.country_brazil_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_golfmen.png",
       "size": 775715,
       "sha256": "ec775935c1a04f9c6ab958c5d6808b9d757387b0b67fc88cc46305d7105db5b8"
     },
     {
       "id": "nuance.theme.country_brazil_golfwomen",
+      "name": "Country Brazil Golfwomen",
       "filename": "nuance.theme.country_brazil_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_golfwomen.png",
       "size": 773922,
       "sha256": "4abc77167d5870dc10edf4b29252267ac55a2ce00b8b253b9c5db544a6db1604"
     },
     {
       "id": "nuance.theme.country_brazil_rugby",
+      "name": "Country Brazil Rugby",
       "filename": "nuance.theme.country_brazil_rugby.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_rugby.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_rugby.png",
       "size": 773683,
       "sha256": "27e330adc418366db67729f42b8279bfbcdaed29a3b5081a1ede648d75028968"
     },
     {
       "id": "nuance.theme.country_brazil_soccermen",
+      "name": "Country Brazil Soccermen",
       "filename": "nuance.theme.country_brazil_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_soccermen.png",
       "size": 785765,
       "sha256": "187bac0fe9dd820a4125ccfc6ff846511c4decb35c1a23d0a86ea4e30b4abf16"
     },
     {
       "id": "nuance.theme.country_brazil_soccerwomen",
+      "name": "Country Brazil Soccerwomen",
       "filename": "nuance.theme.country_brazil_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_soccerwomen.png",
       "size": 773866,
       "sha256": "a70fd8871cf4261f384120892b4c8c6905e353226cf43c1a5babb836682075d1"
     },
     {
       "id": "nuance.theme.country_brazil_tennismen",
+      "name": "Country Brazil Tennismen",
       "filename": "nuance.theme.country_brazil_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_tennismen.png",
       "size": 775782,
       "sha256": "56c5357cd64e83a4acc9ee609b5ff6f84cbe8d656eeaf9a4de7c99e234c557d0"
     },
     {
       "id": "nuance.theme.country_brazil_tenniswomen",
+      "name": "Country Brazil Tenniswomen",
       "filename": "nuance.theme.country_brazil_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_brazil_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_brazil_tenniswomen.png",
       "size": 772676,
       "sha256": "cf83dbe789617462728d451eec0f1ab218616b3303e1a36582126b46653203b0"
     },
     {
       "id": "nuance.theme.country_canada",
+      "name": "Country Canada",
       "filename": "nuance.theme.country_canada.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada.png",
       "size": 748300,
       "sha256": "34be06af23868ec917077ffb6e89a262cfd880b9811083d976014a1256827b88"
     },
     {
       "id": "nuance.theme.country_canada_football",
+      "name": "Country Canada Football",
       "filename": "nuance.theme.country_canada_football.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_football.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_football.png",
       "size": 770186,
       "sha256": "5298e3554a67a26d0464f8248775c25b33302e522d78814253364955e633426e"
     },
     {
       "id": "nuance.theme.country_canada_icehockey",
+      "name": "Country Canada Icehockey",
       "filename": "nuance.theme.country_canada_icehockey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_icehockey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_icehockey.png",
       "size": 768917,
       "sha256": "d5fb9a8810db28d82309aea37f898738b3507c4656bc243827211bd5174abcc9"
     },
     {
       "id": "nuance.theme.country_canada_skiing",
+      "name": "Country Canada Skiing",
       "filename": "nuance.theme.country_canada_skiing.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_skiing.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_skiing.png",
       "size": 765243,
       "sha256": "90187e746aa83ff41340af97eac9b203b94650471c65685767daa6ae0c3cfcc7"
     },
     {
       "id": "nuance.theme.country_canada_snowboarding",
+      "name": "Country Canada Snowboarding",
       "filename": "nuance.theme.country_canada_snowboarding.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_snowboarding.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_snowboarding.png",
       "size": 768180,
       "sha256": "9e321c7faad39010d00056edf8ff78a6c3ffb1d4eba049698453c12b53fc6e1b"
     },
     {
       "id": "nuance.theme.country_canada_soccermen",
+      "name": "Country Canada Soccermen",
       "filename": "nuance.theme.country_canada_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_soccermen.png",
       "size": 780253,
       "sha256": "4ad0991a0a6875e1b36296e965a8954224d8e33b2107f3cc173d97b19d7d51bc"
     },
     {
       "id": "nuance.theme.country_canada_soccerwomen",
+      "name": "Country Canada Soccerwomen",
       "filename": "nuance.theme.country_canada_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_soccerwomen.png",
       "size": 766716,
       "sha256": "a125ae5ff2a515305575297928c6f192fcb81e2e9f453604d7576e32d7e9710c"
     },
     {
       "id": "nuance.theme.country_canada_tennismen",
+      "name": "Country Canada Tennismen",
       "filename": "nuance.theme.country_canada_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_tennismen.png",
       "size": 768530,
       "sha256": "e1c0510371dedbeaf1af1eec94d9f19f97f36ec7e759461a2b96402b9a08577a"
     },
     {
       "id": "nuance.theme.country_canada_tenniswomen",
+      "name": "Country Canada Tenniswomen",
       "filename": "nuance.theme.country_canada_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_canada_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_canada_tenniswomen.png",
       "size": 766427,
       "sha256": "2d8ed96c3e8c47e45a727e7c2ee37cf66bd4ac887018ce0cff6f384d16d5f498"
     },
     {
       "id": "nuance.theme.country_france",
+      "name": "Country France",
       "filename": "nuance.theme.country_france.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_france.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_france.png",
       "size": 731033,
       "sha256": "21b583ea7a784c5f7e058f141525989befaba2962b6d1b2bf807ec3a7527fa47"
     },
     {
       "id": "nuance.theme.country_germany",
+      "name": "Country Germany",
       "filename": "nuance.theme.country_germany.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany.png",
       "size": 723513,
       "sha256": "7d81a59f40bf7128caf188b2a2656d2e8e19924a500e4271e113786714835a8f"
     },
     {
       "id": "nuance.theme.country_germany_cycling",
+      "name": "Country Germany Cycling",
       "filename": "nuance.theme.country_germany_cycling.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_cycling.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_cycling.png",
       "size": 750252,
       "sha256": "d94708ddb2914c09c6f04b01809890bad836268f33c16d679c714471ce8c282a"
     },
     {
       "id": "nuance.theme.country_germany_icehockey",
+      "name": "Country Germany Icehockey",
       "filename": "nuance.theme.country_germany_icehockey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_icehockey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_icehockey.png",
       "size": 745668,
       "sha256": "4740f16b76ca2ec8b7258fb2db7aa7c2555cfe438b8e9028ae645f7400d60c9f"
     },
     {
       "id": "nuance.theme.country_germany_skiing",
+      "name": "Country Germany Skiing",
       "filename": "nuance.theme.country_germany_skiing.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_skiing.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_skiing.png",
       "size": 740838,
       "sha256": "f6cd825bfd3908b1222adc37710192a97412fc29c3ecce6ebeaef52fe09f43f0"
     },
     {
       "id": "nuance.theme.country_germany_snowboarding",
+      "name": "Country Germany Snowboarding",
       "filename": "nuance.theme.country_germany_snowboarding.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_snowboarding.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_snowboarding.png",
       "size": 745778,
       "sha256": "a7bfdf61d067e688c6a38ef02fb5f049ed2797a67a850c31ca2dde163ba05370"
     },
     {
       "id": "nuance.theme.country_germany_soccermen",
+      "name": "Country Germany Soccermen",
       "filename": "nuance.theme.country_germany_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_soccermen.png",
       "size": 755586,
       "sha256": "b4532fde128fc5bfc22a7d683a8e3097025b5c921d84776c632104da4649ccf7"
     },
     {
       "id": "nuance.theme.country_germany_soccerwomen",
+      "name": "Country Germany Soccerwomen",
       "filename": "nuance.theme.country_germany_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_soccerwomen.png",
       "size": 743922,
       "sha256": "0c36ce8327f540a2ca277e18767bc53f064cf38d5ee113649c8d783dfd9d92d5"
     },
     {
       "id": "nuance.theme.country_germany_tennismen",
+      "name": "Country Germany Tennismen",
       "filename": "nuance.theme.country_germany_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_tennismen.png",
       "size": 745520,
       "sha256": "bfd7276c24f33a6c9fe684375272e698510bdc724828e5f5e1aeceb03a97a447"
     },
     {
       "id": "nuance.theme.country_germany_tenniswomen",
+      "name": "Country Germany Tenniswomen",
       "filename": "nuance.theme.country_germany_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_germany_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_germany_tenniswomen.png",
       "size": 742895,
       "sha256": "8fb0bef5644c0fb984e25469ce980a9dda00831d81f2a0c34f5b4e345b8e93fb"
     },
     {
       "id": "nuance.theme.country_india",
+      "name": "Country India",
       "filename": "nuance.theme.country_india.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india.png",
       "size": 748025,
       "sha256": "ba5aa3f560c68cc4b2685cbdc5def2d321106ca86374990766212e9e91a7e278"
     },
     {
       "id": "nuance.theme.country_india_basketball",
+      "name": "Country India Basketball",
       "filename": "nuance.theme.country_india_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_basketball.png",
       "size": 810956,
       "sha256": "5a5cf1c04ca01a9f95421da2553e3b7b6746e8dc96ddcb4de6dcefb81d96e573"
     },
     {
       "id": "nuance.theme.country_india_cricket",
+      "name": "Country India Cricket",
       "filename": "nuance.theme.country_india_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_cricket.png",
       "size": 768132,
       "sha256": "c4dd1d8ac77f8b028d6a4335ea1e61258528835058fd3c4097c3b2989dfd8c3f"
     },
     {
       "id": "nuance.theme.country_india_golfmen",
+      "name": "Country India Golfmen",
       "filename": "nuance.theme.country_india_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_golfmen.png",
       "size": 768468,
       "sha256": "91b1cc35be2a5b9bfcc13365e8b80dc6bc2b058615f9908b2103a67ab6c46dbf"
     },
     {
       "id": "nuance.theme.country_india_golfwomen",
+      "name": "Country India Golfwomen",
       "filename": "nuance.theme.country_india_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_golfwomen.png",
       "size": 767021,
       "sha256": "2c9f20b3ecff060f0b29c34d691ceaa6da5a34daec60030a205fd8a303a22289"
     },
     {
       "id": "nuance.theme.country_india_rugby",
+      "name": "Country India Rugby",
       "filename": "nuance.theme.country_india_rugby.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_rugby.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_rugby.png",
       "size": 766788,
       "sha256": "22ef1a326cb405b3a59afaffbd442554b065fe24b53e40db59ccb5da4b071f0b"
     },
     {
       "id": "nuance.theme.country_india_soccermen",
+      "name": "Country India Soccermen",
       "filename": "nuance.theme.country_india_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_soccermen.png",
       "size": 779958,
       "sha256": "867abd0d70f282fbd8b656aa74c19ca4c297eed1530f9bdf481626ce2dae92f8"
     },
     {
       "id": "nuance.theme.country_india_soccerwomen",
+      "name": "Country India Soccerwomen",
       "filename": "nuance.theme.country_india_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_soccerwomen.png",
       "size": 766914,
       "sha256": "ae002a884d4124d0b66ffd459755404d90d4c95b28a576c7ee691925a4a4136b"
     },
     {
       "id": "nuance.theme.country_india_tennismen",
+      "name": "Country India Tennismen",
       "filename": "nuance.theme.country_india_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_tennismen.png",
       "size": 768463,
       "sha256": "f022baec0d74f7c9808dba21141929b7717bb6c0bbe61cb473529f9de266dac5"
     },
     {
       "id": "nuance.theme.country_india_tenniswomen",
+      "name": "Country India Tenniswomen",
       "filename": "nuance.theme.country_india_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_india_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_india_tenniswomen.png",
       "size": 766426,
       "sha256": "cc9b0a77969c311bb3743ab78606276a4d835dadcf1576c7dda39df16d9a461c"
     },
     {
       "id": "nuance.theme.country_indonesia",
+      "name": "Country Indonesia",
       "filename": "nuance.theme.country_indonesia.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia.png",
       "size": 738144,
       "sha256": "aea604fd83fbeef26f921658420b656acbcd5e0f021317dbc1a80e03cae781b0"
     },
     {
       "id": "nuance.theme.country_indonesia_badminton",
+      "name": "Country Indonesia Badminton",
       "filename": "nuance.theme.country_indonesia_badminton.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_badminton.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_badminton.png",
       "size": 756966,
       "sha256": "a6df5819a2f36c1fc8168d74117c7953d17674d6f7e1d8fc6a1088453130f969"
     },
     {
       "id": "nuance.theme.country_indonesia_baseball",
+      "name": "Country Indonesia Baseball",
       "filename": "nuance.theme.country_indonesia_baseball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_baseball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_baseball.png",
       "size": 756555,
       "sha256": "a34365597afb552f39fe67200f54f0a27324cf633bc12df75b67eb4d1ad9aa76"
     },
     {
       "id": "nuance.theme.country_indonesia_cricket",
+      "name": "Country Indonesia Cricket",
       "filename": "nuance.theme.country_indonesia_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_cricket.png",
       "size": 759857,
       "sha256": "4d34a7ba48b9308c9b05e06382f3872ff467250f75ef8c87fbef53b27bb94efb"
     },
     {
       "id": "nuance.theme.country_indonesia_cycling",
+      "name": "Country Indonesia Cycling",
       "filename": "nuance.theme.country_indonesia_cycling.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_cycling.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_cycling.png",
       "size": 765299,
       "sha256": "209cf55ec1f5e3fd510e0acf64488a900c42d223d233e32b85c0c70b745a51c6"
     },
     {
       "id": "nuance.theme.country_indonesia_rugby",
+      "name": "Country Indonesia Rugby",
       "filename": "nuance.theme.country_indonesia_rugby.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_rugby.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_rugby.png",
       "size": 758306,
       "sha256": "097f4d86e77c9367d9dd15c574abfa8e1a905523922240d16f262797a51055b7"
     },
     {
       "id": "nuance.theme.country_indonesia_soccermen",
+      "name": "Country Indonesia Soccermen",
       "filename": "nuance.theme.country_indonesia_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_soccermen.png",
       "size": 770409,
       "sha256": "6f8e5adfc701e350a696dbc96a18a33ff848a3401e3050b91580a582f0dd3267"
     },
     {
       "id": "nuance.theme.country_indonesia_soccerwomen",
+      "name": "Country Indonesia Soccerwomen",
       "filename": "nuance.theme.country_indonesia_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_soccerwomen.png",
       "size": 758257,
       "sha256": "1c2b91073755e783a84a9e8816a21e98faf60bf062005cfb263d6150ba90ae8e"
     },
     {
       "id": "nuance.theme.country_indonesia_tennismen",
+      "name": "Country Indonesia Tennismen",
       "filename": "nuance.theme.country_indonesia_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_tennismen.png",
       "size": 760543,
       "sha256": "b53efadaadee30c8f1e3c295be06bbf7ded1bd9f9171a59dad5e69bb77e5421f"
     },
     {
       "id": "nuance.theme.country_indonesia_tenniswomen",
+      "name": "Country Indonesia Tenniswomen",
       "filename": "nuance.theme.country_indonesia_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_indonesia_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_indonesia_tenniswomen.png",
       "size": 757630,
       "sha256": "d938e191b621dd332dce5c5d23931429478db2b7a7bd16d4dd0b8c624ee61316"
     },
     {
       "id": "nuance.theme.country_mexico",
+      "name": "Country Mexico",
       "filename": "nuance.theme.country_mexico.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico.png",
       "size": 748154,
       "sha256": "1c9b1f158fb700988157c337034a3eb3a173fa0b41c3209efb65d0a989ec5d38"
     },
     {
       "id": "nuance.theme.country_mexico_baseball",
+      "name": "Country Mexico Baseball",
       "filename": "nuance.theme.country_mexico_baseball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_baseball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_baseball.png",
       "size": 766149,
       "sha256": "ee4ea9d07486791da95cd0fe1784ea489f212955fae5b59b2be425a12dacb0d5"
     },
     {
       "id": "nuance.theme.country_mexico_basketball",
+      "name": "Country Mexico Basketball",
       "filename": "nuance.theme.country_mexico_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_basketball.png",
       "size": 811388,
       "sha256": "fe5ae3fe809ae6eeada9b0f96fc25acecc4f31dabf09467d7bc518ca1ad5c1bd"
     },
     {
       "id": "nuance.theme.country_mexico_football",
+      "name": "Country Mexico Football",
       "filename": "nuance.theme.country_mexico_football.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_football.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_football.png",
       "size": 770612,
       "sha256": "bbddd19bb593410f06958d8714843f6d1398ee2fdf9eead316d0827d39f1a15b"
     },
     {
       "id": "nuance.theme.country_mexico_golfmen",
+      "name": "Country Mexico Golfmen",
       "filename": "nuance.theme.country_mexico_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_golfmen.png",
       "size": 769035,
       "sha256": "d91f7c6612c814c241828642a35b5bc5120ecbf6230bbe7b8939655e4447ea73"
     },
     {
       "id": "nuance.theme.country_mexico_golfwomen",
+      "name": "Country Mexico Golfwomen",
       "filename": "nuance.theme.country_mexico_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_golfwomen.png",
       "size": 767315,
       "sha256": "0aad85aadc8e12ba41caf618c1a7cb9044d4ed2f04b8a99b98cfcb4fac2363b6"
     },
     {
       "id": "nuance.theme.country_mexico_soccermen",
+      "name": "Country Mexico Soccermen",
       "filename": "nuance.theme.country_mexico_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_soccermen.png",
       "size": 780570,
       "sha256": "26472969be375c4e8f3bfb643f9e7074260d781221c3a365cab49c2368d6f835"
     },
     {
       "id": "nuance.theme.country_mexico_soccerwomen",
+      "name": "Country Mexico Soccerwomen",
       "filename": "nuance.theme.country_mexico_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_soccerwomen.png",
       "size": 767099,
       "sha256": "3253a5bca22f16371c58c27ea17eb7e147b0ce63541242595e84bc2512f609ce"
     },
     {
       "id": "nuance.theme.country_mexico_tennismen",
+      "name": "Country Mexico Tennismen",
       "filename": "nuance.theme.country_mexico_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_tennismen.png",
       "size": 769031,
       "sha256": "30cc409a25732b303ca5fa918b979555c7cf022dfd05aa64487da19664be982f"
     },
     {
       "id": "nuance.theme.country_mexico_tenniswomen",
+      "name": "Country Mexico Tenniswomen",
       "filename": "nuance.theme.country_mexico_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_mexico_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_mexico_tenniswomen.png",
       "size": 766470,
       "sha256": "e8660a3fa9ccec3248bc98b3c7932515c7370634d806b9151801b27cc86bdb3f"
     },
     {
       "id": "nuance.theme.country_pakistan",
+      "name": "Country Pakistan",
       "filename": "nuance.theme.country_pakistan.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan.png",
       "size": 755811,
       "sha256": "143eddb540cbc6713f8ba564af023501d1187aa69349c721c6f71b4fa86deffd"
     },
     {
       "id": "nuance.theme.country_pakistan_baseball",
+      "name": "Country Pakistan Baseball",
       "filename": "nuance.theme.country_pakistan_baseball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_baseball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_baseball.png",
       "size": 773905,
       "sha256": "e6d7060b67ab060a0695f15290b44de059148ab445859df03cd9393963554cc2"
     },
     {
       "id": "nuance.theme.country_pakistan_basketball",
+      "name": "Country Pakistan Basketball",
       "filename": "nuance.theme.country_pakistan_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_basketball.png",
       "size": 818129,
       "sha256": "0b046768546a8ec5069fa925d057549daf7eacce8253bd8be0c6b45d01b33ff3"
     },
     {
       "id": "nuance.theme.country_pakistan_cricket",
+      "name": "Country Pakistan Cricket",
       "filename": "nuance.theme.country_pakistan_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_cricket.png",
       "size": 776431,
       "sha256": "eeaef02e01c5dd705f9226820e90218d9c3f9113202ff978aadd2b52cdecda71"
     },
     {
       "id": "nuance.theme.country_pakistan_cycling",
+      "name": "Country Pakistan Cycling",
       "filename": "nuance.theme.country_pakistan_cycling.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_cycling.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_cycling.png",
       "size": 782872,
       "sha256": "ecb878829b81192c03930637dc566cd587781b421569eb0e4fb8d6218e14615d"
     },
     {
       "id": "nuance.theme.country_pakistan_golfmen",
+      "name": "Country Pakistan Golfmen",
       "filename": "nuance.theme.country_pakistan_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_golfmen.png",
       "size": 777037,
       "sha256": "9650ca7daa5b9027f603694142b1a79a7152d8e2b1934fe1cc2e895e51235c1a"
     },
     {
       "id": "nuance.theme.country_pakistan_golfwomen",
+      "name": "Country Pakistan Golfwomen",
       "filename": "nuance.theme.country_pakistan_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_golfwomen.png",
       "size": 775121,
       "sha256": "3656ba0364c08830023050dcbc38b615a7101bc22f614b245e8c1971a447077b"
     },
     {
       "id": "nuance.theme.country_pakistan_soccermen",
+      "name": "Country Pakistan Soccermen",
       "filename": "nuance.theme.country_pakistan_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_soccermen.png",
       "size": 786747,
       "sha256": "0c87c27d39eb95652168e386f49af23ecdf55afdbb9a6d3230897ca9be8b64aa"
     },
     {
       "id": "nuance.theme.country_pakistan_soccerwomen",
+      "name": "Country Pakistan Soccerwomen",
       "filename": "nuance.theme.country_pakistan_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_pakistan_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_pakistan_soccerwomen.png",
       "size": 774727,
       "sha256": "a73695c93f5229b092bca8089c2ff052013fe604aeee6b05a314f80604f0db1d"
     },
     {
       "id": "nuance.theme.country_uk",
+      "name": "Country Uk",
       "filename": "nuance.theme.country_uk.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk.png",
       "size": 821942,
       "sha256": "0c6a2d267f9d0971d1d820fbc14ebaa5b6df02daf9923cc5375e4d9e6a7d38ff"
     },
     {
       "id": "nuance.theme.country_uk_cricket",
+      "name": "Country Uk Cricket",
       "filename": "nuance.theme.country_uk_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_cricket.png",
       "size": 843465,
       "sha256": "8a37b7f8c1b41775b64d969fa2059acda9b83df0039d36660688c0b6daaf9541"
     },
     {
       "id": "nuance.theme.country_uk_golfmen",
+      "name": "Country Uk Golfmen",
       "filename": "nuance.theme.country_uk_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_golfmen.png",
       "size": 844193,
       "sha256": "4f3ccbe34f1c48aca4d16ccd0ec2fcf765cdf0525ea1578cc6c6545ae3551190"
     },
     {
       "id": "nuance.theme.country_uk_golfwomen",
+      "name": "Country Uk Golfwomen",
       "filename": "nuance.theme.country_uk_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_golfwomen.png",
       "size": 842272,
       "sha256": "a980acf145534dcb83c1d186efd68f5ecaed763d327a79d1d2c8d53bd94a0e95"
     },
     {
       "id": "nuance.theme.country_uk_rugby",
+      "name": "Country Uk Rugby",
       "filename": "nuance.theme.country_uk_rugby.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_rugby.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_rugby.png",
       "size": 842098,
       "sha256": "a342794c3fdbaeb6226f2c1ad6a33be4a56e29335e758efd9b1d3e4248c670d3"
     },
     {
       "id": "nuance.theme.country_uk_skiing",
+      "name": "Country Uk Skiing",
       "filename": "nuance.theme.country_uk_skiing.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_skiing.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_skiing.png",
       "size": 839420,
       "sha256": "0906ce85ef75e9c9a031e781ae78fde9cdfc62999806f4313759af37487dea0e"
     },
     {
       "id": "nuance.theme.country_uk_soccermen",
+      "name": "Country Uk Soccermen",
       "filename": "nuance.theme.country_uk_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_soccermen.png",
       "size": 853566,
       "sha256": "c1665d2c038c5c15d7fa773e1ba047e8897e33300a3221e4d072d111a5ded873"
     },
     {
       "id": "nuance.theme.country_uk_soccerwomen",
+      "name": "Country Uk Soccerwomen",
       "filename": "nuance.theme.country_uk_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_soccerwomen.png",
       "size": 841986,
       "sha256": "e123d5794e0f7935443656e71086ac8139065d996ee46e28281278156d7fb5e1"
     },
     {
       "id": "nuance.theme.country_uk_tennismen",
+      "name": "Country Uk Tennismen",
       "filename": "nuance.theme.country_uk_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_tennismen.png",
       "size": 843996,
       "sha256": "4abdf3d9b8d15bfb4a8faf6008e501f301890aa6b01c5e80d8ac34b14ba6cda7"
     },
     {
       "id": "nuance.theme.country_uk_tenniswomen",
+      "name": "Country Uk Tenniswomen",
       "filename": "nuance.theme.country_uk_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_uk_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_uk_tenniswomen.png",
       "size": 841007,
       "sha256": "876a36e377a662a41a2e0f827429ef723dae0fedbbf71b83193e083aa06a50d0"
     },
     {
       "id": "nuance.theme.country_usa",
+      "name": "Country Usa",
       "filename": "nuance.theme.country_usa.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa.png",
       "size": 758661,
       "sha256": "7d71bb0750a6bc14a71466239f5e50cbcda995f9820a9e5343856d5b09fc4bca"
     },
     {
       "id": "nuance.theme.country_usa_baseball",
+      "name": "Country Usa Baseball",
       "filename": "nuance.theme.country_usa_baseball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_baseball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_baseball.png",
       "size": 777469,
       "sha256": "61f9acb2766f3938e5488cb770b0ab47268a90a302cff48c0df85c7ebd930a34"
     },
     {
       "id": "nuance.theme.country_usa_basketball",
+      "name": "Country Usa Basketball",
       "filename": "nuance.theme.country_usa_basketball.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_basketball.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_basketball.png",
       "size": 821078,
       "sha256": "e394b135f18f1afffd096ce0f4bd8c61c4b9383b3e7d99d0bb6685b3a57f1d4f"
     },
     {
       "id": "nuance.theme.country_usa_cricket",
+      "name": "Country Usa Cricket",
       "filename": "nuance.theme.country_usa_cricket.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_cricket.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_cricket.png",
       "size": 780016,
       "sha256": "8f45dc904c04c2c26c332f2d8e937a1116feabdc1f8c730d04f95f881697651f"
     },
     {
       "id": "nuance.theme.country_usa_cycling",
+      "name": "Country Usa Cycling",
       "filename": "nuance.theme.country_usa_cycling.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_cycling.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_cycling.png",
       "size": 785154,
       "sha256": "37e98d1056935996ba2f9c74b16ad4d911869e20d381cbe012194d31827a6083"
     },
     {
       "id": "nuance.theme.country_usa_football",
+      "name": "Country Usa Football",
       "filename": "nuance.theme.country_usa_football.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_football.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_football.png",
       "size": 782126,
       "sha256": "60565aec62674d7e948e09098da09f6e0dea695770133d81a8bf3fcc8ad9f6d0"
     },
     {
       "id": "nuance.theme.country_usa_golfmen",
+      "name": "Country Usa Golfmen",
       "filename": "nuance.theme.country_usa_golfmen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_golfmen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_golfmen.png",
       "size": 780662,
       "sha256": "c45b0d70f797d39ab8edf1caa7dc8894b800897934dda7e2f6e677fc56f4b257"
     },
     {
       "id": "nuance.theme.country_usa_golfwomen",
+      "name": "Country Usa Golfwomen",
       "filename": "nuance.theme.country_usa_golfwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_golfwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_golfwomen.png",
       "size": 778912,
       "sha256": "94b2897acf646f0eec62a822cfea0c16471c307e6af9fdcc88c3dd4f71ca423a"
     },
     {
       "id": "nuance.theme.country_usa_icehockey",
+      "name": "Country Usa Icehockey",
       "filename": "nuance.theme.country_usa_icehockey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_icehockey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_icehockey.png",
       "size": 780835,
       "sha256": "0d73fc3c4939a29ca644a516b2be37a58f1f3372697ebac998822667f47a6c19"
     },
     {
       "id": "nuance.theme.country_usa_rugby",
+      "name": "Country Usa Rugby",
       "filename": "nuance.theme.country_usa_rugby.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_rugby.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_rugby.png",
       "size": 778998,
       "sha256": "b67084b084cd8410360fd58993bb347e21398f9afcdc97d2b6463b2ed9445e2e"
     },
     {
       "id": "nuance.theme.country_usa_skiing",
+      "name": "Country Usa Skiing",
       "filename": "nuance.theme.country_usa_skiing.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_skiing.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_skiing.png",
       "size": 776167,
       "sha256": "355050f1853b7d99c067c1f7b7613d8e1605069017165ab75a4d98e693ce2263"
     },
     {
       "id": "nuance.theme.country_usa_snowboarding",
+      "name": "Country Usa Snowboarding",
       "filename": "nuance.theme.country_usa_snowboarding.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_snowboarding.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_snowboarding.png",
       "size": 780597,
       "sha256": "635fb250a513ff4d50a537acaf8282b512c1262b3c49379edcc7b4edfe18f7fe"
     },
     {
       "id": "nuance.theme.country_usa_soccermen",
+      "name": "Country Usa Soccermen",
       "filename": "nuance.theme.country_usa_soccermen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_soccermen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_soccermen.png",
       "size": 790588,
       "sha256": "e0252d7610ee8cead28145ffbd0902839a6fc6d818a2c0934f2c7ef21414b620"
     },
     {
       "id": "nuance.theme.country_usa_soccerwomen",
+      "name": "Country Usa Soccerwomen",
       "filename": "nuance.theme.country_usa_soccerwomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_soccerwomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_soccerwomen.png",
       "size": 779140,
       "sha256": "07f39d2519c75835950e34d1ce79b437cf213a38e57ea771c34b7f3f4931c157"
     },
     {
       "id": "nuance.theme.country_usa_tennismen",
+      "name": "Country Usa Tennismen",
       "filename": "nuance.theme.country_usa_tennismen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_tennismen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_tennismen.png",
       "size": 780283,
       "sha256": "36d226c8cf9a03c36ec6b30c9b9950dc10186eab0a1f301da191dbda2bb72b2a"
     },
     {
       "id": "nuance.theme.country_usa_tenniswomen",
+      "name": "Country Usa Tenniswomen",
       "filename": "nuance.theme.country_usa_tenniswomen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.country_usa_tenniswomen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.country_usa_tenniswomen.png",
       "size": 778173,
       "sha256": "17a172c843b76782cd8de0d04f21175a932b22e6271f221aed487ae2a8306d39"
     },
     {
       "id": "nuance.theme.cuteanimals_brontosaurus",
+      "name": "Cuteanimals Brontosaurus",
       "filename": "nuance.theme.cuteanimals_brontosaurus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_brontosaurus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_brontosaurus.png",
       "size": 785196,
       "sha256": "3ec149f92424e8dceed1d11e2ee9a9af4d931673e6c0bafc1afbc6dab36815f4"
     },
     {
       "id": "nuance.theme.cuteanimals_dolphins",
+      "name": "Cuteanimals Dolphins",
       "filename": "nuance.theme.cuteanimals_dolphins.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_dolphins.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_dolphins.png",
       "size": 684027,
       "sha256": "f267414c7f6f8cdb9cd442248b733825121f6522d0ff6d187453e476dc601035"
     },
     {
       "id": "nuance.theme.cuteanimals_jellyfish",
+      "name": "Cuteanimals Jellyfish",
       "filename": "nuance.theme.cuteanimals_jellyfish.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_jellyfish.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_jellyfish.png",
       "size": 747824,
       "sha256": "8b347574fc167ac95b2bce7a86b0f22c287e8f10595fba6825d9b9fe95de3b01"
     },
     {
       "id": "nuance.theme.cuteanimals_octopus",
+      "name": "Cuteanimals Octopus",
       "filename": "nuance.theme.cuteanimals_octopus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_octopus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_octopus.png",
       "size": 759341,
       "sha256": "c9e1322e18339174cd13742ab4d6876c8226f9829a307d3de93332a3755c9e01"
     },
     {
       "id": "nuance.theme.cuteanimals_penguin",
+      "name": "Cuteanimals Penguin",
       "filename": "nuance.theme.cuteanimals_penguin.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_penguin.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_penguin.png",
       "size": 569395,
       "sha256": "6dab6d4b136ce4ff4b07f3a6bc4b5c725a64bc14dfe1836adf701ed81fe41f26"
     },
     {
       "id": "nuance.theme.cuteanimals_polarbear",
+      "name": "Cuteanimals Polarbear",
       "filename": "nuance.theme.cuteanimals_polarbear.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_polarbear.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_polarbear.png",
       "size": 649333,
       "sha256": "506df947a96fcacb5b9fbcc8060f08411095a545609a39811acffe549a1d09ab"
     },
     {
       "id": "nuance.theme.cuteanimals_pterodactyl",
+      "name": "Cuteanimals Pterodactyl",
       "filename": "nuance.theme.cuteanimals_pterodactyl.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_pterodactyl.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_pterodactyl.png",
       "size": 784839,
       "sha256": "5b596c140a7c542f813789883cb9640462bb8a23679ba9d407913761dcde7730"
     },
     {
       "id": "nuance.theme.cuteanimals_seal",
+      "name": "Cuteanimals Seal",
       "filename": "nuance.theme.cuteanimals_seal.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_seal.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_seal.png",
       "size": 607290,
       "sha256": "4e24f679ff69741b9532d7b4bab629b997d9f327da892702632be52c0d9880f9"
     },
     {
       "id": "nuance.theme.cuteanimals_seaturtle",
+      "name": "Cuteanimals Seaturtle",
       "filename": "nuance.theme.cuteanimals_seaturtle.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_seaturtle.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_seaturtle.png",
       "size": 723664,
       "sha256": "d61fd4ef8a001ef734854afde70dae7b2d931353efa74a84e5035dea19e665fc"
     },
     {
       "id": "nuance.theme.cuteanimals_shark",
+      "name": "Cuteanimals Shark",
       "filename": "nuance.theme.cuteanimals_shark.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_shark.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_shark.png",
       "size": 704192,
       "sha256": "a86e256bc41a3146f0d9e8818da60e798d3a5ea407eb0495eb6f97829ccd46e1"
     },
     {
       "id": "nuance.theme.cuteanimals_stegosaurus",
+      "name": "Cuteanimals Stegosaurus",
       "filename": "nuance.theme.cuteanimals_stegosaurus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_stegosaurus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_stegosaurus.png",
       "size": 792454,
       "sha256": "d9d6064f7eea7dba82baf5c855cd209918c9efb52197a59f765457fa8c4eecf1"
     },
     {
       "id": "nuance.theme.cuteanimals_trex",
+      "name": "Cuteanimals Trex",
       "filename": "nuance.theme.cuteanimals_trex.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_trex.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_trex.png",
       "size": 804940,
       "sha256": "feed65f958c52e9c598a2719d2deb098a39121325d540d704dec669138641f21"
     },
     {
       "id": "nuance.theme.cuteanimals_triceratops",
+      "name": "Cuteanimals Triceratops",
       "filename": "nuance.theme.cuteanimals_triceratops.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_triceratops.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_triceratops.png",
       "size": 804289,
       "sha256": "2bfe228b4193cbbeaafb994d93923ae990ff15e164c390faa6812d7f2b16ca74"
     },
     {
       "id": "nuance.theme.cuteanimals_walrus",
+      "name": "Cuteanimals Walrus",
       "filename": "nuance.theme.cuteanimals_walrus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_walrus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_walrus.png",
       "size": 602683,
       "sha256": "8e396e5bb36f9edce044ae9ce692a594adc00da74e55c82896ed6216c70ca215"
     },
     {
       "id": "nuance.theme.cuteanimals_whale",
+      "name": "Cuteanimals Whale",
       "filename": "nuance.theme.cuteanimals_whale.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.cuteanimals_whale.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.cuteanimals_whale.png",
       "size": 576407,
       "sha256": "5df30b5a0f6f163f8e15c90789bf498d2036ff8c6c2a438d8310648f9ff22e8b"
     },
     {
       "id": "nuance.theme.dark",
+      "name": "Dark",
       "filename": "nuance.theme.dark.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.dark.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.dark.png",
       "size": 274203,
       "sha256": "55e84b6c8aa7499dcceb48ec2c752cbb7fe18904a46ae592d318b77f791f5d31"
     },
     {
       "id": "nuance.theme.earth",
+      "name": "Earth",
       "filename": "nuance.theme.earth.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.earth.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.earth.png",
       "size": 746727,
       "sha256": "8f651a42ea1dd8a32b8401b508c71a96992220b4e515355d2cfe88669aa6d975"
     },
     {
       "id": "nuance.theme.fantasy_dragon_cloud",
+      "name": "Fantasy Dragon Cloud",
       "filename": "nuance.theme.fantasy_dragon_cloud.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_dragon_cloud.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_dragon_cloud.png",
       "size": 1169338,
       "sha256": "c6dcf1ba54b40cc250a8fde953e364760af5c057b3e56151b4cfc72160ffcb1c"
     },
     {
       "id": "nuance.theme.fantasy_dragon_fire",
+      "name": "Fantasy Dragon Fire",
       "filename": "nuance.theme.fantasy_dragon_fire.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_dragon_fire.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_dragon_fire.png",
       "size": 1249145,
       "sha256": "1bef930896ca0c7510a6d3467a7228399b5d789f2b66a12e8eb0c68987faad6b"
     },
     {
       "id": "nuance.theme.fantasy_dragon_ice",
+      "name": "Fantasy Dragon Ice",
       "filename": "nuance.theme.fantasy_dragon_ice.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_dragon_ice.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_dragon_ice.png",
       "size": 1444799,
       "sha256": "f00e19f30a0c6f36ac8d919ef909ab593718bed9131c8a3381112b92461cd09b"
     },
     {
       "id": "nuance.theme.fantasy_dragon_lightning",
+      "name": "Fantasy Dragon Lightning",
       "filename": "nuance.theme.fantasy_dragon_lightning.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_dragon_lightning.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_dragon_lightning.png",
       "size": 1312804,
       "sha256": "803f2ef809568fe3889ed162ece4141a86c05d6d0d18899c75a3aff92847f820"
     },
     {
       "id": "nuance.theme.fantasy_vampire",
+      "name": "Fantasy Vampire",
       "filename": "nuance.theme.fantasy_vampire.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_vampire.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_vampire.png",
       "size": 859590,
       "sha256": "acce8dae84e6796a6c7b6e49e420f74a258afdc8f35f2a113c287b47df867cc8"
     },
     {
       "id": "nuance.theme.fantasy_witch",
+      "name": "Fantasy Witch",
       "filename": "nuance.theme.fantasy_witch.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_witch.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_witch.png",
       "size": 420702,
       "sha256": "bc938d031e54d66efa4085ed20319ec3569382ced33597f613ee1b657f8d482a"
     },
     {
       "id": "nuance.theme.fantasy_zombie",
+      "name": "Fantasy Zombie",
       "filename": "nuance.theme.fantasy_zombie.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.fantasy_zombie.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.fantasy_zombie.png",
       "size": 1280808,
       "sha256": "3896d5df81b1bee408e91a84f910001c78cb92e426e0cbfbf67a75db53197371"
     },
     {
       "id": "nuance.theme.holiday_gobblegobble",
+      "name": "Holiday Gobblegobble",
       "filename": "nuance.theme.holiday_gobblegobble.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holiday_gobblegobble.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holiday_gobblegobble.png",
       "size": 514751,
       "sha256": "64efa9233935a983edd7436addb9882cc677a7b7a05191c390dac24f4c471e27"
     },
     {
       "id": "nuance.theme.holidays_bemine",
+      "name": "Holidays Bemine",
       "filename": "nuance.theme.holidays_bemine.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_bemine.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_bemine.png",
       "size": 393022,
       "sha256": "5545f942bd58b2ac565dd71cd9c34ad4daf7969bf000d8a90f6d610ce4435005"
     },
     {
       "id": "nuance.theme.holidays_candles",
+      "name": "Holidays Candles",
       "filename": "nuance.theme.holidays_candles.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_candles.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_candles.png",
       "size": 997596,
       "sha256": "7d7041ac1a6b35ac5804b0da35b135ca58f1c1524e3de0eae8f6a2d2b600f06d"
     },
     {
       "id": "nuance.theme.holidays_chinesemonkey",
+      "name": "Holidays Chinesemonkey",
       "filename": "nuance.theme.holidays_chinesemonkey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_chinesemonkey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_chinesemonkey.png",
       "size": 527185,
       "sha256": "612b7dca9934aa57ae33634852e5768788a201b69180bcc7021af3ac22bbc8c0"
     },
     {
       "id": "nuance.theme.holidays_egghunt",
+      "name": "Holidays Egghunt",
       "filename": "nuance.theme.holidays_egghunt.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_egghunt.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_egghunt.png",
       "size": 515513,
       "sha256": "7ff0d920e50229abe7c58a6dca797a6c3fadddc83ed8d32fd1771035a4b8cdf2"
     },
     {
       "id": "nuance.theme.holidays_fiesta",
+      "name": "Holidays Fiesta",
       "filename": "nuance.theme.holidays_fiesta.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_fiesta.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_fiesta.png",
       "size": 875133,
       "sha256": "df7d1a52cd554b2407e5caa8cb2e76e97b70f9a7925a360bc8e10530b5f1d8b6"
     },
     {
       "id": "nuance.theme.holidays_happyfireworks",
+      "name": "Holidays Happyfireworks",
       "filename": "nuance.theme.holidays_happyfireworks.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_happyfireworks.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_happyfireworks.png",
       "size": 1352414,
       "sha256": "bbd81df2997ba24260056d820deab82176f2aa515cbe6a304a341dbddff3ff04"
     },
     {
       "id": "nuance.theme.holidays_hearts",
+      "name": "Holidays Hearts",
       "filename": "nuance.theme.holidays_hearts.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_hearts.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_hearts.png",
       "size": 786628,
       "sha256": "f7c2ed1780541ffed945ed41c761dffcc5ad23642dd2d3d5ed4851a9c70743e5"
     },
     {
       "id": "nuance.theme.holidays_jollynight",
+      "name": "Holidays Jollynight",
       "filename": "nuance.theme.holidays_jollynight.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_jollynight.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_jollynight.png",
       "size": 929624,
       "sha256": "0022dc57f99d2138e2995ee43e67548308a7a30a750345065e8345a969036f76"
     },
     {
       "id": "nuance.theme.holidays_luckyclover",
+      "name": "Holidays Luckyclover",
       "filename": "nuance.theme.holidays_luckyclover.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_luckyclover.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_luckyclover.png",
       "size": 378112,
       "sha256": "415383ef3e2de6af36dd22156b0d2c5ca1b01092068b2bff4a6cc484abc51a11"
     },
     {
       "id": "nuance.theme.holidays_neonparty",
+      "name": "Holidays Neonparty",
       "filename": "nuance.theme.holidays_neonparty.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_neonparty.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_neonparty.png",
       "size": 968546,
       "sha256": "4287c24244f3c4a3cfbd9ce289ea9080b6100b400d30efa9cfb2461d0f95885c"
     },
     {
       "id": "nuance.theme.holidays_potofgold",
+      "name": "Holidays Potofgold",
       "filename": "nuance.theme.holidays_potofgold.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_potofgold.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_potofgold.png",
       "size": 1376957,
       "sha256": "3e8567ef700a316c67d9d8baa7b9215396243bd32742988147c1b3d38cb4a5c3"
     },
     {
       "id": "nuance.theme.holidays_pumpkinface",
+      "name": "Holidays Pumpkinface",
       "filename": "nuance.theme.holidays_pumpkinface.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_pumpkinface.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_pumpkinface.png",
       "size": 534162,
       "sha256": "f4500f640ef180bbd0aa3c9d30cec1db8dbda59649f154a1586ff66b2769024f"
     },
     {
       "id": "nuance.theme.holidays_pumpkinpatch",
+      "name": "Holidays Pumpkinpatch",
       "filename": "nuance.theme.holidays_pumpkinpatch.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_pumpkinpatch.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_pumpkinpatch.png",
       "size": 545593,
       "sha256": "850a99842edaf1e63dbba3b433df6019460e6971734a6346afc405b86ce608f4"
     },
     {
       "id": "nuance.theme.holidays_redpassion",
+      "name": "Holidays Redpassion",
       "filename": "nuance.theme.holidays_redpassion.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_redpassion.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_redpassion.png",
       "size": 1500221,
       "sha256": "f12ece2e73669561e578bb21d9d8a9d1b8b849b9a9fbdbca5cc52437b9b1a198"
     },
     {
       "id": "nuance.theme.holidays_sinisterskulls",
+      "name": "Holidays Sinisterskulls",
       "filename": "nuance.theme.holidays_sinisterskulls.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_sinisterskulls.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_sinisterskulls.png",
       "size": 1238014,
       "sha256": "2899f1a1fa997ca44a77319a777e34cd9166de094fffcde3eecd193901659f32"
     },
     {
       "id": "nuance.theme.holidays_snowday",
+      "name": "Holidays Snowday",
       "filename": "nuance.theme.holidays_snowday.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_snowday.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_snowday.png",
       "size": 1037046,
       "sha256": "374e88a20baa30a80e08f5d13908e4a6fd9d5307c3d8253a965cf34b32a530be"
     },
     {
       "id": "nuance.theme.holidays_spookykitty",
+      "name": "Holidays Spookykitty",
       "filename": "nuance.theme.holidays_spookykitty.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_spookykitty.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_spookykitty.png",
       "size": 363549,
       "sha256": "ea3db367313d82e49df84d97621d0ee83bc248b5debe64653deed41175e251e8"
     },
     {
       "id": "nuance.theme.holidays_sugarskulls",
+      "name": "Holidays Sugarskulls",
       "filename": "nuance.theme.holidays_sugarskulls.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_sugarskulls.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_sugarskulls.png",
       "size": 675789,
       "sha256": "3c431b13242cfaf1baa36fcffa8406b1a4840243808c28679aadce4fb15986ce"
     },
     {
       "id": "nuance.theme.holidays_yearofmonkey",
+      "name": "Holidays Yearofmonkey",
       "filename": "nuance.theme.holidays_yearofmonkey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_yearofmonkey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_yearofmonkey.png",
       "size": 623644,
       "sha256": "5b53fdce799d0c10b3b86bbc6b0b02467097468252aba62cc6ebaebf1971d2d8"
     },
     {
       "id": "nuance.theme.holidays_yearofrooster",
+      "name": "Holidays Yearofrooster",
       "filename": "nuance.theme.holidays_yearofrooster.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.holidays_yearofrooster.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.holidays_yearofrooster.png",
       "size": 1253818,
       "sha256": "b4ee9943ed43b6e333a339fc0fbbaf80a6927251f45111420f8679656f0dd128"
     },
     {
       "id": "nuance.theme.hues_aquamarine",
+      "name": "Hues Aquamarine",
       "filename": "nuance.theme.hues_aquamarine.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_aquamarine.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_aquamarine.png",
       "size": 555626,
       "sha256": "a454841dd8b92060b10eab01b961cbbb532a120cdd074e87e0d4b5ba7ab598c0"
     },
     {
       "id": "nuance.theme.hues_aquamarine_secondaries",
+      "name": "Hues Aquamarine Secondaries",
       "filename": "nuance.theme.hues_aquamarine_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_aquamarine_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_aquamarine_secondaries.png",
       "size": 555551,
       "sha256": "29144d5eeee43e820c1cff33662c6c039efa2bf844dae39fbac89169de90d924"
     },
     {
       "id": "nuance.theme.hues_citrus",
+      "name": "Hues Citrus",
       "filename": "nuance.theme.hues_citrus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_citrus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_citrus.png",
       "size": 407374,
       "sha256": "919d9035133689658873917d591e618178cfcbbc5a3c7ab65aea802f50ce14d9"
     },
     {
       "id": "nuance.theme.hues_citrus_secondaries",
+      "name": "Hues Citrus Secondaries",
       "filename": "nuance.theme.hues_citrus_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_citrus_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_citrus_secondaries.png",
       "size": 407574,
       "sha256": "5c4eca731fb5f3a2ae8e3ff319a64c421add1469568a407e3b3d0b4019ecb95b"
     },
     {
       "id": "nuance.theme.hues_coral",
+      "name": "Hues Coral",
       "filename": "nuance.theme.hues_coral.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_coral.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_coral.png",
       "size": 363133,
       "sha256": "429a9d3125ffeecf926860dee14d16a4964a60f3a87e31b7ae2866e104df849e"
     },
     {
       "id": "nuance.theme.hues_coral_secondaries",
+      "name": "Hues Coral Secondaries",
       "filename": "nuance.theme.hues_coral_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_coral_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_coral_secondaries.png",
       "size": 363143,
       "sha256": "33e6d83c7f7533588c35ed4a8cb26fba35fab99fec57f28e4cfe19a3c2ddc182"
     },
     {
       "id": "nuance.theme.hues_crimson",
+      "name": "Hues Crimson",
       "filename": "nuance.theme.hues_crimson.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_crimson.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_crimson.png",
       "size": 408958,
       "sha256": "0e6389c759a54d04aa02f3313afbd043249b2811ee85e1882fc9ecb50af95656"
     },
     {
       "id": "nuance.theme.hues_crimson_secondaries",
+      "name": "Hues Crimson Secondaries",
       "filename": "nuance.theme.hues_crimson_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_crimson_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_crimson_secondaries.png",
       "size": 408707,
       "sha256": "c30c6e6a5f38592c06d67222d0e1a1b3d818f825ffa2c79b090870ad5da88a0b"
     },
     {
       "id": "nuance.theme.hues_horizon",
+      "name": "Hues Horizon",
       "filename": "nuance.theme.hues_horizon.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_horizon.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_horizon.png",
       "size": 422496,
       "sha256": "b9dde63ba7cfa1c9645b7601dcc2782814d3b062beb096c511eb9508b923ffe5"
     },
     {
       "id": "nuance.theme.hues_horizon_secondaries",
+      "name": "Hues Horizon Secondaries",
       "filename": "nuance.theme.hues_horizon_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_horizon_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_horizon_secondaries.png",
       "size": 422580,
       "sha256": "34def9619687af8c1b59391a59a077853c834ad6aed92d5f157e2d05fe7be637"
     },
     {
       "id": "nuance.theme.hues_lavender",
+      "name": "Hues Lavender",
       "filename": "nuance.theme.hues_lavender.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_lavender.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_lavender.png",
       "size": 563283,
       "sha256": "1eedb7136c4ff14193e438eb8de81e13c04298b84c0fe791483e9e9ac37b2516"
     },
     {
       "id": "nuance.theme.hues_lavender_secondaries",
+      "name": "Hues Lavender Secondaries",
       "filename": "nuance.theme.hues_lavender_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_lavender_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_lavender_secondaries.png",
       "size": 563115,
       "sha256": "c3e815d834e62b450ffeadf4a8058119cbed3c7f94bd900d4e32863d19101aa2"
     },
     {
       "id": "nuance.theme.hues_opal",
+      "name": "Hues Opal",
       "filename": "nuance.theme.hues_opal.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_opal.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_opal.png",
       "size": 633066,
       "sha256": "a654e3b0a7635b36f050349b5debca14fab5ae65f6c40150b164f6b677e4b539"
     },
     {
       "id": "nuance.theme.hues_opal_secondaries",
+      "name": "Hues Opal Secondaries",
       "filename": "nuance.theme.hues_opal_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_opal_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_opal_secondaries.png",
       "size": 633220,
       "sha256": "9a2ee0c1d9edb2137b62f662faa68269130d7771fc61f7e62ed95b1b3b7d3dd2"
     },
     {
       "id": "nuance.theme.hues_plum",
+      "name": "Hues Plum",
       "filename": "nuance.theme.hues_plum.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_plum.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_plum.png",
       "size": 445319,
       "sha256": "4c73bc3022019aac09338c9c856ad8f3fbb95e2711014e9779c9c8fcad2bb6c2"
     },
     {
       "id": "nuance.theme.hues_plum_secondaries",
+      "name": "Hues Plum Secondaries",
       "filename": "nuance.theme.hues_plum_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_plum_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_plum_secondaries.png",
       "size": 445071,
       "sha256": "e1657acebbcc99157c3ac846d42ffc3d5a2ddc16332ab9c6d9ddc45152cf2ab9"
     },
     {
       "id": "nuance.theme.hues_seascape",
+      "name": "Hues Seascape",
       "filename": "nuance.theme.hues_seascape.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_seascape.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_seascape.png",
       "size": 428601,
       "sha256": "cbf92d1be55e7ab1aa44719b5991c7f5f415d84ef40fa3944a126089b5ad14f7"
     },
     {
       "id": "nuance.theme.hues_seascape_secondaries",
+      "name": "Hues Seascape Secondaries",
       "filename": "nuance.theme.hues_seascape_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_seascape_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_seascape_secondaries.png",
       "size": 428533,
       "sha256": "046c38b7d99bcb16636da5aab76edd61bf1bf117b8822a8e1334716927580eb6"
     },
     {
       "id": "nuance.theme.hues_shamrock",
+      "name": "Hues Shamrock",
       "filename": "nuance.theme.hues_shamrock.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_shamrock.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_shamrock.png",
       "size": 521805,
       "sha256": "2e2687d4e5d4903e1f458fa4e874f13cf344950a992d015234c6d6fdf2f5fedb"
     },
     {
       "id": "nuance.theme.hues_shamrock_secondaries",
+      "name": "Hues Shamrock Secondaries",
       "filename": "nuance.theme.hues_shamrock_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_shamrock_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_shamrock_secondaries.png",
       "size": 521587,
       "sha256": "5a2cd09be260f32971a12794848b00577e496ef39305db3b021ac7e6dbf77522"
     },
     {
       "id": "nuance.theme.hues_sky",
+      "name": "Hues Sky",
       "filename": "nuance.theme.hues_sky.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_sky.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_sky.png",
       "size": 590249,
       "sha256": "a49cc6c2102684bd4a51d53d8eceec832b0dcab5c4e095ae59736d50dc05ce33"
     },
     {
       "id": "nuance.theme.hues_sky_secondaries",
+      "name": "Hues Sky Secondaries",
       "filename": "nuance.theme.hues_sky_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_sky_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_sky_secondaries.png",
       "size": 590233,
       "sha256": "ac9ee49c039fc0006ff6596e5aa49116ccaae45f3ea07943e25e4f25414c2b4d"
     },
     {
       "id": "nuance.theme.hues_slate",
+      "name": "Hues Slate",
       "filename": "nuance.theme.hues_slate.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_slate.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_slate.png",
       "size": 523068,
       "sha256": "4f7a8cca198f105327f0b9e563ae9ffd49242d738da4d604f004a2462d1a5ebb"
     },
     {
       "id": "nuance.theme.hues_slate_secondaries",
+      "name": "Hues Slate Secondaries",
       "filename": "nuance.theme.hues_slate_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_slate_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_slate_secondaries.png",
       "size": 523016,
       "sha256": "e4e2d5b53d5dc8b50bc84c30bc43e3b5b6de54cc552654034e7b2ad3cfc8a208"
     },
     {
       "id": "nuance.theme.hues_turquoise",
+      "name": "Hues Turquoise",
       "filename": "nuance.theme.hues_turquoise.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_turquoise.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_turquoise.png",
       "size": 513402,
       "sha256": "2f56077a36252ef5690fd071982bd003b34422f5eaa59143fd9a8e7b877f5ee6"
     },
     {
       "id": "nuance.theme.hues_turquoise_secondaries",
+      "name": "Hues Turquoise Secondaries",
       "filename": "nuance.theme.hues_turquoise_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_turquoise_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_turquoise_secondaries.png",
       "size": 513454,
       "sha256": "1e60c0208c5af4b4e15fb63e6e1bcb4aa32af422c841cb2b41dd29ae90335ced"
     },
     {
       "id": "nuance.theme.hues_violet",
+      "name": "Hues Violet",
       "filename": "nuance.theme.hues_violet.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_violet.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_violet.png",
       "size": 411306,
       "sha256": "2660c1fe30ee8edff3356f9ffacaa477e4e822872f910f21a0f423869f3e212a"
     },
     {
       "id": "nuance.theme.hues_violet_secondaries",
+      "name": "Hues Violet Secondaries",
       "filename": "nuance.theme.hues_violet_secondaries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.hues_violet_secondaries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.hues_violet_secondaries.png",
       "size": 411245,
       "sha256": "2091adaca47c3c29958a011b2f994051813d2b77a3aaa102989ed5d8359b4db7"
     },
     {
       "id": "nuance.theme.india_elephantsblue",
+      "name": "India Elephantsblue",
       "filename": "nuance.theme.india_elephantsblue.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_elephantsblue.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_elephantsblue.png",
       "size": 337724,
       "sha256": "58593d66cbb8aba1722589c0e53691147599dfb90f4e2da015be2fbfb7d3f312"
     },
     {
       "id": "nuance.theme.india_elephantsgreen",
+      "name": "India Elephantsgreen",
       "filename": "nuance.theme.india_elephantsgreen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_elephantsgreen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_elephantsgreen.png",
       "size": 339872,
       "sha256": "95faf7e6f7bbe00a0eb47825a8da514d1ec88fdd177df1d6f2baaa864543c7fc"
     },
     {
       "id": "nuance.theme.india_elephantsorange",
+      "name": "India Elephantsorange",
       "filename": "nuance.theme.india_elephantsorange.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_elephantsorange.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_elephantsorange.png",
       "size": 345579,
       "sha256": "f0a7cce11937eddfe962de63b15a8d1490e4f2b5f0494c6198c3878ca3880adf"
     },
     {
       "id": "nuance.theme.india_hennabrown",
+      "name": "India Hennabrown",
       "filename": "nuance.theme.india_hennabrown.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_hennabrown.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_hennabrown.png",
       "size": 629073,
       "sha256": "cae08d1b07d37be6c61756cbf3aa64d17920fc8fde300158ed79f38d5ba45f23"
     },
     {
       "id": "nuance.theme.india_hennapink",
+      "name": "India Hennapink",
       "filename": "nuance.theme.india_hennapink.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_hennapink.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_hennapink.png",
       "size": 614080,
       "sha256": "d5606e4ecccc29a766f79b837b6be2458920b65cf718b88bf0271c76cbb086ad"
     },
     {
       "id": "nuance.theme.india_hennateal",
+      "name": "India Hennateal",
       "filename": "nuance.theme.india_hennateal.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_hennateal.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_hennateal.png",
       "size": 596345,
       "sha256": "2e37ec1fc19dbb3f12cf94596c3a0093ccd5b2b823c2da1c7e384b7d57b3694a"
     },
     {
       "id": "nuance.theme.india_holi1",
+      "name": "India Holi1",
       "filename": "nuance.theme.india_holi1.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_holi1.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_holi1.png",
       "size": 876447,
       "sha256": "911aa4e93c2e5fc7205e9987a60b69b429dafe8d3c3bad1620ea45ba74b22926"
     },
     {
       "id": "nuance.theme.india_holi2",
+      "name": "India Holi2",
       "filename": "nuance.theme.india_holi2.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_holi2.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_holi2.png",
       "size": 792159,
       "sha256": "46f57a6bf3e344cd7345c5dbea0d043f3e01ee6fb6b8b7202155fa667246f982"
     },
     {
       "id": "nuance.theme.india_monkeyorange",
+      "name": "India Monkeyorange",
       "filename": "nuance.theme.india_monkeyorange.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_monkeyorange.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_monkeyorange.png",
       "size": 408567,
       "sha256": "6a67ad75d3f725e56084e95cace4792105514de731eb27840ec28b1de73ee86f"
     },
     {
       "id": "nuance.theme.india_monkeypink",
+      "name": "India Monkeypink",
       "filename": "nuance.theme.india_monkeypink.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_monkeypink.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_monkeypink.png",
       "size": 412574,
       "sha256": "af3f40bd57a50bc599c05263f91cbe86974ea02e243c86320424d1886b1deee6"
     },
     {
       "id": "nuance.theme.india_textures_metalrosegold",
+      "name": "India Textures Metalrosegold",
       "filename": "nuance.theme.india_textures_metalrosegold.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_textures_metalrosegold.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_textures_metalrosegold.png",
       "size": 479575,
       "sha256": "51f957855d5240e90903f40619b8ff0c73bd6f8e49d04437329151c79b7c34d9"
     },
     {
       "id": "nuance.theme.india_textures_splatterdark",
+      "name": "India Textures Splatterdark",
       "filename": "nuance.theme.india_textures_splatterdark.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_textures_splatterdark.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_textures_splatterdark.png",
       "size": 769712,
       "sha256": "d556ad1961bc62eb2f633e840e8406ca664c2fd9972cb71498a8f6ddb1b1da1b"
     },
     {
       "id": "nuance.theme.india_tigerblack",
+      "name": "India Tigerblack",
       "filename": "nuance.theme.india_tigerblack.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_tigerblack.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_tigerblack.png",
       "size": 869577,
       "sha256": "811fafbb0c1d4bc9e71f4e2d78b3fdae46a5765c66c3f7b47b183f7032cf1bac"
     },
     {
       "id": "nuance.theme.india_tigerwhite",
+      "name": "India Tigerwhite",
       "filename": "nuance.theme.india_tigerwhite.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.india_tigerwhite.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.india_tigerwhite.png",
       "size": 840154,
       "sha256": "e1bae81cdbcb3747d803d04419f7755496e803861532950aafdfe4f6f50fe403"
     },
     {
       "id": "nuance.theme.light",
+      "name": "Light",
       "filename": "nuance.theme.light.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.light.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.light.png",
       "size": 273033,
       "sha256": "64edd2b61919583c7f211856a7b02657dd56116af238006474710a49418802a9"
     },
     {
       "id": "nuance.theme.reef",
+      "name": "Reef",
       "filename": "nuance.theme.reef.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.reef.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.reef.png",
       "size": 258604,
       "sha256": "83741bbc9059dcc56f9fc9d4598a01dddbceed3d21d5a1f34583f1fa7dba4d14"
     },
     {
       "id": "nuance.theme.sand",
+      "name": "Sand",
       "filename": "nuance.theme.sand.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.sand.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.sand.png",
       "size": 258358,
       "sha256": "d3daada1500671ae8fa0dc05b0cd8b605d8305c6ad4437d731c7d4ff1468cdbb"
     },
     {
       "id": "nuance.theme.seasons_autumn",
+      "name": "Seasons Autumn",
       "filename": "nuance.theme.seasons_autumn.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.seasons_autumn.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.seasons_autumn.png",
       "size": 574948,
       "sha256": "4222a90078cb394126959cc2ac59c40bc4dea79a3ec8808cbf876753f50f0756"
     },
     {
       "id": "nuance.theme.seasons_spring",
+      "name": "Seasons Spring",
       "filename": "nuance.theme.seasons_spring.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.seasons_spring.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.seasons_spring.png",
       "size": 482407,
       "sha256": "cc5235c50e6eba49f4776fa20e8076a76017dfaff1ac333e62fa8e9c44d211e6"
     },
     {
       "id": "nuance.theme.seasons_summer",
+      "name": "Seasons Summer",
       "filename": "nuance.theme.seasons_summer.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.seasons_summer.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.seasons_summer.png",
       "size": 495870,
       "sha256": "56469116a3874bc306df25f88f9bb3235de6d18f9f950a258d13c360fbc7d7ef"
     },
     {
       "id": "nuance.theme.seasons_winter",
+      "name": "Seasons Winter",
       "filename": "nuance.theme.seasons_winter.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.seasons_winter.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.seasons_winter.png",
       "size": 655224,
       "sha256": "6d26ea5f8d8120bb407a4f436fd298eb19584c434b4a06a936b84e46d89c0892"
     },
     {
       "id": "nuance.theme.space_celestial",
+      "name": "Space Celestial",
       "filename": "nuance.theme.space_celestial.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_celestial.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_celestial.png",
       "size": 969414,
       "sha256": "5728ed5c623da754a94157c1c20c4070081dae00639afd4668b81b5ff9d00c08"
     },
     {
       "id": "nuance.theme.space_cosmic",
+      "name": "Space Cosmic",
       "filename": "nuance.theme.space_cosmic.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_cosmic.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_cosmic.png",
       "size": 717490,
       "sha256": "4e1292a55797485cc6f6c562af99edb6f51f2fb82bd40fac1c7817114de9e151"
     },
     {
       "id": "nuance.theme.space_galaxy",
+      "name": "Space Galaxy",
       "filename": "nuance.theme.space_galaxy.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_galaxy.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_galaxy.png",
       "size": 1105823,
       "sha256": "8d7fc2b1ee199fb019cdc28a34dab67f1f35d85c356de5670f21faebfba385f6"
     },
     {
       "id": "nuance.theme.space_interstellar",
+      "name": "Space Interstellar",
       "filename": "nuance.theme.space_interstellar.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_interstellar.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_interstellar.png",
       "size": 798740,
       "sha256": "759a1c619407d7e44214bb28db8efe6be609c5a466d0a704e317c5006f95eba7"
     },
     {
       "id": "nuance.theme.space_nebula",
+      "name": "Space Nebula",
       "filename": "nuance.theme.space_nebula.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_nebula.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_nebula.png",
       "size": 1660141,
       "sha256": "4e243d800b4f5903490ef153cc745322f72ef02b731d32f40a45dc739926185e"
     },
     {
       "id": "nuance.theme.space_starlight",
+      "name": "Space Starlight",
       "filename": "nuance.theme.space_starlight.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.space_starlight.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.space_starlight.png",
       "size": 679392,
       "sha256": "aa6ab078872a45e770b06d67d9d73bbbb4585933e52215d70db67cc9b4bb3dd1"
     },
     {
       "id": "nuance.theme.sun",
+      "name": "Sun",
       "filename": "nuance.theme.sun.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.sun.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.sun.png",
       "size": 603557,
       "sha256": "f5a7b0cea55f83893aff92ac1b2eae7abf21bcc7122624a89649980d6104246e"
     },
     {
       "id": "nuance.theme.textures_lacemint",
+      "name": "Textures Lacemint",
       "filename": "nuance.theme.textures_lacemint.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_lacemint.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_lacemint.png",
       "size": 500607,
       "sha256": "6698b77a3ca00a3b90806a17f5ba8efb43f70cd7d5c48bc58872d346751d9c50"
     },
     {
       "id": "nuance.theme.textures_lacepink",
+      "name": "Textures Lacepink",
       "filename": "nuance.theme.textures_lacepink.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_lacepink.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_lacepink.png",
       "size": 501423,
       "sha256": "c9aa74b9e2e3f17a8f5b486b4a9c124886dfdf2e9fad824e5b9d43809cc725ff"
     },
     {
       "id": "nuance.theme.textures_leatherdark",
+      "name": "Textures Leatherdark",
       "filename": "nuance.theme.textures_leatherdark.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_leatherdark.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_leatherdark.png",
       "size": 721879,
       "sha256": "187e38b07cc7554e2f18d72ccdeaca61d5b1bb1f8d312286aaf7197bdf2fe539"
     },
     {
       "id": "nuance.theme.textures_leatherlight",
+      "name": "Textures Leatherlight",
       "filename": "nuance.theme.textures_leatherlight.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_leatherlight.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_leatherlight.png",
       "size": 738910,
       "sha256": "8bcb15608432a3ebd533f586f0cfe4e118c7a969fae7d77147768766f3913228"
     },
     {
       "id": "nuance.theme.textures_leopard",
+      "name": "Textures Leopard",
       "filename": "nuance.theme.textures_leopard.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_leopard.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_leopard.png",
       "size": 356989,
       "sha256": "401a3b82394191a2c8afc5848fdb18669a65a8e6d90995b5086d0d5b7af2c4cb"
     },
     {
       "id": "nuance.theme.textures_leopardpink",
+      "name": "Textures Leopardpink",
       "filename": "nuance.theme.textures_leopardpink.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_leopardpink.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_leopardpink.png",
       "size": 336469,
       "sha256": "7cce2b81faf1cb324212e5325662ae1af9d369cb27286bed4f8ed6a50a35d829"
     },
     {
       "id": "nuance.theme.textures_metalbrushed",
+      "name": "Textures Metalbrushed",
       "filename": "nuance.theme.textures_metalbrushed.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_metalbrushed.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_metalbrushed.png",
       "size": 427840,
       "sha256": "03df6e3e1a7cbd4520ecd8bc087463ddac1d698a3e12062f62f6bad7a6e3b07e"
     },
     {
       "id": "nuance.theme.textures_metaldiamondplate",
+      "name": "Textures Metaldiamondplate",
       "filename": "nuance.theme.textures_metaldiamondplate.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_metaldiamondplate.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_metaldiamondplate.png",
       "size": 932095,
       "sha256": "814cd4acf948e11c8d718afdbf630fbea313bc267b54d8e426bb01bc6c8df977"
     },
     {
       "id": "nuance.theme.textures_plaidblue",
+      "name": "Textures Plaidblue",
       "filename": "nuance.theme.textures_plaidblue.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_plaidblue.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_plaidblue.png",
       "size": 546999,
       "sha256": "83c4517d05400927f83e41d8d067fd1dea3494d606f6a093006ca7a4c111ecd8"
     },
     {
       "id": "nuance.theme.textures_plaidgreen",
+      "name": "Textures Plaidgreen",
       "filename": "nuance.theme.textures_plaidgreen.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_plaidgreen.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_plaidgreen.png",
       "size": 618163,
       "sha256": "e6d91dbb50790a1d8914179a064661e2f38c32e15c4fe118ce755d9cfe427953"
     },
     {
       "id": "nuance.theme.textures_plaidgrey",
+      "name": "Textures Plaidgrey",
       "filename": "nuance.theme.textures_plaidgrey.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_plaidgrey.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_plaidgrey.png",
       "size": 362435,
       "sha256": "77167c60da83ea62a167e34646894306651f40eb4680579dedf5bd805d1d835f"
     },
     {
       "id": "nuance.theme.textures_plaidred",
+      "name": "Textures Plaidred",
       "filename": "nuance.theme.textures_plaidred.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_plaidred.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_plaidred.png",
       "size": 355234,
       "sha256": "a54c672305447f020b957a338ff0da81995469759794e3951395f3f337ee1e7e"
     },
     {
       "id": "nuance.theme.textures_plaidteal",
+      "name": "Textures Plaidteal",
       "filename": "nuance.theme.textures_plaidteal.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_plaidteal.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_plaidteal.png",
       "size": 403217,
       "sha256": "d0417334570bb83ba0d4eb6fdae3a626ce9dc4e808410aaa3ba48833b2ad5e5f"
     },
     {
       "id": "nuance.theme.textures_reindeer",
+      "name": "Textures Reindeer",
       "filename": "nuance.theme.textures_reindeer.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_reindeer.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_reindeer.png",
       "size": 746828,
       "sha256": "04f8e608bd109417af31a625a47f0e509d7a3dae94966017fa243f0f8b94a930"
     },
     {
       "id": "nuance.theme.textures_snowflake",
+      "name": "Textures Snowflake",
       "filename": "nuance.theme.textures_snowflake.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_snowflake.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_snowflake.png",
       "size": 749147,
       "sha256": "23f07322437128f3451bc17b3772c01ba128ae098e324dff6806986e34f5592c"
     },
     {
       "id": "nuance.theme.textures_splatterlight",
+      "name": "Textures Splatterlight",
       "filename": "nuance.theme.textures_splatterlight.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_splatterlight.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_splatterlight.png",
       "size": 740572,
       "sha256": "a2122d4a6f4c9d75bb838b1cc758d0ebd7bfed5be92002714b296ea7c13aeffe"
     },
     {
       "id": "nuance.theme.textures_woodbirch",
+      "name": "Textures Woodbirch",
       "filename": "nuance.theme.textures_woodbirch.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_woodbirch.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_woodbirch.png",
       "size": 645718,
       "sha256": "518fb079683146742e48095ab972f8e47211e34ede6d8774b132c4c8096a4d0c"
     },
     {
       "id": "nuance.theme.textures_woodcedar",
+      "name": "Textures Woodcedar",
       "filename": "nuance.theme.textures_woodcedar.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_woodcedar.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_woodcedar.png",
       "size": 660783,
       "sha256": "43d5d71d6a429435a795c9407b8cb386824f4b5d997ceb19ccd048b341f692b4"
     },
     {
       "id": "nuance.theme.textures_woodoak",
+      "name": "Textures Woodoak",
       "filename": "nuance.theme.textures_woodoak.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_woodoak.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_woodoak.png",
       "size": 542561,
       "sha256": "c44e093cfa63f9a6e389dbbec459b87eb38fc9617d125c9cffdc85eb8be7dbf8"
     },
     {
       "id": "nuance.theme.textures_woodteak",
+      "name": "Textures Woodteak",
       "filename": "nuance.theme.textures_woodteak.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_woodteak.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_woodteak.png",
       "size": 541417,
       "sha256": "722e74e15db12ccafda618192f3b9051a061c105e246107751cec8ec5404501e"
     },
     {
       "id": "nuance.theme.textures_woodwalnut",
+      "name": "Textures Woodwalnut",
       "filename": "nuance.theme.textures_woodwalnut.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.textures_woodwalnut.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.textures_woodwalnut.png",
       "size": 795991,
       "sha256": "df85c9d4e2f4d46c17ae8ef7568d315c60b652c8d237a3f74d42058081b9ec7d"
     },
     {
       "id": "nuance.theme.tree_autumn",
+      "name": "Tree Autumn",
       "filename": "nuance.theme.tree_autumn.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.tree_autumn.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.tree_autumn.png",
       "size": 813817,
       "sha256": "f7a0fb4b410b7a3aeba8b62cb9b120f9ff929da495aad999d9f1c0026856f445"
     },
     {
       "id": "nuance.theme.tree_spring",
+      "name": "Tree Spring",
       "filename": "nuance.theme.tree_spring.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.tree_spring.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.tree_spring.png",
       "size": 626227,
       "sha256": "cf1e55c79167a2a6fbbcd3287bba3f51893d1db6ec9de2c65d4f8d5164055b26"
     },
     {
       "id": "nuance.theme.tree_summer",
+      "name": "Tree Summer",
       "filename": "nuance.theme.tree_summer.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.tree_summer.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.tree_summer.png",
       "size": 635520,
       "sha256": "62922aeb143d93b01707e22024d457459ce5d3da56f59690c3f98fc953ab09a1"
     },
     {
       "id": "nuance.theme.tree_winter",
+      "name": "Tree Winter",
       "filename": "nuance.theme.tree_winter.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.tree_winter.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.tree_winter.png",
       "size": 694688,
       "sha256": "d07acc01617e834b8ae2c7408f3afcb8d6ffc88c464d3a5f504534c6d9f46736"
     },
     {
       "id": "nuance.theme.watercolor_breeze",
+      "name": "Watercolor Breeze",
       "filename": "nuance.theme.watercolor_breeze.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_breeze.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_breeze.png",
       "size": 846634,
       "sha256": "6562397031522ae30a7b11c0ea20d073b060dd509ce04963f5420a747bb24b14"
     },
     {
       "id": "nuance.theme.watercolor_cottoncandy",
+      "name": "Watercolor Cottoncandy",
       "filename": "nuance.theme.watercolor_cottoncandy.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_cottoncandy.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_cottoncandy.png",
       "size": 727300,
       "sha256": "575ff5be9971287c07669e95e835267529789b27ed5cc3a48e1c3472d08d2a9c"
     },
     {
       "id": "nuance.theme.watercolor_iris",
+      "name": "Watercolor Iris",
       "filename": "nuance.theme.watercolor_iris.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_iris.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_iris.png",
       "size": 648024,
       "sha256": "f791a7cd5c4e24e1a7d469c2898d62183efc2062f2fc5e242ca7092b449d43a0"
     },
     {
       "id": "nuance.theme.watercolor_leaf",
+      "name": "Watercolor Leaf",
       "filename": "nuance.theme.watercolor_leaf.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_leaf.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_leaf.png",
       "size": 809349,
       "sha256": "e159886d6a14f080a29591a5e3adf5ceec982fa33d0bbc51df9a06174f0344c5"
     },
     {
       "id": "nuance.theme.watercolor_ocean",
+      "name": "Watercolor Ocean",
       "filename": "nuance.theme.watercolor_ocean.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_ocean.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_ocean.png",
       "size": 666236,
       "sha256": "5cd112866b983c03b20ba84e138f40db793a139bad43a7c6c4c956fe207c43d3"
     },
     {
       "id": "nuance.theme.watercolor_rainbow",
+      "name": "Watercolor Rainbow",
       "filename": "nuance.theme.watercolor_rainbow.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_rainbow.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_rainbow.png",
       "size": 711780,
       "sha256": "98a23e77857d6010dc60bbbe80158aa51d6456c91167c6ad226b40adb8664586"
     },
     {
       "id": "nuance.theme.watercolor_sunset",
+      "name": "Watercolor Sunset",
       "filename": "nuance.theme.watercolor_sunset.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_sunset.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_sunset.png",
       "size": 688209,
       "sha256": "bb2da463edd2cd6080ac69c918bfe9cc1ec9a84a492b6d937a1e4e9221f09d10"
     },
     {
       "id": "nuance.theme.watercolor_tropicheat",
+      "name": "Watercolor Tropicheat",
       "filename": "nuance.theme.watercolor_tropicheat.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.watercolor_tropicheat.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.watercolor_tropicheat.png",
       "size": 646141,
       "sha256": "417adc417c1dfe0bf7ed24b1dc039ada55386a048a31ef178c7b9465a689c5e2"
     },
     {
       "id": "nuance.theme.zodiac_aquarius",
+      "name": "Zodiac Aquarius",
       "filename": "nuance.theme.zodiac_aquarius.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_aquarius.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_aquarius.png",
       "size": 956751,
       "sha256": "4e4887d9eb924bc6e20ea5a02d393543d2f339b3b1bb83d8748bfffde1f4a387"
     },
     {
       "id": "nuance.theme.zodiac_aries",
+      "name": "Zodiac Aries",
       "filename": "nuance.theme.zodiac_aries.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_aries.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_aries.png",
       "size": 857834,
       "sha256": "7265f33022bf4093e8cdc83106f34b565b784264680499bd2d2286cf2b0935bc"
     },
     {
       "id": "nuance.theme.zodiac_cancer",
+      "name": "Zodiac Cancer",
       "filename": "nuance.theme.zodiac_cancer.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_cancer.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_cancer.png",
       "size": 905735,
       "sha256": "d7fa868e5629b74809040988098872becc67c87b47534d4e2f26b40d91684d2a"
     },
     {
       "id": "nuance.theme.zodiac_capricorn",
+      "name": "Zodiac Capricorn",
       "filename": "nuance.theme.zodiac_capricorn.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_capricorn.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_capricorn.png",
       "size": 890333,
       "sha256": "7899a60d476074f324d96313599c1b1a5b81252abaa52db336cdef434d23fa74"
     },
     {
       "id": "nuance.theme.zodiac_gemini",
+      "name": "Zodiac Gemini",
       "filename": "nuance.theme.zodiac_gemini.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_gemini.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_gemini.png",
       "size": 900414,
       "sha256": "3713b1a7e50aba5acea2642bb3f19032145ed5888b22b9fe2e75ea04cc75b126"
     },
     {
       "id": "nuance.theme.zodiac_leo",
+      "name": "Zodiac Leo",
       "filename": "nuance.theme.zodiac_leo.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_leo.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_leo.png",
       "size": 911109,
       "sha256": "522decdb90be2fa3b321c7c8923deab666b8851378854b377667940c71de0867"
     },
     {
       "id": "nuance.theme.zodiac_libra",
+      "name": "Zodiac Libra",
       "filename": "nuance.theme.zodiac_libra.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_libra.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_libra.png",
       "size": 882106,
       "sha256": "e1c89d3fee7a84a4ca3f69995fd0b1a3e0d7b0ed09c02254fa51de2c3034a755"
     },
     {
       "id": "nuance.theme.zodiac_pisces",
+      "name": "Zodiac Pisces",
       "filename": "nuance.theme.zodiac_pisces.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_pisces.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_pisces.png",
       "size": 956576,
       "sha256": "788886d72cd48346cd4d99c8baf7f04964331c5e4d5ab6501a7f34529d1e48d9"
     },
     {
       "id": "nuance.theme.zodiac_sagittarius",
+      "name": "Zodiac Sagittarius",
       "filename": "nuance.theme.zodiac_sagittarius.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_sagittarius.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_sagittarius.png",
       "size": 844118,
       "sha256": "af24f7c1226b0cc369565f098911c66ed5400a6152bbfce7e1f628eb30b0ad6b"
     },
     {
       "id": "nuance.theme.zodiac_scorpio",
+      "name": "Zodiac Scorpio",
       "filename": "nuance.theme.zodiac_scorpio.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_scorpio.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_scorpio.png",
       "size": 928478,
       "sha256": "48bf661cc309eb6f81130b618a293f8942a5b0929b05d2b3938d2f8b45f5dbb8"
     },
     {
       "id": "nuance.theme.zodiac_taurus",
+      "name": "Zodiac Taurus",
       "filename": "nuance.theme.zodiac_taurus.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_taurus.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_taurus.png",
       "size": 809386,
       "sha256": "b174b6dd12c1fc26e8f63a471e3cc79a0c44461ee7e9229498fdf210820708d5"
     },
     {
       "id": "nuance.theme.zodiac_virgo",
+      "name": "Zodiac Virgo",
       "filename": "nuance.theme.zodiac_virgo.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.zodiac_virgo.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.zodiac_virgo.png",
       "size": 909903,
       "sha256": "f6d245e92f369f5520ec56bad8a8d72e8dfdad672c6d9b44f24edf6c7cdde705"
     }
