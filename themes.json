@@ -1260,7 +1260,7 @@
       "name": "Dark",
       "filename": "nuance.theme.dark.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.dark.zip",
-      "preview": null,
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.dark.png",
       "size": 274203,
       "sha256": "55e84b6c8aa7499dcceb48ec2c752cbb7fe18904a46ae592d318b77f791f5d31"
     },
@@ -1908,7 +1908,7 @@
       "name": "Light",
       "filename": "nuance.theme.light.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/nuance.theme.light.zip",
-      "preview": null,
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.light.png",
       "size": 273033,
       "sha256": "64edd2b61919583c7f211856a7b02657dd56116af238006474710a49418802a9"
     },
