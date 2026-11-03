@@ -89,18 +89,41 @@ def render_element(root,canvas,el,depth=0):
         for child in el:
             render_element(root,canvas,child,depth+1)
 
+def direct_keyboard_background(root):
+    # Some original Swype families (notably Hues) use a complete density-qualified
+    # keyboard_background_<theme>.png instead of keyboard_background_main.xml.
+    # Prefer the highest-density complete keyboard background and never HWR assets.
+    found=[]
+    for p in glob.glob(root+'/res/drawable*/keyboard_background_*'):
+        name=os.path.basename(p).lower()
+        if name.endswith('.xml') or 'hwr' in name or 'main' in name: continue
+        try:
+            with Image.open(p) as im:
+                area=im.width*im.height
+        except Exception:
+            continue
+        density=0
+        d=os.path.dirname(p)
+        for key,value in [('xxxhdpi',5),('xxhdpi',4),('xhdpi',3),('hdpi',2),('mdpi',1),('ldpi',0)]:
+            if key in d: density=value
+        found.append((density,area,p))
+    return max(found)[2] if found else None
+
 def render(root,out):
-    xml=root+'/res/drawable/keyboard_background_main.xml'
-    if not os.path.isfile(xml):
-        # Some APKs decode the density-qualified main drawable as XML only.
-        matches=glob.glob(root+'/res/drawable*/keyboard_background_main.xml')
-        if not matches: return False
-        xml=matches[0]
-    base=Image.new('RGBA',(W,H),(0,0,0,255))
-    render_element(root,base,ET.parse(xml).getroot())
+    matches=glob.glob(root+'/res/drawable*/keyboard_background_main.xml')
     os.makedirs(os.path.dirname(out) or '.',exist_ok=True)
-    base.convert('RGB').save(out,'PNG',optimize=True)
-    return True
+    if matches:
+        base=Image.new('RGBA',(W,H),(0,0,0,255))
+        render_element(root,base,ET.parse(matches[0]).getroot())
+        base.convert('RGB').save(out,'PNG',optimize=True)
+        return True
+    direct=direct_keyboard_background(root)
+    if direct:
+        im=Image.open(direct).convert('RGB')
+        im=im.resize((W,H),Image.Resampling.LANCZOS)
+        im.save(out,'PNG',optimize=True)
+        return True
+    return False
 
 if __name__=='__main__':
     if len(sys.argv)!=3 or not render(sys.argv[1],sys.argv[2]): raise SystemExit(2)
