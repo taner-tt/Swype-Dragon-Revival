@@ -1,0 +1,67 @@
+name: Bundle all Swype themes
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download every theme ZIP from themes-v1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p themes
+          gh release download themes-v1 \
+            --repo "${{ github.repository }}" \
+            --pattern '*.zip' \
+            --dir themes
+          count=$(find themes -maxdepth 1 -type f -name '*.zip' | wc -l)
+          echo "Downloaded $count theme ZIPs"
+          test "$count" -eq 270
+
+      - name: Verify every outer ZIP contains exactly one APK
+        run: |
+          python3 - <<'PY'
+          import glob, zipfile
+          files = sorted(glob.glob('themes/*.zip'))
+          assert len(files) == 270, len(files)
+          bad = []
+          for path in files:
+              try:
+                  with zipfile.ZipFile(path) as z:
+                      apks = [n for n in z.namelist() if n.lower().endswith('.apk') and not n.endswith('/')]
+                  if len(apks) != 1:
+                      bad.append((path, len(apks)))
+              except Exception as e:
+                  bad.append((path, str(e)))
+          if bad:
+              raise SystemExit('Invalid theme ZIPs: ' + repr(bad))
+          print('Verified 270 theme ZIPs; each contains exactly one APK')
+          PY
+
+      - name: Create one upload file
+        run: |
+          python3 - <<'PY'
+          import glob, zipfile, os
+          files = sorted(glob.glob('themes/*.zip'))
+          with zipfile.ZipFile('Swype-All-Themes.zip', 'w', compression=zipfile.ZIP_STORED) as out:
+              for path in files:
+                  out.write(path, arcname=os.path.basename(path))
+          PY
+          sha256sum Swype-All-Themes.zip | tee Swype-All-Themes.sha256
+          ls -lh Swype-All-Themes.zip
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: Swype-All-Themes
+          path: |
+            Swype-All-Themes.zip
+            Swype-All-Themes.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
