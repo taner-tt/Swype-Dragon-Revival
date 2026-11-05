@@ -41,8 +41,9 @@ jobs:
       - name: Decode and inspect language/theme code
         run: |
           apktool d -f input/Swype-English-Only-REKEYED.apk -o decoded
-          tools/jadx/bin/jadx --no-res -d java-src input/Swype-English-Only-REKEYED.apk
+          tools/jadx/bin/jadx --no-res -d java-src input/Swype-English-Only-REKEYED.apk || echo 'jadx reported partial decompilation errors; preserving output'
           grep -R -l -E 'GitHubThemesFragment|LanguageDownloadTransaction|LanguageInstall' java-src > language-class-files.txt || true
+          grep -R -n -E 'api-swype.swypeconnect.com|lbs-swype.swypeconnect.com|requestLanguagesList|downloadLanguagePack' java-src | head -150 > language-network-references.txt || true
       - name: Archive inspection output
         if: success()
         uses: actions/upload-artifact@v4
@@ -50,6 +51,7 @@ jobs:
           name: swype-inspection
           path: |
             language-class-files.txt
+            language-network-references.txt
             java-src/
             decoded/
           retention-days: 7
