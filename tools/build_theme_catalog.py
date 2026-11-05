@@ -32,6 +32,7 @@ def display_name(theme_id):
     name=theme_id
     for p in ('btm.theme.','nuance.theme.'):
         if name.startswith(p): name=name[len(p):]; break
+    if theme_id == 'Flat_Black_v3_REBUILT_UPLOAD': return 'Flat Black v3'
     return name.replace('_',' ').replace('-',' ').strip().title()
 
 def extract_preview(zip_path,theme_id,work):
@@ -72,6 +73,11 @@ with tempfile.TemporaryDirectory() as td:
         download(a['browser_download_url'],zip_path)
         preview=extract_preview(zip_path,theme_id,td)
         digest=a.get('digest') or ''
+        if not digest:
+            with open(zip_path,'rb') as payload:
+                h=hashlib.sha256()
+                for block in iter(lambda:payload.read(1024*1024),b''): h.update(block)
+                digest='sha256:'+h.hexdigest()
         items.append({'id':theme_id,'name':display_name(theme_id),'filename':a['name'],'url':a['browser_download_url'],'preview':preview,'size':a['size'],'sha256':digest.removeprefix('sha256:')})
 
 catalog={'schema':2,'repository':REPO,'release':TAG,'count':len(items),'themes':items}
