@@ -91,6 +91,10 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     const-string v0, "43"
     invoke-virtual {v1, v0}, Lorg/json/JSONObject;->getJSONArray(Ljava/lang/String;)Lorg/json/JSONArray;
     move-result-object v1
+    # Reject empty catalogs: original listResponse marks them as no-download state.
+    invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
+    move-result v4
+    if-lez v4, :cond_empty_catalog
     new-instance v2, Lcom/nuance/connect/comm/Response;
     invoke-direct {v2}, Lcom/nuance/connect/comm/Response;-><init>()V
     const/4 v3, 0x1
@@ -101,6 +105,7 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     iput-object v3, v2, Lcom/nuance/connect/comm/Response;->parameters:Ljava/util/HashMap;
     iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
     invoke-static {v0, v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
+    :cond_empty_catalog
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
     return-void
