@@ -9,6 +9,19 @@ import sys
 
 p = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali"
 s = p.read_text()
+# Fail closed if the decompiled baseline does not expose the exact bridge API.
+response = Path(sys.argv[1]) / "smali/com/nuance/connect/comm/Response.smali"
+if not response.exists():
+    raise RuntimeError("Response.smali not found; do not build an unverified patch")
+r = response.read_text()
+required = [
+    ("language-list callback", "access$100(", s),
+    ("Response status", "->status:I", r),
+    ("Response parameters", "->parameters:Ljava/util/HashMap;", r),
+]
+for label, token, source in required:
+    if token not in source:
+        raise RuntimeError(f"Missing {label}: {token}. Check the original smali API before patching.")
 start = s.index(".method private getList()V")
 end = s.index(".end method", start) + len(".end method")
 replacement = """.method private getList()V
