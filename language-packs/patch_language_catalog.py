@@ -7,6 +7,14 @@ Produces an unsigned experimental APK; never ship as a verified build.
 from pathlib import Path
 import sys
 
+# A catalog with no downloadable packs cannot complete a usable language refresh.
+# Fail the release build rather than silently leaving the transaction pending.
+import json
+catalog = Path(__file__).with_name("nuance-language-list.json")
+entries = json.loads(catalog.read_text(encoding="utf-8")).get("43")
+if not isinstance(entries, list) or not entries:
+    raise RuntimeError("GitHub language catalog has no verified downloadable packs; refusing to produce a misleading installable APK")
+
 p = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali"
 s = p.read_text()
 # Fail closed if the decompiled baseline does not expose the exact bridge API.
