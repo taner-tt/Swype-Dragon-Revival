@@ -70,11 +70,11 @@
     {
       "id": "Flat_Black_v3",
       "name": "Flat Black V3",
-      "filename": "Flat_Black_v3.zip",
-      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/Flat_Black_v3.zip",
+      "filename": "Flat_Black_v3_SNAPSHOT_FIX.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/Flat_Black_v3_SNAPSHOT_FIX.zip",
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/Flat_Black_v3.png",
-      "size": 322456,
-      "sha256": "22efaf1f569bd6afb2f645768c0960686de97857ccb62b6b75496842fe26f2df"
+      "size": 319557,
+      "sha256": "05911c873fb7376b80d32e08724aa143a242e872c3c56665be490b21acb7ac17"
     },
     {
       "id": "nuance.theme.colorful_black",
