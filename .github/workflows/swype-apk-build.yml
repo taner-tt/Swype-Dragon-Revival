@@ -1,31 +1,36 @@
-name: Swype APK inspect and rebuild
+name: Swype APK inspection
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Download APK from swype-build-input release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p input
+          gh release download swype-build-input --repo "${{ github.repository }}" --pattern 'Swype-English-Only-REKEYED.apk' --dir input
+          test -s input/Swype-English-Only-REKEYED.apk
+          unzip -t input/Swype-English-Only-REKEYED.apk >/dev/null
       - name: Install APK analysis tools
         run: |
           sudo apt-get update
           sudo apt-get install -y apktool default-jdk
-          mkdir -p tools
+          mkdir -p tools/jadx
           curl -fL --retry 3 https://github.com/skylot/jadx/releases/download/v1.5.2/jadx-1.5.2.zip -o /tmp/jadx.zip
           unzip -q /tmp/jadx.zip -d tools/jadx
-      - name: Locate input APK
-        run: |
-          test -f input/Swype-English-Only-REKEYED.apk || {
-            echo "Missing input/Swype-English-Only-REKEYED.apk. No APK is built."
-            exit 1
-          }
       - name: Decode and inspect language/theme code
         run: |
           apktool d -f input/Swype-English-Only-REKEYED.apk -o decoded
           tools/jadx/bin/jadx --no-res -d java-src input/Swype-English-Only-REKEYED.apk
-          grep -R -l 'GitHubThemesFragment\|LanguageDownloadTransaction\|LanguageInstall' java-src > language-class-files.txt || true
+          grep -R -l -E 'GitHubThemesFragment|LanguageDownloadTransaction|LanguageInstall' java-src > language-class-files.txt || true
       - name: Archive inspection output
         uses: actions/upload-artifact@v4
         with:
