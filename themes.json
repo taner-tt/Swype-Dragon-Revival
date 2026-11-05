@@ -2,7 +2,7 @@
   "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
-  "count": 270,
+  "count": 271,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
@@ -66,6 +66,15 @@
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/btm.theme.garfield_pookie.png",
       "size": 574261,
       "sha256": "c3c47ea49d6e21a595134b683fe37b3dafc88505720e573f8577eda7b08a3f7c"
+    },
+    {
+      "id": "Flat_Black_v3_REBUILT",
+      "name": "Flat Black v3",
+      "filename": "Flat_Black_v3_REBUILT.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/Flat_Black_v3_REBUILT.zip",
+      "preview": "",
+      "size": 333273,
+      "sha256": "dcb85891dd7059f961f522e163de30eaea2d8bff6035978ad5359dc1a1997497"
     },
     {
       "id": "nuance.theme.colorful_black",
