@@ -34,13 +34,13 @@ jobs:
           from collections import Counter
           with open('themes.json', encoding='utf-8') as f: d=json.load(f)
           assert d['schema']==2
-          assert d['count']==270 and len(d['themes'])==270
+          assert d['count']>=270 and len(d['themes'])==d['count']
           assert all(x['url'].startswith('https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/') for x in d['themes'])
           assert all(len(x['sha256'])==64 for x in d['themes'])
           paths=['theme-previews/'+x['id']+'.png' for x in d['themes']]
           assert all(os.path.isfile(p) and os.path.getsize(p)>500 for p in paths)
           hashes=Counter(hashlib.sha256(open(p,'rb').read()).hexdigest() for p in paths)
-          print(f"Verified 270 themes and 270 layer-rendered previews; {len(hashes)} distinct preview images")
+          print(f"Verified {d['count']} themes and {d['count']} layer-rendered previews; {len(hashes)} distinct preview images")
           PY
       - name: Commit generated catalog and previews
         run: |
