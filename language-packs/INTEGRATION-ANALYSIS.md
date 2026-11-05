@@ -17,9 +17,15 @@ Replacing the legacy server hostname with `raw.githubusercontent.com` **alone is
 
 1. Keep original Swype Languages screen, install/uninstall logic, package validation and language registration.
 2. Intercept **only** the `LanguageListTransaction.getList()` fetch/response bridge and provide a GitHub-hosted catalog transformed into the original response's expected language properties. Avoid redirecting all Nuance services.
-3. Keep `LanguageDownloadTransaction` as-is where possible by providing a direct downloadable package URL and the exact checksum algorithm it expects.
+3. Keep `LanguageDownloadTransaction` as-is where possible by providing a direct downloadable package URL and the **MD5** checksum that `EncryptUtils.md5(response.file)` checks (not SHA-256).
 4. Confirm the installer accepts the candidate language ZIP structure; test on device before listing the language as available.
 5. Keep English built in; do not publish proprietary Nuance language packs or signing secrets to the public repository without appropriate rights.
+
+## Verified download behavior
+
+`LanguageDownloadTransaction.downloadLanguagePack()` already uses `this.currentCommand.thirdPartyURL = this.url`, `method = "GET"`, and `hasBody = false`. Consequently, **the package URL can point directly to GitHub without replacing the download implementation**. The remaining bridge is the language-list transaction: it currently creates a Nuance `"list"` command and expects a `Response` with `LANGUAGE_LIST` as a JSON array. The existing GitHub `languages.json` is not yet consumable by this transaction.
+
+A local prototype Swedish ZIP was also found with `Swedish.mdf` and `SVusUN_xt9_ALM3.ldb`. It has **not** been verified installable; its manifest references `database_le.dat`, which is not in that ZIP. Do not publish this package without distribution rights.
 
 ## Status
 
