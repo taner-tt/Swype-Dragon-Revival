@@ -68,11 +68,11 @@
       "sha256": "c3c47ea49d6e21a595134b683fe37b3dafc88505720e573f8577eda7b08a3f7c"
     },
     {
-      "id": "Flat_Black_v3_REBUILT",
+      "id": "Flat_Black_v3_REBUILT_UPLOAD",
       "name": "Flat Black v3",
       "filename": "Flat_Black_v3_REBUILT_UPLOAD.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/Flat_Black_v3_REBUILT_UPLOAD.zip",
-      "preview": "",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/Flat_Black_v3_REBUILT_UPLOAD.png",
       "size": 322456,
       "sha256": "22efaf1f569bd6afb2f645768c0960686de97857ccb62b6b75496842fe26f2df"
     },
