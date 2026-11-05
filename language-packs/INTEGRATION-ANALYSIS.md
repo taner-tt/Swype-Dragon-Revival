@@ -25,7 +25,7 @@ Replacing the legacy server hostname with `raw.githubusercontent.com` **alone is
 
 `LanguageDownloadTransaction.downloadLanguagePack()` already uses `this.currentCommand.thirdPartyURL = this.url`, `method = "GET"`, and `hasBody = false`. Consequently, **the package URL can point directly to GitHub without replacing the download implementation**. The remaining bridge is the language-list transaction: it currently creates a Nuance `"list"` command and expects a `Response` with `LANGUAGE_LIST` as a JSON array. The existing GitHub `languages.json` is not yet consumable by this transaction.
 
-A local prototype Swedish ZIP was also found with `Swedish.mdf` and `SVusUN_xt9_ALM3.ldb`. It has **not** been verified installable; its manifest references `database_le.dat`, which is not in that ZIP. Do not publish this package without distribution rights.
+A later inspection of the locally supplied `Swype-Swedish-Install-Candidate-UNTESTED.zip` confirms **three** entries: `Swedish.mdf`, `SVusUN_xt9_ALM3.ldb.mp3`, and `database_le.dat.mp3`. Both `.mp3` entries are GZIP-compressed and successfully decompress to their expected filenames. This corrects the earlier claim that `database_le.dat` was missing. `LanguageInstall.extractFiles()` explicitly decompresses `.mp3` entries, and `LanguageInstall.createMetadataFile()` writes installation metadata. These are offline format checks only: Android language registration, language ID/core compatibility, UI visibility, and actual Swedish prediction are NOT verified. Do not publish proprietary language binaries without distribution rights.
 
 ## Status
 
