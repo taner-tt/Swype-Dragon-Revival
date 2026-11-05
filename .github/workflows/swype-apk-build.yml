@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - '.github/workflows/swype-apk-build.yml'
+      - 'language-packs/patch_language_catalog.py'
+      - 'language-packs/nuance-language-list.json'
 
 permissions:
   contents: write
@@ -44,6 +46,17 @@ jobs:
           tools/jadx/bin/jadx --no-res -d java-src input/Swype-English-Only-REKEYED.apk || echo 'jadx reported partial decompilation errors; preserving output'
           grep -R -l -E 'GitHubThemesFragment|LanguageDownloadTransaction|LanguageInstall' java-src > language-class-files.txt || true
           grep -R -n -E 'api-swype.swypeconnect.com|lbs-swype.swypeconnect.com|requestLanguagesList|downloadLanguagePack' java-src | head -150 > language-network-references.txt || true
+      - name: Patch and build experimental unsigned APK
+        run: |
+          python3 language-packs/patch_language_catalog.py decoded
+          apktool b decoded -o Swype-GitHub-Languages-EXPERIMENTAL-unsigned.apk
+          unzip -t Swype-GitHub-Languages-EXPERIMENTAL-unsigned.apk >/dev/null
+      - name: Archive experimental unsigned APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: swype-github-languages-unsigned
+          path: Swype-GitHub-Languages-EXPERIMENTAL-unsigned.apk
+          retention-days: 7
       - name: Archive inspection output
         if: success()
         uses: actions/upload-artifact@v4
