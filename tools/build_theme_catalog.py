@@ -48,6 +48,18 @@ def extract_preview(zip_path,theme_id,work):
         if len(apks)!=1: raise RuntimeError(f'{theme_id}: expected exactly one APK, found {len(apks)}')
         apk_path=os.path.join(work,theme_id+'.apk')
         with open(apk_path,'wb') as f: f.write(outer.read(apks[0]))
+    # Flat Black v3 uses a full keyboard screenshot, not a plain background.
+    # The generic renderer produces a solid black square for this theme.
+    if theme_id in ('Flat_Black_v3', 'Flat_Black_v3_REBUILT_UPLOAD'):
+        with zipfile.ZipFile(apk_path) as inner:
+            candidate='assets/flat_black_v3_original_keyboard_preview.png'
+            if candidate in inner.namelist():
+                out_name=theme_id+'.png'
+                out_path=os.path.join(PREVIEW_DIR,out_name)
+                with open(out_path,'wb') as preview_file:
+                    preview_file.write(inner.read(candidate))
+                os.remove(apk_path)
+                return f'{RAW_BASE}/{out_name}'
     decoded=os.path.join(work,theme_id+'-decoded')
     subprocess.run(['java','-Xmx384m','-jar',APKTOOL,'d','-f','-s',apk_path,'-o',decoded],check=True,stdout=subprocess.DEVNULL)
     out_name=theme_id+'.png'; out_path=os.path.join(PREVIEW_DIR,out_name)
