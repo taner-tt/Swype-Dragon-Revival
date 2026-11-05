@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-11-05",
+  "languages": [
+    {
+      "id": "sv",
+      "name": "Svenska",
+      "nativeName": "Svenska",
+      "version": "1.0.0",
+      "status": "pending-licensed-package",
+      "downloadUrl": null,
+      "sha256": null,
+      "installedByDefault": false
+    },
+    {
+      "id": "en",
+      "name": "English",
+      "nativeName": "English",
+      "version": "builtin",
+      "status": "builtin",
+      "downloadUrl": null,
+      "sha256": null,
+      "installedByDefault": true
+    }
+  ]
+}
