@@ -30,3 +30,9 @@ A later inspection of the locally supplied `Swype-Swedish-Install-Candidate-UNTE
 ## Status
 
 Inspection succeeded; no APK was patched, signed or device-tested by this report. Next analysis targets: `LanguageDownloadTransaction` checksum implementation, `LanguageInstall` package layout and catalog injection points.
+
+## Swedish registration gate (verified from decompiled LanguageManager.java)
+
+The `LanguageListTransaction.listResponse()` implementation reads `LANGUAGE_LIST` (`43`) and, for each entry, calls `languageInstallMetadata.addPackage(language)` only after extracting the language string (`11`), version, URL, MD5 checksum, country, translated name, one core-version field, and a nonempty integer array of language IDs (`146`). The transaction's list must be populated before the original Swype Languages UI can offer a package. The current checked-in `nuance-language-list.json` is `{"43":[]}`, so it **cannot** offer Swedish. The existing experimental APK must not be represented as a working Swedish download build.
+
+The offline Swedish ZIP checks do **not** establish which language ID/core version the APK accepts or prove that the server list/installer/UI works on Android. A release requires a legally distributable HTTPS package source, matching MD5, exact compatible metadata, successful patched APK build/signature validation, and a device installation/prediction test.
