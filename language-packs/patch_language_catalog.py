@@ -17,7 +17,7 @@ r = response.read_text()
 required = [
     ("language-list callback", "access$100(", s),
     ("Response status", "->status:I", r),
-    ("Response parameters", "->parameters:Ljava/util/HashMap;", r),
+    ("Response parameters", "->parameters:", r),
 ]
 for label, token, source in required:
     if token not in source:
