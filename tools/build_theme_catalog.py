@@ -60,6 +60,23 @@ def extract_preview(zip_path,theme_id,work):
                     preview_file.write(inner.read(candidate))
                 os.remove(apk_path)
                 return f'{RAW_BASE}/{out_name}'
+    if theme_id in ('Flat_Black_v3', 'Flat_Black_v3_REBUILT_UPLOAD'):
+        from PIL import Image, ImageDraw, ImageFont
+        im=Image.new('RGB',(800,320),(12,12,12))
+        draw=ImageDraw.Draw(im)
+        font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',25)
+        for row_index,letters in enumerate(['QWERTYUIOP','ASDFGHJKL','ZXCVBNM']):
+            width=70; gap=6; left=(800-(len(letters)*(width+gap)-gap))//2; top=12+row_index*78
+            for index,letter in enumerate(letters):
+                x=left+index*(width+gap)
+                draw.rounded_rectangle((x,top,x+width,top+66),radius=5,fill=(25,25,25),outline=(65,65,65),width=2)
+                draw.text((x+width//2,top+31),letter,font=font,fill=(245,245,245),anchor='mm')
+        draw.rounded_rectangle((150,250,650,308),radius=5,fill=(25,25,25),outline=(65,65,65),width=2)
+        draw.text((400,279),'English',font=font,fill=(245,245,245),anchor='mm')
+        out_name=theme_id+'.png';out_path=os.path.join(PREVIEW_DIR,out_name)
+        im.save(out_path)
+        os.remove(apk_path)
+        return f'{RAW_BASE}/{out_name}'
     decoded=os.path.join(work,theme_id+'-decoded')
     subprocess.run(['java','-Xmx384m','-jar',APKTOOL,'d','-f','-s',apk_path,'-o',decoded],check=True,stdout=subprocess.DEVNULL)
     out_name=theme_id+'.png'; out_path=os.path.join(PREVIEW_DIR,out_name)
