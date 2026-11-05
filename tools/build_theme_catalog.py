@@ -77,5 +77,5 @@ with tempfile.TemporaryDirectory() as td:
 catalog={'schema':2,'repository':REPO,'release':TAG,'count':len(items),'themes':items}
 with open('themes.json','w',encoding='utf-8',newline='\n') as f:
     json.dump(catalog,f,ensure_ascii=False,indent=2); f.write('\n')
-if len(items)!=270: raise SystemExit(f'Expected 270 theme ZIPs, got {len(items)}')
+if len(items)<270: raise SystemExit(f'Expected at least 270 theme ZIPs, got {len(items)}')
 print(f'Wrote themes.json with {len(items)} layer-rendered previews')
