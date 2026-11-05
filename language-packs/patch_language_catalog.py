@@ -14,6 +14,23 @@ catalog = Path(__file__).with_name("nuance-language-list.json")
 entries = json.loads(catalog.read_text(encoding="utf-8")).get("43")
 if not isinstance(entries, list) or not entries:
     raise RuntimeError("GitHub language catalog has no verified downloadable packs; refusing to produce a misleading installable APK")
+# These are the literal Nuance JSON field identifiers consumed by listResponse().
+# In particular checksum 10 is MD5, not the SHA-256 used by the public manifest.
+from urllib.parse import urlparse
+import re
+for index, entry in enumerate(entries):
+    required = ("11", "20", "51", "10", "122", "124", "146")
+    if not isinstance(entry, dict) or any(k not in entry for k in required):
+        raise RuntimeError(f"Language entry {index} is missing required Nuance fields")
+    if not any(k in entry for k in ("102", "103", "104", "105")):
+        raise RuntimeError(f"Language entry {index} has no core version")
+    if not isinstance(entry["146"], list) or not entry["146"] or not all(isinstance(x, int) for x in entry["146"]):
+        raise RuntimeError(f"Language entry {index} has invalid language IDs")
+    if not isinstance(entry["10"], str) or not re.fullmatch(r"[0-9a-fA-F]{32}", entry["10"]):
+        raise RuntimeError(f"Language entry {index} requires a 32-digit MD5 checksum")
+    url = urlparse(str(entry["51"]))
+    if url.scheme != "https" or url.hostname not in ("github.com", "raw.githubusercontent.com", "objects.githubusercontent.com"):
+        raise RuntimeError(f"Language entry {index} has an unapproved download URL")
 
 p = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali"
 s = p.read_text()
