@@ -24,6 +24,22 @@ for key in ("wingLeftBackgroundColor","wingRightBackgroundColor"):
     set_value(key,"#ff000000")
 for key in ("keyboardSuggestStrip","keyboardSuggestStripHandwriting","keyboardSuggestStripHandwritingVer","keyboardBackgroundHwr"):
     set_value(key,"@drawable/background_black")
+# The original Flat Black theme inherits these from SwypeDLT.Colorful.
+# They were the missing *normal-state* backgrounds; pressed-only changes cannot
+# remove the white GIF/emoji rectangle shown by the user.
+for key in (
+    "keyboardPopupBackground",
+    "keyboardKeyFeedbackFunctionBarBackground",
+    "keyboardKeyFeedbackBackground",
+    "keyboardKeyFeedbackSelectedBackground",
+    "keyboardPopupBackgroundFlick",
+):
+    matches=[x for x in theme if x.tag=="item" and x.attrib.get("name")==key]
+    if matches:
+        assert len(matches)==1
+        matches[0].text="@drawable/background_black"
+    else:
+        ET.SubElement(theme,"item",{"name":key}).text="@drawable/background_black"
 # Darken the theme-specific popup selector backgrounds instead of altering global app resources.
 set_value("popupKeyTextColor","@color/white")
 set_value("popupKeyTextColorMenu","@color/white")
