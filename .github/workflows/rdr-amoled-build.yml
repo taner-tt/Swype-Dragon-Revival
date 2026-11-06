@@ -44,14 +44,17 @@ jobs:
           (cd rdr-work/output && zip -q -r ../RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip RDR.BLACK.AMOLED.V1.apk preview)
           unzip -t rdr-work/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
           sha256sum rdr-work/output/*.apk rdr-work/*.zip
-          # Verify catalog preview is 100% black while in-app screenshot is non-blank.
+          # Verify both preview images depict the SAME borderless keyboard, not a blank tile.
           python3 - <<'PY'
           from PIL import Image, ImageStat
           a=Image.open("rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png").convert("RGB")
           b=Image.open("rdr-work/theme/res/drawable-nodpi/rdr_amoled_keyboard_preview.png").convert("RGB")
-          assert not a.getbbox(), "Store thumbnail must be pure black"
-          assert max(ImageStat.Stat(b).stddev)>10, "In-app keyboard snapshot is blank"
-          print("Distinct catalog/in-app previews validated")
+          assert a.size == b.size, "Preview dimensions must match"
+          assert a.tobytes() == b.tobytes(), "Catalog and in-app previews differ"
+          assert max(ImageStat.Stat(a).stddev)>10, "Keyboard preview is blank"
+          # Grid separator color from the old Flat_Black_v3 image must not survive.
+          assert not any(pixel == (153,153,153) for pixel in a.getdata()), "Visible key-grid lines remain"
+          print("Matching borderless keyboard previews validated")
           PY
       - uses: actions/upload-artifact@v4
         with:
