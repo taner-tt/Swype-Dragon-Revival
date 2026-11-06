@@ -53,5 +53,8 @@ for name,value in {"name":"RDR.BLACK.AMOLED.V1","description":"RDR AMOLED black,
     node=mr.find(name)
     assert node is not None, f"Missing metadata: {name}"
     node.text=value
+snapshot_node=mr.find("snapshot")
+assert snapshot_node is not None, "Snapshot attribute missing"
+snapshot_node.text="@drawable/rdr_amoled_keyboard_preview"
 metadata.write(metadata_path,encoding="utf-8",xml_declaration=True)
 print("Patched theme, assigned unique package and metadata; all original keyboard touch areas preserved")
