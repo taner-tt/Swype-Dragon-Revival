@@ -28,6 +28,24 @@ for key in ("keyboardSuggestStrip","keyboardSuggestStripHandwriting","keyboardSu
 set_value("popupKeyTextColor","@color/white")
 set_value("popupKeyTextColorMenu","@color/white")
 set_value("btnKeyboardPopupKeyPressed","@drawable/background_black")
+# RDR palette: no accent color or grey text in this theme.
+# Preserve true transparency for key faces; all visible foreground colors are white.
+for key in (
+    "candidateComponent","candidateOther","candidatePressed","candidateRecommended",
+    "componentForegroundColor","defaultKeyTextColor","defaultStrokeCandidateColor",
+    "funcKeyTextColor","funcBtmTextColor","handwritingModeDisplayColor",
+    "highlightedKeyTextColor","popupKeyTextColor","popupKeyTextColorMenu",
+    "popupKeyTextColorPressed","traceColor","unrecognizedWordUnderlineHighlightColor",
+    "verCandidateComponent","verCandidateNormal","verCandidateOther",
+    "verCandidateRecommended","verCandidateSelected","wordErrorForegroundColor",
+    "emojiCatIconColorNormal","emojiCatIconColorSelected","emojiColor",
+):
+    if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
+        set_value(key,"#ffffffff")
+for key in ("convertingStringBackgroundColor","listSelectorBackgroundTappedColor",
+            "unrecognizedWordBackgroundHighlightColor","wordInlineBackgroundColor"):
+    if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
+        set_value(key,"#ff000000")
 styles.write(styles_path,encoding="utf-8",xml_declaration=True)
 
 # Unique Android package: do not overwrite or collide with Flat_Black_v3.
