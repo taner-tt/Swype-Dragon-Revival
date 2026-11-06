@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.nuance.swype.connect.LanguageInstall;
+import com.nuance.swype.input.LanguageList;
+import com.nuance.swype.input.DatabaseConfig;
+import com.nuance.swype.input.IMEApplication;
 import java.io.*;
 import java.util.zip.*;
 
@@ -92,11 +95,15 @@ public final class OfflineLanguageImportActivity extends Activity {
                     }
                     if (!metadata) throw new IOException("Saknar " + language + ".mdf");
                     // Existing Swype installation routine; its compatibility still requires device testing.
-                    new LanguageInstall(language, this).install(temp.getAbsolutePath());
+                    boolean installed = new LanguageInstall(language, this).install(temp.getAbsolutePath());
+                    if (!installed || !new File(getFilesDir(), language + ".mdf").isFile()) throw new IOException("Swype installer did not deploy metadata for " + language);
+                    new LanguageList(this).addDownloadedLanguage(language);
+                    DatabaseConfig.updateLanguage(this, language);
+                    IMEApplication.from(this).refreshInputMethods();
                 } finally { temp.delete(); }
             }
         }
         if (count == 0) throw new IOException("Inga språkpaket i ZIP-filen");
-        return "Import behandlad för " + count + " språk. Öppna Swypes språkmeny och kontrollera att de visas.";
+        return "Installerade " + count + " språk. Kontrollera och aktivera dem i Swypes språkmeny.";
     }
 }
