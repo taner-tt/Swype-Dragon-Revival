@@ -81,10 +81,18 @@ os.makedirs(PREVIEW_DIR,exist_ok=True)
 items=[]
 with tempfile.TemporaryDirectory() as td:
     zips=[a for a in sorted(assets,key=lambda x:x['name'].lower()) if a['name'].lower().endswith('.zip')]
+    # Never silently remove Flat Black v3 or replace its original preview.
+    expected='Flat_Black_v3.zip'
+    if expected not in {a['name'] for a in zips}:
+        raise SystemExit(f'Missing {expected} release asset: refusing to overwrite the existing 271-theme catalog')
     for index,a in enumerate(zips,1):
         theme_id=a['name'][:-4]; zip_path=os.path.join(td,a['name'])
         print(f'[{index}/{len(zips)}] {theme_id}',flush=True)
         download(a['browser_download_url'],zip_path)
+        if theme_id == 'Flat_Black_v3':
+            with zipfile.ZipFile(zip_path) as theme_zip:
+                if 'preview/Flat_Black_v3.png' not in theme_zip.namelist():
+                    raise SystemExit('Flat Black v3 original preview missing: refusing to publish a black square')
         preview=extract_preview(zip_path,theme_id,td)
         digest=a.get('digest') or ''
         if not digest:
