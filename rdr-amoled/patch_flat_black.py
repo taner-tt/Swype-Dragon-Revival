@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Experimental visual-only Flat Black -> RDR AMOLED patch. No app code changes."""
-import pathlib, sys
+import pathlib, sys, os
 import xml.etree.ElementTree as ET
 
 root = pathlib.Path(sys.argv[1])
@@ -70,7 +70,7 @@ manifest_path = root / "AndroidManifest.xml"
 manifest = ET.parse(manifest_path)
 mroot = manifest.getroot()
 old_package = "com.nuance.swype.theme.flatblack_v3xx"
-new_package = "com.nuance.swype.theme.rdr_black_amoled_v1"
+new_package = os.environ.get("RDR_THEME_PACKAGE","com.nuance.swype.theme.rdr_black_amoled_v1")
 assert mroot.attrib.get("package") == old_package, "Unexpected original theme package"
 mroot.set("package",new_package)
 android_ns = "{http://schemas.android.com/apk/res/android}"
@@ -84,7 +84,7 @@ manifest.write(manifest_path,encoding="utf-8",xml_declaration=True)
 
 metadata=ET.parse(metadata_path)
 mr=metadata.getroot()
-for name,value in {"name":"RDR.BLACK.AMOLED.V1","description":"RDR AMOLED black, borderless keyboard","version":"1","author":"RDR / Swype Dragon Revival"}.items():
+for name,value in {"name":os.environ.get("RDR_THEME_NAME","RDR.BLACK.AMOLED.V1"),"description":"RDR AMOLED black, borderless keyboard","version":"1","author":"RDR / Swype Dragon Revival"}.items():
     node=mr.find(name)
     assert node is not None, f"Missing metadata: {name}"
     node.text=value
