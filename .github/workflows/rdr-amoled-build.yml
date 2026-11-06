@@ -30,6 +30,8 @@ jobs:
           set -euo pipefail
           java -jar /tmp/apktool.jar d -f rdr-work/input/source/Flat_Black_v3.apk -o rdr-work/theme
           sed -n '1,80p' rdr-work/theme/AndroidManifest.xml
+          python3 -m pip install pillow
+          python3 rdr-amoled/make_previews.py rdr-work/theme rdr-work/input/source/preview/Flat_Black_v3.png rdr-work/output/preview
           python3 rdr-amoled/patch_flat_black.py rdr-work/theme
       - name: Rebuild theme APK and ZIP for inspection
         run: |
@@ -37,10 +39,20 @@ jobs:
           mkdir -p rdr-work/output/preview
           java -jar /tmp/apktool.jar b rdr-work/theme -o rdr-work/output/RDR.BLACK.AMOLED.V1.apk
           unzip -t rdr-work/output/RDR.BLACK.AMOLED.V1.apk > /dev/null
-          cp rdr-work/input/source/preview/Flat_Black_v3.png rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png
+          test -s rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png
+          test -s rdr-work/theme/res/drawable-nodpi/rdr_amoled_keyboard_preview.png
           (cd rdr-work/output && zip -q -r ../RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip RDR.BLACK.AMOLED.V1.apk preview)
           unzip -t rdr-work/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
           sha256sum rdr-work/output/*.apk rdr-work/*.zip
+          # Verify catalog preview is 100% black while in-app screenshot is non-blank.
+          python3 - <<'PY'
+          from PIL import Image, ImageStat
+          a=Image.open("rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png").convert("RGB")
+          b=Image.open("rdr-work/theme/res/drawable-nodpi/rdr_amoled_keyboard_preview.png").convert("RGB")
+          assert not a.getbbox(), "Store thumbnail must be pure black"
+          assert max(ImageStat.Stat(b).stddev)>10, "In-app keyboard snapshot is blank"
+          print("Distinct catalog/in-app previews validated")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: RDR-BLACK-AMOLED-V1-UNSIGNED-EXPERIMENT
