@@ -37,6 +37,17 @@ jobs:
           grep -R -n -i 'background\|key' rdr-output/decoded/res/drawable* --include='*.xml' > rdr-output/drawables.txt || true
           echo "PNG count: $(find rdr-output/decoded/res -iname '*.png' | wc -l)"
           sed -n '1,120p' rdr-output/resources.txt
+      - name: Build isolated RDR AMOLED experimental theme
+        run: |
+          set -euo pipefail
+          python3 rdr-amoled/patch_flat_black.py rdr-output/decoded
+          java -jar /tmp/apktool.jar --version || true
+          apktool b rdr-output/decoded -o rdr-output/RDR.BLACK.AMOLED.V1.apk
+          unzip -t rdr-output/RDR.BLACK.AMOLED.V1.apk > /dev/null
+          mkdir -p rdr-output/preview
+          cp rdr-output/source/preview/Flat_Black_v3.png rdr-output/preview/RDR.BLACK.AMOLED.V1.png
+          (cd rdr-output && zip -q -r RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip RDR.BLACK.AMOLED.V1.apk preview/)
+          sha256sum rdr-output/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
       - name: Archive inspection for theme editing
         uses: actions/upload-artifact@v4
         with:
@@ -48,4 +59,6 @@ jobs:
             rdr-output/theme-attributes.txt
             rdr-output/drawables.txt
             rdr-output/decoded/res/
+            rdr-output/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
+            rdr-output/decoded/AndroidManifest.xml
           retention-days: 7
