@@ -1,4 +1,4 @@
-"""Regression test for numeric Nuance MessageAPI keys in the GitHub bridge.
+"""Regression test for original String Nuance MessageAPI keys in the GitHub bridge.
 
 Uses synthetic smali fixtures; it does NOT establish APK/runtime compatibility.
 """
@@ -15,7 +15,7 @@ PATCH = HERE / "patch_language_catalog.py"
 
 
 class BridgeKeyTest(unittest.TestCase):
-    def test_language_list_is_stored_under_integer_43(self):
+    def test_language_list_is_stored_under_string_43(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             work = root / "language-packs"
@@ -47,10 +47,8 @@ class BridgeKeyTest(unittest.TestCase):
                 check=True, capture_output=True, text=True
             )
             bridge = (manager / "GitHubLanguageCatalog.smali").read_text(encoding="utf-8")
-            self.assertIn("const/16 v4, 0x2b", bridge)
-            self.assertIn("Ljava/lang/Integer;->valueOf(I)", bridge)
-            self.assertIn("invoke-virtual {v3, v4, v1}, Ljava/util/HashMap;->put(", bridge)
-            self.assertNotIn("invoke-virtual {v3, v0, v1}, Ljava/util/HashMap;->put(", bridge)
+            self.assertIn("invoke-virtual {v3, v0, v1}, Ljava/util/HashMap;->put(", bridge)
+            self.assertNotIn("Ljava/lang/Integer;->valueOf(I)", bridge)
 
 
 if __name__ == "__main__":
