@@ -23,6 +23,22 @@ jobs:
       - name: Build isolated preview APK
         working-directory: alt2-preview
         run: gradle --no-daemon :app:assembleDebug
+      - name: Explicitly sign and verify preview APK
+        working-directory: alt2-preview
+        run: |
+          set -euo pipefail
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          BT="$(find "${ANDROID_HOME}/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)"
+          test -x "$BT/apksigner"
+          test -x "$BT/aapt"
+          "$BT/aapt" dump badging "$APK" | head -n 5
+          if ! "$BT/apksigner" verify "$APK"; then
+            keytool -genkeypair -noprompt -keystore /tmp/alt2-preview.jks -storepass android -keypass android -alias alt2preview -keyalg RSA -keysize 2048 -validity 365 -dname 'CN=Alt2 Preview'
+            "$BT/apksigner" sign --ks /tmp/alt2-preview.jks --ks-pass pass:android --key-pass pass:android --ks-key-alias alt2preview "$APK"
+          fi
+          "$BT/apksigner" verify --verbose "$APK"
+          unzip -t "$APK" >/dev/null
       - name: Archive APK for Samsung test
         uses: actions/upload-artifact@v4
         with:
