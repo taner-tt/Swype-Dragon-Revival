@@ -13,18 +13,12 @@ img=Image.open(original).convert("RGB")
 # retaining the actual original key legends and layout as far as possible.
 p=img.load()
 w,h=img.size
+# The original preview encodes separators at an exact RGB value.
+# Remove those line pixels, retaining white legends and original keyboard geometry.
 for y in range(h):
-    n=sum(1 for x in range(w) if max(p[x,y])-min(p[x,y])<10 and 75<=sum(p[x,y])//3<=215)
-    if n>w*0.72:
-        for dy in range(max(0,y-1),min(h,y+2)):
-            for x in range(w):
-                if max(p[x,dy])-min(p[x,dy])<16 and max(p[x,dy])<218: p[x,dy]=(0,0,0)
-for x in range(w):
-    n=sum(1 for y in range(h) if max(p[x,y])-min(p[x,y])<10 and 75<=sum(p[x,y])//3<=215)
-    if n>h*0.63:
-        for dx in range(max(0,x-1),min(w,x+2)):
-            for y in range(h):
-                if max(p[dx,y])-min(p[dx,y])<16 and max(p[dx,y])<218: p[dx,y]=(0,0,0)
+    for x in range(w):
+        if p[x,y] == (153,153,153):
+            p[x,y] = (0,0,0)
 # RDR snapshot is supplied as an actual drawable in the theme APK.
 snapshot=decoded/"res"/"drawable-nodpi"/"rdr_amoled_keyboard_preview.png"
 snapshot.parent.mkdir(parents=True,exist_ok=True)
