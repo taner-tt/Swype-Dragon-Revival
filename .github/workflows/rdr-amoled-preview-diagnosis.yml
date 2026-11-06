@@ -1,0 +1,42 @@
+name: Diagnose RDR in-app theme preview references
+on:
+  push:
+    branches: ['experiment/rdr-black-amoled-v1']
+    paths: ['.github/workflows/rdr-amoled-preview-diagnosis.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect RDR versus native Swype theme snapshots
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p compare
+          gh release download themes-v1 --pattern 'RDR.BLACK.AMOLED.V1.zip' --pattern 'Flat_Black_v3.zip' --pattern 'nuance.theme.colorful_black.zip' --dir compare
+          curl -fLsS --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar -o /tmp/apktool.jar
+          echo 'dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423  /tmp/apktool.jar' | sha256sum -c -
+          for label in RDR.BLACK.AMOLED.V1 Flat_Black_v3 nuance.theme.colorful_black; do
+            mkdir -p "compare/$label"
+            unzip -q "compare/$label.zip" -d "compare/$label"
+            APK="$(find "compare/$label" -name '*.apk' -type f | head -1)"
+            java -jar /tmp/apktool.jar d -f -s "$APK" -o "compare/$label/decoded" >/dev/null
+            echo "===== $label metadata ====="
+            cat "compare/$label/decoded/res/xml/theme_metadata.xml"
+            echo "===== $label drawable refs ====="
+            grep -R -n -E 'theme_icon_green|rdr_amoled_keyboard_preview|<item.*keyboardPopupBackground|<item.*keyboardKeyFeedbackFunctionBarBackground' "compare/$label/decoded/res/values/styles.xml" "compare/$label/decoded/res/xml/theme_metadata.xml" || true
+            echo "===== $label named snapshot image files ====="
+            find "compare/$label/decoded/res" -type f \( -iname '*theme_icon*' -o -iname '*preview*' -o -iname '*snapshot*' \) | head -30
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rdr-preview-diagnosis
+          path: |
+            compare/RDR.BLACK.AMOLED.V1/decoded/res/xml/theme_metadata.xml
+            compare/Flat_Black_v3/decoded/res/xml/theme_metadata.xml
+            compare/nuance.theme.colorful_black/decoded/res/xml/theme_metadata.xml
+          retention-days: 7
