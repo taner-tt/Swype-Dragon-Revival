@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Generate two independent previews: black catalog tile, keyboard in theme APK."""
+"""Generate matching borderless keyboard previews for the catalog and theme APK."""
 from pathlib import Path
-from PIL import Image, ImageDraw
+from PIL import Image
 import sys
 decoded=Path(sys.argv[1])
 original=Path(sys.argv[2])
@@ -9,8 +9,7 @@ output=Path(sys.argv[3])
 assert original.is_file() and decoded.is_dir()
 output.mkdir(parents=True,exist_ok=True)
 img=Image.open(original).convert("RGB")
-# Original FlatBlack screenshot has grid lines; remove long straight lines only,
-# retaining the actual original key legends and layout as far as possible.
+# Preserve the original key legends and geometry while removing separator lines.
 p=img.load()
 w,h=img.size
 # The original preview encodes separators at an exact RGB value.
@@ -23,6 +22,7 @@ for y in range(h):
 snapshot=decoded/"res"/"drawable-nodpi"/"rdr_amoled_keyboard_preview.png"
 snapshot.parent.mkdir(parents=True,exist_ok=True)
 img.save(snapshot,"PNG",optimize=True)
-# Catalog image is deliberately solid black, separately delivered in theme ZIP.
-Image.new("RGB",(480,320),(0,0,0)).save(output/"RDR.BLACK.AMOLED.V1.png","PNG",optimize=True)
-print("Catalog: solid black; theme snapshot:",snapshot)
+# FÅ TEMA must show the same borderless keyboard as MINA TEMAN / preview dialog.
+catalog=output/"RDR.BLACK.AMOLED.V1.png"
+img.save(catalog,"PNG",optimize=True)
+print("Matching borderless keyboard previews:",catalog,snapshot)
