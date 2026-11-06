@@ -43,7 +43,7 @@ jobs:
             offline-installer/swype-patch/compile-stubs/com/nuance/swype/connect/LanguageInstall.java \
             offline-installer/swype-patch/src/com/swyperevival/offline/OfflineLanguageImportActivity.java
           # Do not include the compile-time LanguageInstall stub in the DEX.
-          rm -f compiled/com/nuance/swype/connect/LanguageInstall.class
+          rm -rf compiled/com/nuance
           "$ANDROID_HOME/build-tools/35.0.0/d8" --min-api 24 --lib "$ANDROID_HOME/platforms/android-35/android.jar" --output dex compiled/com/swyperevival/offline/*.class
           test -s dex/classes.dex
       - name: Disassemble receiver DEX and merge into Swype
