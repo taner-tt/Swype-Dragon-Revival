@@ -11,8 +11,7 @@ output.mkdir(parents=True,exist_ok=True)
 img=Image.open(original).convert("RGB")
 # Pure 2-color RDR preview: eliminate all gray anti-aliasing and accent hues.
 # Bright legend pixels become white, every other pixel becomes OLED black.
-img=img.point(lambda x: 255 if x >= 190 else 0)
-img=img.convert("RGB")
+img=img.convert("L").point(lambda x: 255 if x >= 140 else 0).convert("RGB")
 # RDR snapshot is supplied as an actual drawable in the theme APK.
 snapshot=decoded/"res"/"drawable-nodpi"/"rdr_amoled_keyboard_preview.png"
 snapshot.parent.mkdir(parents=True,exist_ok=True)
