@@ -39,11 +39,17 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p compiled dex
+          # All four Swype API stubs are needed at compile time; none may ship.
           javac --release 8 -cp "$ANDROID_HOME/platforms/android-35/android.jar" -d compiled \
             offline-installer/swype-patch/compile-stubs/com/nuance/swype/connect/LanguageInstall.java \
+            offline-installer/swype-patch/compile-stubs/com/nuance/swype/input/LanguageList.java \
+            offline-installer/swype-patch/compile-stubs/com/nuance/swype/input/DatabaseConfig.java \
+            offline-installer/swype-patch/compile-stubs/com/nuance/swype/input/IMEApplication.java \
             offline-installer/swype-patch/src/com/swyperevival/offline/OfflineLanguageImportActivity.java
-          # Do not include the compile-time LanguageInstall stub in the DEX.
+          test -s compiled/com/swyperevival/offline/OfflineLanguageImportActivity.class
+          # Package only the receiver classes, never the compile-only Swype stubs.
           rm -rf compiled/com/nuance
+          test ! -e compiled/com/nuance
           "$ANDROID_HOME/build-tools/35.0.0/d8" --min-api 24 --lib "$ANDROID_HOME/platforms/android-35/android.jar" --output dex compiled/com/swyperevival/offline/*.class
           test -s dex/classes.dex
       - name: Disassemble receiver DEX and merge into Swype
