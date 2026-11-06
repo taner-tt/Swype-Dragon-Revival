@@ -126,7 +126,13 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     iput v3, v2, Lcom/nuance/connect/comm/Response;->status:I
     new-instance v3, Ljava/util/HashMap;
     invoke-direct {v3}, Ljava/util/HashMap;-><init>()V
-    invoke-virtual {v3, v0, v1}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+    # The original Response.parameters map is keyed by numeric MessageAPI IDs.
+    # JSONObject.getJSONArray("43") requires a string key, but HashMap.get(43)
+    # requires an Integer key. Do not insert a String "43" into that map.
+    const/16 v4, 0x2b
+    invoke-static {v4}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+    move-result-object v4
+    invoke-virtual {v3, v4, v1}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
     iput-object v3, v2, Lcom/nuance/connect/comm/Response;->parameters:Ljava/util/HashMap;
     iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
     invoke-static {v0, v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
