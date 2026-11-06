@@ -42,7 +42,7 @@ for key in (
 ):
     if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
         set_value(key,"#ffffffff")
-set_value("emojiColor","#ffffffff") if False else None  # Preserve original emoji rendering resource and font.
+# Preserve the original emojiColor resource and color emoji glyph rendering.
 for key in ("convertingStringBackgroundColor","listSelectorBackgroundTappedColor",
             "unrecognizedWordBackgroundHighlightColor","wordInlineBackgroundColor"):
     if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
