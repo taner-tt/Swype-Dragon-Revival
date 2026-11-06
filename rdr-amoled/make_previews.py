@@ -9,15 +9,10 @@ output=Path(sys.argv[3])
 assert original.is_file() and decoded.is_dir()
 output.mkdir(parents=True,exist_ok=True)
 img=Image.open(original).convert("RGB")
-# Preserve the original key legends and geometry while removing separator lines.
-p=img.load()
-w,h=img.size
-# The original preview encodes separators at an exact RGB value.
-# Remove those line pixels, retaining white legends and original keyboard geometry.
-for y in range(h):
-    for x in range(w):
-        if p[x,y] == (153,153,153):
-            p[x,y] = (0,0,0)
+# Pure 2-color RDR preview: eliminate all gray anti-aliasing and accent hues.
+# Bright legend pixels become white, every other pixel becomes OLED black.
+img=img.point(lambda x: 255 if x >= 190 else 0)
+img=img.convert("RGB")
 # RDR snapshot is supplied as an actual drawable in the theme APK.
 snapshot=decoded/"res"/"drawable-nodpi"/"rdr_amoled_keyboard_preview.png"
 snapshot.parent.mkdir(parents=True,exist_ok=True)
