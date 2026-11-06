@@ -1,0 +1,42 @@
+name: Build offline Swype language installer prototype
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'offline-installer/**'
+      - '.github/workflows/offline-language-installer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: offline-installer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Install Android SDK 35
+        run: yes | sdkmanager --licenses >/dev/null || true
+      - name: Build prototype APK
+        run: gradle --no-daemon :app:assembleDebug
+      - name: Check APK
+        run: |
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          unzip -t app/build/outputs/apk/debug/app-debug.apk >/dev/null
+      - name: Upload prototype APK (no language assets)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Swype-Language-Installer-PROTOTYPE-no-language-packs
+          path: offline-installer/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
