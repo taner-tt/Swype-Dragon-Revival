@@ -29,7 +29,7 @@ def main():
     manifest = []
     total = 0
     with zipfile.ZipFile(args.archive) as outer:
-        entries = [x for x in outer.infolist() if not x.is_dir()]
+        entries = [x for x in outer.infolist() if not x.is_dir() and x.filename.endswith(".zip")]\n        extras = [x.filename for x in outer.infolist() if not x.is_dir() and not x.filename.endswith(".zip")]\n        if any(x not in ("manifest.csv", "manifest.json") for x in extras):\n            raise ValueError("Unexpected non-language entries: " + repr(extras))
         if len(entries) > MAX_PACKS:
             raise ValueError("Too many entries in outer archive")
         for info in entries:
