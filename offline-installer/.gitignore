@@ -1,0 +1,5 @@
+/.gradle/
+/build/
+/app/build/
+/app/src/main/assets/packs/*.zip
+/app/src/main/assets/packs/manifest.json
