@@ -1,0 +1,51 @@
+name: RDR AMOLED theme inspection
+on:
+  push:
+    branches: [ 'experiment/rdr-black-amoled-v1' ]
+    paths:
+      - '.github/workflows/rdr-amoled-inspection.yml'
+      - 'rdr-amoled/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Flat Black v3 original theme
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p rdr-output
+          gh release download themes-v1 --pattern 'Flat_Black_v3.zip' --dir rdr-output
+          unzip -t rdr-output/Flat_Black_v3.zip
+          unzip -l rdr-output/Flat_Black_v3.zip | tee rdr-output/zip-inventory.txt
+          unzip -q rdr-output/Flat_Black_v3.zip -d rdr-output/source
+          find rdr-output/source -type f -printf '%p %s bytes\n' | tee rdr-output/file-inventory.txt
+      - name: Decode and inventory theme APK
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq apktool
+          APK="$(find rdr-output/source -iname '*.apk' -type f | head -1)"
+          if [ -z "$APK" ]; then echo 'NO INNER APK: only listed theme sources'; exit 0; fi
+          apktool d -f "$APK" -o rdr-output/decoded
+          find rdr-output/decoded/res -type f | sort > rdr-output/resources.txt
+          grep -R -n -i -E 'background|key|popup|color|stroke|theme' rdr-output/decoded/res/values* > rdr-output/theme-attributes.txt || true
+          grep -R -n -i 'background\|key' rdr-output/decoded/res/drawable* --include='*.xml' > rdr-output/drawables.txt || true
+          echo "PNG count: $(find rdr-output/decoded/res -iname '*.png' | wc -l)"
+          sed -n '1,120p' rdr-output/resources.txt
+      - name: Archive inspection for theme editing
+        uses: actions/upload-artifact@v4
+        with:
+          name: RDR-AMOLED-source-inspection
+          path: |
+            rdr-output/zip-inventory.txt
+            rdr-output/file-inventory.txt
+            rdr-output/resources.txt
+            rdr-output/theme-attributes.txt
+            rdr-output/drawables.txt
+            rdr-output/decoded/res/
+          retention-days: 7
