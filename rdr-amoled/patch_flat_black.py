@@ -30,6 +30,23 @@ set_value("popupKeyTextColorMenu","@color/white")
 set_value("btnKeyboardPopupKeyPressed","@drawable/background_black")
 styles.write(styles_path,encoding="utf-8",xml_declaration=True)
 
+# Unique Android package: do not overwrite or collide with Flat_Black_v3.
+manifest_path = root / "AndroidManifest.xml"
+manifest = ET.parse(manifest_path)
+mroot = manifest.getroot()
+old_package = "com.nuance.swype.theme.flatblack_v3xx"
+new_package = "com.nuance.swype.theme.rdr_black_amoled_v1"
+assert mroot.attrib.get("package") == old_package, "Unexpected original theme package"
+mroot.set("package",new_package)
+android_ns = "{http://schemas.android.com/apk/res/android}"
+activity = mroot.find("./application/activity")
+assert activity is not None, "MainActivity missing"
+old_activity = activity.get(android_ns+"name")
+assert old_activity in ("MainActivity",".MainActivity",old_package+".MainActivity"), "Unexpected activity name"
+activity.set(android_ns+"name",old_package+".MainActivity")
+ET.register_namespace("android","http://schemas.android.com/apk/res/android")
+manifest.write(manifest_path,encoding="utf-8",xml_declaration=True)
+
 metadata=ET.parse(metadata_path)
 mr=metadata.getroot()
 for name,value in {"name":"RDR.BLACK.AMOLED.V1","description":"RDR AMOLED black, borderless keyboard","version":"1","author":"RDR / Swype Dragon Revival"}.items():
@@ -37,4 +54,4 @@ for name,value in {"name":"RDR.BLACK.AMOLED.V1","description":"RDR AMOLED black,
     assert node is not None, f"Missing metadata: {name}"
     node.text=value
 metadata.write(metadata_path,encoding="utf-8",xml_declaration=True)
-print("Patched 13 FlatBlack theme-specific colors / drawables and metadata; normal key touch areas untouched")
+print("Patched theme, assigned unique package and metadata; all original keyboard touch areas preserved")
