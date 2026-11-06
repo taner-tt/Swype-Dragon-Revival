@@ -28,7 +28,7 @@ for key in ("keyboardSuggestStrip","keyboardSuggestStripHandwriting","keyboardSu
 set_value("popupKeyTextColor","@color/white")
 set_value("popupKeyTextColorMenu","@color/white")
 set_value("btnKeyboardPopupKeyPressed","@drawable/background_black")
-# RDR palette: no accent color or grey text in this theme.
+# RDR palette: black and white chrome; color emoji glyphs must remain untouched.
 # Preserve true transparency for key faces; all visible foreground colors are white.
 for key in (
     "candidateComponent","candidateOther","candidatePressed","candidateRecommended",
@@ -38,10 +38,11 @@ for key in (
     "popupKeyTextColorPressed","traceColor","unrecognizedWordUnderlineHighlightColor",
     "verCandidateComponent","verCandidateNormal","verCandidateOther",
     "verCandidateRecommended","verCandidateSelected","wordErrorForegroundColor",
-    "emojiCatIconColorNormal","emojiCatIconColorSelected","emojiColor",
+    "emojiCatIconColorNormal","emojiCatIconColorSelected",
 ):
     if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
         set_value(key,"#ffffffff")
+set_value("emojiColor","#ffffffff") if False else None  # Preserve original emoji rendering resource and font.
 for key in ("convertingStringBackgroundColor","listSelectorBackgroundTappedColor",
             "unrecognizedWordBackgroundHighlightColor","wordInlineBackgroundColor"):
     if any(x.tag=="item" and x.attrib.get("name")==key for x in theme):
