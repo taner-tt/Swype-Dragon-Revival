@@ -1,0 +1,7 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.swyperevival.installer'
+    compileSdk 35
+    defaultConfig { applicationId 'com.swyperevival.installer'; minSdk 24; targetSdk 28; versionCode 1; versionName '0.1-test' }
+    buildTypes { release { minifyEnabled false } }
+}
