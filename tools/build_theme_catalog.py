@@ -43,6 +43,20 @@ def extract_preview(zip_path,theme_id,work):
     layers and produced the incorrect catalog images. Decode the resource XML
     and render the same layer-list contract instead; the inner APK is untouched.
     """
+    # A theme may supply its own original, keyboard-accurate store preview.
+    # This is only for the FÅ TEMA catalog; it does not modify the APK.
+    with zipfile.ZipFile(zip_path) as outer:
+        explicit=f'preview/{theme_id}.png'
+        if explicit in outer.namelist():
+            from PIL import Image
+            from io import BytesIO
+            raw=outer.read(explicit)
+            with Image.open(BytesIO(raw)) as preview_image:
+                preview_image.verify()
+            os.makedirs(PREVIEW_DIR,exist_ok=True)
+            out_path=os.path.join(PREVIEW_DIR,theme_id+'.png')
+            with open(out_path,'wb') as f: f.write(raw)
+            return f'{RAW_BASE}/{theme_id}.png'
     with zipfile.ZipFile(zip_path) as outer:
         apks=[n for n in outer.namelist() if n.lower().endswith('.apk') and not n.endswith('/')]
         if len(apks)!=1: raise RuntimeError(f'{theme_id}: expected exactly one APK, found {len(apks)}')
