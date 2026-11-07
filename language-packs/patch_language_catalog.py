@@ -66,6 +66,23 @@ replacement = """.method private getList()V
 .end method"""
 p.write_text(s[:start] + replacement + s[end:])
 
+# The old queue sees currentCommand == null and ends this transaction before
+# the GitHub worker has finished. Avoid enqueueing this list-only transaction.
+# The bridge itself calls listResponse() and onEndProcessing() once it finishes.
+# Other transactions (download/install/uninstall) still use original Swype logic.
+manager = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/LanguageManager.smali"
+if not manager.exists():
+    raise RuntimeError("LanguageManager.smali missing; cannot isolate list transaction from legacy queue")
+manager_smali = manager.read_text()
+request_start = manager_smali.index(".method public requestLanguagesList(Ljava/lang/String;)V")
+request_end = manager_smali.index(".end method", request_start) + len(".end method")
+request = manager_smali[request_start:request_end]
+old_queue_call = "    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/LanguageManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V"
+if request.count(old_queue_call) != 1:
+    raise RuntimeError("Unexpected requestLanguagesList queue path; stopping patch")
+manager_smali = manager_smali[:request_start] + request.replace(old_queue_call, "    # GitHub worker completes this list transaction; no Nuance command queue.") + manager_smali[request_end:]
+manager.write_text(manager_smali)
+
 out = p.parent / "GitHubLanguageCatalog.smali"
 out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
 .super Ljava/lang/Object;
