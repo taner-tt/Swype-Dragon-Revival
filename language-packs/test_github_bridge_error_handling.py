@@ -3,6 +3,7 @@
 Tests generated smali against a synthetic transaction API. Not a device test.
 """
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -67,6 +68,15 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             self.assertNotIn("JSONArray", fallback.split(".end method", 1)[0])
             self.assertIn("Response;->parameters:Ljava/util/HashMap;", fallback)
             self.assertIn("LanguageListTransaction;->access$100(", fallback)
+            if os.getenv("SWYPE_SMALI_ASSEMBLE") == "1":
+                # Only syntax/register verification. Class references resolve at APK runtime.
+                subprocess.run(
+                    ["java", "-jar", "/usr/share/java/smali.jar", "assemble",
+                     str(manager / "GitHubLanguageCatalog.smali"),
+                     "-o", str(base / "bridge.dex")],
+                    check=True, capture_output=True, text=True
+                )
+                self.assertGreater((base / "bridge.dex").stat().st_size, 0)
 
 
 if __name__ == "__main__":
