@@ -41,7 +41,7 @@ def scan(blob):
     return [{"label":k.get("keyLabel"),"codes":k.get("codes"),
              "icon":k.get("keyIcon")} for k in keys]
 
-def main(path):
+def main(path, candidate=False):
     with zipfile.ZipFile(path) as z:
         if z.testzip() is not None: raise ValueError("Corrupt APK")
         result={p:scan(z.read(p)) for p in PATHS}
@@ -51,7 +51,10 @@ def main(path):
         keys=result[name]
         assert len(keys)==3, (name, keys)
         assert keys[1]["label"]=="GIF", (name, keys)
-        assert keys[1]["codes"]==keys[2]["codes"], (name,keys)
+        if candidate:
+            assert keys[1]["codes"]!=keys[2]["codes"], ("GIF still routes to emoji",name,keys)
+        else:
+            assert keys[1]["codes"]==keys[2]["codes"], ("Working baseline has unexpected GIF handler",name,keys)
     result["gif_dispatch_indicators"]={
         "keycode_gif":dex.count(b"keycode_gif"),
         "keycode_emoticon":dex.count(b"keycode_emoticon"),
@@ -61,8 +64,14 @@ def main(path):
         "GifDecoder":dex.count(b"GifDecoder"),
         "GifView":dex.count(b"GifView"),
     }
+    if candidate:
+        assert result["gif_dispatch_indicators"]["keycode_gif"]>0, "Candidate has no named GIF dispatch entry"
+        assert result["gif_dispatch_indicators"]["InputContentInfo"]>0 or result["gif_dispatch_indicators"]["commitContent"]>0, "No GIF insertion API found in candidate DEX"
     print(json.dumps(result,indent=2,ensure_ascii=False))
-    print("CHECK: Both popup layouts map GIF to the same keycode as emoji.")
+    print("CHECK:", "Candidate has distinct GIF key codes and insertion markers" if candidate else "Baseline maps GIF to emoji in both popup layouts.")
     print("This is a diagnostic; it does not implement GIF search, send, or a new handler.")
 
-if __name__=="__main__":main(sys.argv[1])
+if __name__=="__main__":
+    if len(sys.argv)<2 or len(sys.argv)>3 or (len(sys.argv)==3 and sys.argv[2]!="--candidate"):
+        raise SystemExit("Usage: python inspect_emoji_gif_base.py Swype.apk [--candidate]")
+    main(sys.argv[1], len(sys.argv)==3)
