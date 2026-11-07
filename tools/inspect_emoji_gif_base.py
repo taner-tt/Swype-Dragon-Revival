@@ -46,11 +46,21 @@ def main(path):
         if z.testzip() is not None: raise ValueError("Corrupt APK")
         result={p:scan(z.read(p)) for p in PATHS}
         result["dex_gif_keycode_defined"] = b"keycode_gif" in z.read("classes.dex")
+        dex=z.read("classes.dex")
     for name in PATHS:
         keys=result[name]
         assert len(keys)==3, (name, keys)
         assert keys[1]["label"]=="GIF", (name, keys)
         assert keys[1]["codes"]==keys[2]["codes"], (name,keys)
+    result["gif_dispatch_indicators"]={
+        "keycode_gif":dex.count(b"keycode_gif"),
+        "keycode_emoticon":dex.count(b"keycode_emoticon"),
+        "InputContentInfo":dex.count(b"InputContentInfo"),
+        "commitContent":dex.count(b"commitContent"),
+        "KLIPY":dex.count(b"KLIPY"),
+        "GifDecoder":dex.count(b"GifDecoder"),
+        "GifView":dex.count(b"GifView"),
+    }
     print(json.dumps(result,indent=2,ensure_ascii=False))
     print("CHECK: Both popup layouts map GIF to the same keycode as emoji.")
     print("This is a diagnostic; it does not implement GIF search, send, or a new handler.")
