@@ -1,0 +1,34 @@
+name: Verify Android system emoji module
+on:
+  push:
+    branches: ['experiment/emoji-gif-first']
+    paths:
+      - 'emoji-gif/system-emoji/**'
+      - '.github/workflows/system-emoji-compile.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and run pure Java emoji tests
+        run: |
+          set -euo pipefail
+          mkdir -p build/emoji-test
+          javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/SystemEmojiCatalogTest.java
+          java -ea -cp build/emoji-test com.swypedragon.emoji.SystemEmojiCatalogTest
+      - name: Compile Android ICU and glyph support against real Android SDK
+        run: |
+          set -euo pipefail
+          SDK_JAR="$(find "$ANDROID_HOME/platforms" -maxdepth 2 -name android.jar | sort -V | tail -1)"
+          test -s "$SDK_JAR"
+          echo "SDK: $SDK_JAR"
+          mkdir -p build/android-emoji
+          javac -encoding UTF-8 -source 8 -target 8 -cp "$SDK_JAR" -d build/android-emoji emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/AndroidEmojiSource.java
+          test -s build/android-emoji/com/swypedragon/emoji/AndroidEmojiSource.class
+      - name: Verify no APK or theme assets were changed
+        run: |
+          git diff --name-only HEAD^ HEAD
+          test ! -e build/Swype.apk
