@@ -29,6 +29,7 @@ jobs:
           done
       - name: Compare style values, ancestors, effective selectors and popup images
         run: |
+          python3 -m pip install --disable-pip-version-check pillow
           python3 - <<'PY'
           from pathlib import Path
           from PIL import Image
