@@ -1,0 +1,76 @@
+name: Compare other themes' three-button popup resources
+on:
+  push:
+    branches: ['experiment/rdr-black-amoled-v1']
+    paths: ['.github/workflows/compare-popup-other-themes.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch original contrasting themes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p compare/themes
+          gh release download themes-v1 --pattern 'nuance.theme.colorful_black.zip' --pattern 'nuance.theme.colorful_orange.zip' --pattern 'nuance.theme.colorful_red.zip' --pattern 'nuance.theme.india_tigerblack.zip' --pattern 'Flat_Black_v3.zip' --pattern 'RDR.BLACK.AMOLED.V1.POPUP.TEST2.zip' --dir compare/themes
+          curl -fLsS --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar -o /tmp/apktool.jar
+          echo 'dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423  /tmp/apktool.jar' | sha256sum -c -
+          for zip in compare/themes/*.zip; do
+            id="$(basename "$zip" .zip)"
+            mkdir -p "compare/$id"
+            unzip -q "$zip" -d "compare/$id"
+            apk="$(find "compare/$id" -maxdepth 1 -iname '*.apk' | head -1)"
+            java -jar /tmp/apktool.jar d -f -s "$apk" -o "compare/$id/decoded" >/dev/null
+          done
+      - name: Compare style values, ancestors, effective selectors and popup images
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import xml.etree.ElementTree as ET
+          import hashlib
+          names=['btnKeyboardPopupKeyNormal','btnKeyboardPopupKeyPressed','keyboardKeyFeedbackBackground',
+          'keyboardKeyFeedbackFunctionBarBackground','keyboardKeyFeedbackSelectedBackground','keyboardPopupBackground',
+          'keyboardPopupBackgroundFlick','popupKeyTextColor','popupKeyTextColorMenu','popupKeyTextColorPressed',
+          'emojiCatIconColorNormal','emojiCatIconColorSelected']
+          for root in sorted(Path('compare').glob('*/decoded')):
+            styles=ET.parse(root/'res/values/styles.xml').getroot()
+            metadata=ET.parse(root/'res/xml/theme_metadata.xml').getroot()
+            target=metadata.findtext('theme')
+            ss={s.attrib['name']:s for s in styles.findall('style')}
+            print('\n'+'='*35,root.parent.name,' STYLE=',target,' SNAPSHOT=',metadata.findtext('snapshot'))
+            current=target
+            chain=[]
+            values={}
+            while current in ss:
+              st=ss[current];chain.append(current)
+              for item in st.findall('item'):
+                k=item.attrib['name']
+                if k in names and k not in values:values[k]=(item.text,current)
+              current=st.attrib.get('parent','').removeprefix('@style/')
+              if current in chain:break
+            print('ancestry',' -> '.join(chain))
+            for k in names:print('ATTR',k,values.get(k))
+            for name in ('popup_background_key_white','popup_background_key_black','popup_background_key_colorful','popup_background_menu_colorful',
+            'popup_background_pressed_colorful_color','background_black','background_white'):
+              cand=sorted(root.glob('res/drawable-mdpi-v4/'+name+'.*'))
+              if not cand:continue
+              p=cand[0]
+              if p.suffix=='.xml':
+                print('DRAWABLE',name,p.read_text()[:280]);continue
+              im=Image.open(p).convert('RGBA')
+              n=im.getdata();pixels=list(n)
+              opaque=[v[:3] for v in pixels if v[3]>200]
+              avg=tuple(round(sum(v[i] for v in opaque)/len(opaque)) for i in range(3)) if opaque else None
+              print('DRAWABLE',name,'dim',im.size,'opaqueAvg',avg,'sha',hashlib.sha256(p.read_bytes()).hexdigest()[:20])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: theme-popup-comparison
+          path: compare/*/decoded/res/xml/theme_metadata.xml
+          retention-days: 7
