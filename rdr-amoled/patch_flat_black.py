@@ -40,6 +40,18 @@ for key in (
         matches[0].text="@drawable/background_black"
     else:
         ET.SubElement(theme,"item",{"name":key}).text="@drawable/background_black"
+# Directly traced from the compiled popup_messaging_return_key.xml:
+# <KeyboardEx keyBackground="@drawable/btn_keyboard_popup_key">
+# The drawable selector references ?btnKeyboardPopupKeyNormal (default) and
+# ?btnKeyboardPopupKeyPressed (pressed). Both need an explicit pure-black
+# override in RDR; changing keyboardPopupBackground alone is insufficient.
+for key in ("btnKeyboardPopupKeyNormal","btnKeyboardPopupKeyPressed"):
+    matches=[x for x in theme if x.tag=="item" and x.attrib.get("name")==key]
+    if matches:
+        assert len(matches)==1, f"Duplicate attr: {key}"
+        matches[0].text="@drawable/background_black"
+    else:
+        ET.SubElement(theme,"item",{"name":key}).text="@drawable/background_black"
 # Darken the theme-specific popup selector backgrounds instead of altering global app resources.
 set_value("popupKeyTextColor","@color/white")
 set_value("popupKeyTextColorMenu","@color/white")
