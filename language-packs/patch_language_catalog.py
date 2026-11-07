@@ -164,6 +164,11 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
     move-result v4
     if-lez v4, :cond_empty_catalog
+    # Reject malformed/incomplete packages before listResponse() starts a
+    # metadata transaction. A malformed list must not partially replace state.
+    invoke-static {v1}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->isCatalogValid(Lorg/json/JSONArray;)Z
+    move-result v4
+    if-eqz v4, :cond_empty_catalog
     new-instance v2, Lcom/nuance/connect/comm/Response;
     invoke-direct {v2}, Lcom/nuance/connect/comm/Response;-><init>()V
     const/4 v3, 0x1
@@ -217,6 +222,125 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     const/4 v1, 0x0
     invoke-virtual {v0, v1}, Ljava/util/concurrent/atomic/AtomicBoolean;->set(Z)V
     return-void
+.end method
+
+# Guard the entire list before handing it to Swype's transactional parser.
+# The original parser commits metadata even if individual entries throw JSON
+# exceptions; preflight prevents partial registrations from a bad JSON catalog.
+.method private static isCatalogValid(Lorg/json/JSONArray;)Z
+    .locals 8
+    const/4 v0, 0x0
+    invoke-virtual {p0}, Lorg/json/JSONArray;->length()I
+    move-result v1
+    if-lez v1, :invalid_catalog
+    :each_language
+    if-ge v0, v1, :valid_catalog
+    invoke-virtual {p0, v0}, Lorg/json/JSONArray;->getJSONObject(I)Lorg/json/JSONObject;
+    move-result-object v2
+    const-string v3, "11"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "20"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "122"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "124"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+
+    const-string v3, "10"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "[0-9a-fA-F]{32}"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->matches(Ljava/lang/String;)Z
+    move-result v5
+    if-eqz v5, :invalid_catalog
+
+    const-string v3, "51"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "https://github.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_github_release
+    const-string v5, "https://raw.githubusercontent.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :url_valid
+    const-string v5, "https://objects.githubusercontent.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    goto :url_valid
+    :check_github_release
+    const-string v5, "/releases/download/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    :url_valid
+
+    # Exactly one recognized engine-version field is needed by Swype.
+    const-string v3, "102"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "103"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "104"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "105"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    :check_core_value
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "[0-9]+[.][0-9]+"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->matches(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+
+    const-string v3, "146"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getJSONArray(Ljava/lang/String;)Lorg/json/JSONArray;
+    move-result-object v4
+    invoke-virtual {v4}, Lorg/json/JSONArray;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const/4 v6, 0x0
+    :check_ids
+    if-ge v6, v5, :next_language
+    invoke-virtual {v4, v6}, Lorg/json/JSONArray;->getInt(I)I
+    move-result v7
+    if-lez v7, :invalid_catalog
+    add-int/lit8 v6, v6, 0x1
+    goto :check_ids
+    :next_language
+    add-int/lit8 v0, v0, 0x1
+    goto :each_language
+    :valid_catalog
+    const/4 v0, 0x1
+    return v0
+    :invalid_catalog
+    const/4 v0, 0x0
+    return v0
 .end method
 
 # Do not synthesize an empty "43" array: the stock Swype transaction
