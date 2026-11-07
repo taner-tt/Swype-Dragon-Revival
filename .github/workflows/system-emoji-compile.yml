@@ -21,6 +21,9 @@ jobs:
           java -ea -cp build/emoji-test com.swypedragon.emoji.SystemEmojiCatalogTest
           javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/StableEmojiRecents.java emoji-gif/system-emoji/StableEmojiRecentsTest.java
           java -ea -cp build/emoji-test com.swypedragon.emoji.StableEmojiRecentsTest
+          javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/EmojiCatalogBridge.java emoji-gif/system-emoji/EmojiCatalogBridgeTest.java emoji-gif/system-emoji/EmojiPageBridge.java emoji-gif/system-emoji/EmojiPageBridgeTest.java
+          java -ea -cp build/emoji-test com.swypedragon.emoji.EmojiCatalogBridgeTest
+          java -ea -cp build/emoji-test com.swypedragon.emoji.EmojiPageBridgeTest
       - name: Compile Android ICU and glyph support against real Android SDK
         run: |
           set -euo pipefail
