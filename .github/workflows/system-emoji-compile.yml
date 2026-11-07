@@ -30,5 +30,6 @@ jobs:
           test -s build/android-emoji/com/swypedragon/emoji/AndroidEmojiSource.class
       - name: Verify no APK or theme assets were changed
         run: |
-          git diff --name-only HEAD^ HEAD
           test ! -e build/Swype.apk
+          test ! -e build/Swype-theme.apk
+          test -s build/android-emoji/com/swypedragon/emoji/AndroidEmojiSource.class
