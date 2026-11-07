@@ -1,0 +1,44 @@
+name: Verify Swedish catalog pipeline (no binaries)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'language-packs/generate_swedish_catalog.py'
+      - 'language-packs/test_swedish_catalog.py'
+      - 'language-packs/validate_nuance_catalog.py'
+      - '.github/workflows/check-swedish-catalog.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-swedish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate Swedish package structure and metadata generator
+        run: python3 -m unittest -v discover -s language-packs -p 'test_swedish_catalog.py'
+      - name: End-to-end synthetic ZIP -> original Nuance catalog schema
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/swedish-catalog-check
+          python3 - <<'PY'
+          import gzip
+          import zipfile
+          from pathlib import Path
+          target = Path('/tmp/swedish-catalog-check/synthetic-swedish.zip')
+          with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as z:
+              z.writestr('Swedish.mdf', 'SVusUN_xt9_ALM3.ldb\ndatabase_le.dat\n')
+              z.writestr('SVusUN_xt9_ALM3.ldb.mp3', gzip.compress(b'fictional test dictionary'))
+              z.writestr('database_le.dat.mp3', gzip.compress(b'fictional test common data'))
+          PY
+          python3 language-packs/generate_swedish_catalog.py /tmp/swedish-catalog-check/synthetic-swedish.zip \
+            --url https://github.com/example/swype/releases/download/v1/SYNTHETIC.zip \
+            --core-version 0.0 --version SYNTHETIC-NOT-FOR-RELEASE \
+            --out /tmp/swedish-catalog-check/nuance-language-list.json
+          python3 language-packs/validate_nuance_catalog.py /tmp/swedish-catalog-check/nuance-language-list.json
+          echo 'Only synthetic language data were generated. No private ZIP, APK or key was uploaded.'
