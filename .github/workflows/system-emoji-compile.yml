@@ -5,6 +5,7 @@ on:
     paths:
       - 'emoji-gif/system-emoji/**'
       - 'emoji-gif/nuance-integration/**'
+      - 'emoji-gif/diagnostics/**'
       - '.github/workflows/system-emoji-compile.yml'
   workflow_dispatch:
 permissions:
@@ -43,6 +44,10 @@ jobs:
           javac -encoding UTF-8 -source 8 -target 8 -cp "$SDK_JAR" -d build/android-emoji emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/AndroidEmojiSource.java emoji-gif/system-emoji/SystemEmojiPage.java
           test -s build/android-emoji/com/swypedragon/emoji/AndroidEmojiSource.class
           test -s build/android-emoji/com/swypedragon/emoji/SystemEmojiPage.class
+      - name: Verify safe emoji runtime log parser
+        run: |
+          set -euo pipefail
+          python emoji-gif/diagnostics/test_emoji_logcat.py
       - name: Verify no APK or theme assets were changed
         run: |
           test ! -e build/Swype.apk
