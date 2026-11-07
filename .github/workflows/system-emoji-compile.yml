@@ -4,6 +4,7 @@ on:
     branches: ['experiment/emoji-gif-first']
     paths:
       - 'emoji-gif/system-emoji/**'
+      - 'emoji-gif/nuance-integration/**'
       - '.github/workflows/system-emoji-compile.yml'
   workflow_dispatch:
 permissions:
@@ -26,6 +27,12 @@ jobs:
           java -ea -cp build/emoji-test com.swypedragon.emoji.EmojiPageBridgeTest
           javac -encoding UTF-8 -cp build/emoji-test -d build/emoji-test emoji-gif/system-emoji/stubs/com/nuance/swype/input/emoji/Emoji.java emoji-gif/system-emoji/stubs/com/nuance/swype/input/emoji/EmojiLoader.java emoji-gif/system-emoji/SwypeEmojiHostAdapter.java emoji-gif/system-emoji/SwypeEmojiHostAdapterTest.java
           java -ea -cp build/emoji-test com.swypedragon.emoji.SwypeEmojiHostAdapterTest
+      - name: Compile host adapter against verified Nuance signatures
+        run: |
+          set -euo pipefail
+          mkdir -p build/nuance-emoji
+          javac -encoding UTF-8 -d build/nuance-emoji emoji-gif/nuance-integration/SwypeEmojiOrder.java emoji-gif/nuance-integration/NuanceEmojiStubs.java emoji-gif/nuance-integration/SwypeEmojiOrderTest.java
+          java -ea -cp build/nuance-emoji com.nuance.swype.input.emoji.SwypeEmojiOrderTest
       - name: Compile Android ICU and glyph support against real Android SDK
         run: |
           set -euo pipefail
