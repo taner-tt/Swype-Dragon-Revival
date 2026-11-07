@@ -40,10 +40,14 @@ def audit(archive):
     # declaration. Decompilation may miss reflection/indirect calls.
     setter_calls = [n.removeprefix(ROOT) for n, source in java
                     if ".setCoreVersions(" in source]
+    external_setter_calls = [name for name in setter_calls
+                             if name != SOURCES["host"]]
     report = {
         "reference": Path(archive).name,
         "checks": checks,
-        "static_core_version_setter_invocations": setter_calls,
+        "static_core_version_forwarding_call_sites": setter_calls,
+        "setter_invocations_outside_ACManager": external_setter_calls,
+        "core_setting_proven_at_runtime": False,
         "alpha_core_catalog_value_102": "NOT DETERMINED FROM STATIC SOURCES",
         "native_XT9_version_equals_server_core": "NOT ESTABLISHED",
         "interpretation": "Alpha version is retrieved through host BuildSettings (slot 1). "
