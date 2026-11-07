@@ -41,12 +41,22 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
                 ".class public Ltest;\n"
                 ".method private getList()V\n    .locals 0\n    return-void\n.end method\n"
                 "# access$100(\n", encoding="utf-8")
+            (manager / "LanguageManager.smali").write_text(
+                ".method public requestLanguagesList(Ljava/lang/String;)V\\n"
+                "    .locals 1\\n"
+                "    new-instance v0, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;\\n"
+                "    invoke-direct {v0, p0, p1}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;-><init>(Lcom/nuance/connect/service/manager/LanguageManager;Ljava/lang/String;)V\\n"
+                "    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/LanguageManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V\\n"
+                "    return-void\\n.end method\\n", encoding="utf-8")
             (comm / "Response.smali").write_text(
                 ".field public status:I\n.field public parameters:Ljava/util/HashMap;\n",
                 encoding="utf-8")
             subprocess.run([sys.executable, str(scripts / PATCHER.name), str(base / "decoded")],
                            check=True, capture_output=True, text=True)
             bridge = (manager / "GitHubLanguageCatalog.smali").read_text(encoding="utf-8")
+            manager_code = (manager / "LanguageManager.smali").read_text(encoding="utf-8")
+            request_code = manager_code.split(".method public requestLanguagesList(", 1)[1].split(".end method", 1)[0]
+            self.assertNotIn("->startTransaction(", request_code)
             self.assertIn("const/high16 v5, 0x100000", bridge)
             self.assertIn("Language catalog larger than 1 MiB", bridge)
             self.assertIn("completeWithoutCatalog()V", bridge)
