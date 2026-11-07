@@ -1,0 +1,51 @@
+name: Trace Swype GIF emoji popup drawing
+on:
+  push:
+    branches: ['experiment/rdr-black-amoled-v1']
+    paths: ['.github/workflows/rdr-popup-code-trace.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact Swype APK and JADX
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p analysis/java
+          gh api repos/${GITHUB_REPOSITORY}/releases/435491807 --jq '.assets[] | select(.name=="Swype-English-Only-REKEYED.apk") | .url' > analysis/asset_url.txt
+          URL="$(cat analysis/asset_url.txt)"
+          test -n "$URL"
+          curl -fLsS --retry 3 -H "Authorization: Bearer ${GH_TOKEN}" -H "Accept: application/octet-stream" "$URL" -o analysis/swype.apk
+          unzip -t analysis/swype.apk >/dev/null
+          curl -fLsS --retry 3 https://github.com/skylot/jadx/releases/download/v1.5.2/jadx-1.5.2.zip -o /tmp/jadx.zip
+          mkdir -p /tmp/jadx
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          /tmp/jadx/bin/jadx --no-res --threads-count 4 -d analysis/java analysis/swype.apk || true
+      - name: Trace popup resource usage by Java class
+        run: |
+          python3 - <<'PY'
+          import pathlib,re
+          root=pathlib.Path("analysis/java/sources")
+          tokens=["keyboardKeyFeedbackFunctionBarBackground","keyboardPopupBackground","functionbar_emoji_white","icon_primary_emoji_black","icon_secondary_emoji_black","GIF","gifButton","searchButton","emojiButton","FunctionBar","FunctionKey","Emoji"]
+          selected=[]
+          for p in root.rglob("*.java"):
+            try: text=p.read_text(encoding="utf-8",errors="ignore")
+            except OSError: continue
+            hits=[t for t in tokens if t in text]
+            if any(t in hits for t in ("keyboardKeyFeedbackFunctionBarBackground","keyboardPopupBackground","functionbar_emoji_white","icon_primary_emoji_black","icon_secondary_emoji_black","gifButton","searchButton","emojiButton")):
+              selected.append((str(p),hits))
+          pathlib.Path("analysis/matches.txt").write_text("\n".join(str(x) for x in selected)+"\n",encoding="utf8")
+          print("RELEVANT_CLASSES",len(selected))
+          for path,hits in selected[:40]: print(path,":",",".join(hits))
+          PY
+      - name: Save trace output
+        uses: actions/upload-artifact@v4
+        with:
+          name: RDR-popup-code-trace
+          path: analysis/matches.txt
+          retention-days: 7

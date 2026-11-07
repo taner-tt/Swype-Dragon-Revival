@@ -1,0 +1,65 @@
+name: RDR AMOLED theme test build
+on:
+  push:
+    branches: ['experiment/rdr-black-amoled-v1']
+    paths:
+      - 'rdr-amoled/**'
+      - '.github/workflows/rdr-amoled-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original theme and verified Apktool
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p rdr-work/input
+          gh release download themes-v1 --pattern Flat_Black_v3.zip --dir rdr-work/input
+          unzip -t rdr-work/input/Flat_Black_v3.zip > /dev/null
+          unzip -q rdr-work/input/Flat_Black_v3.zip -d rdr-work/input/source
+          test -s rdr-work/input/source/Flat_Black_v3.apk
+          curl -fLsS --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar -o /tmp/apktool.jar
+          echo 'dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423  /tmp/apktool.jar' | sha256sum -c -
+      - name: Decode and patch theme resources (experimental)
+        run: |
+          set -euo pipefail
+          java -jar /tmp/apktool.jar d -f rdr-work/input/source/Flat_Black_v3.apk -o rdr-work/theme
+          sed -n '1,80p' rdr-work/theme/AndroidManifest.xml
+          python3 -m pip install pillow
+          python3 rdr-amoled/make_previews.py rdr-work/theme rdr-work/input/source/preview/Flat_Black_v3.png rdr-work/output/preview
+          python3 rdr-amoled/patch_flat_black.py rdr-work/theme
+      - name: Rebuild theme APK and ZIP for inspection
+        run: |
+          set -euo pipefail
+          mkdir -p rdr-work/output/preview
+          java -jar /tmp/apktool.jar b rdr-work/theme -o rdr-work/output/RDR.BLACK.AMOLED.V1.apk
+          unzip -t rdr-work/output/RDR.BLACK.AMOLED.V1.apk > /dev/null
+          test -s rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png
+          test -s rdr-work/theme/res/drawable-nodpi/rdr_amoled_keyboard_preview.png
+          (cd rdr-work/output && zip -q -r ../RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip RDR.BLACK.AMOLED.V1.apk preview)
+          unzip -t rdr-work/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
+          sha256sum rdr-work/output/*.apk rdr-work/*.zip
+          # Verify both preview images depict the SAME borderless keyboard, not a blank tile.
+          python3 - <<'PY'
+          from PIL import Image, ImageStat
+          a=Image.open("rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png").convert("RGB")
+          b=Image.open("rdr-work/theme/res/drawable-nodpi/rdr_amoled_keyboard_preview.png").convert("RGB")
+          assert a.size == b.size, "Preview dimensions must match"
+          assert a.tobytes() == b.tobytes(), "Catalog and in-app previews differ"
+          assert max(ImageStat.Stat(a).stddev)>10, "Keyboard preview is blank"
+          # Grid separator color from the old Flat_Black_v3 image must not survive.
+          assert not any(pixel == (153,153,153) for pixel in a.getdata()), "Visible key-grid lines remain"
+          print("Matching borderless keyboard previews validated")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDR-BLACK-AMOLED-V1-UNSIGNED-EXPERIMENT
+          path: |
+            rdr-work/RDR.BLACK.AMOLED.V1-EXPERIMENTAL.zip
+            rdr-work/theme/AndroidManifest.xml
+          retention-days: 7
