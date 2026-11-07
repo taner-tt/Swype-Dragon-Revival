@@ -61,6 +61,8 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             self.assertIn("const/high16 v5, 0x100000", bridge)
             self.assertIn("Language catalog larger than 1 MiB", bridge)
             self.assertIn("completeWithoutCatalog()V", bridge)
+            self.assertIn("AtomicBoolean;->compareAndSet(ZZ)Z", bridge)
+            self.assertIn("GitHubLanguageCatalog;->releaseInFlight()V", bridge)
             self.assertIn("LanguageListTransaction;->onEndProcessing()V", bridge)
             self.assertIn("invoke-virtual {v3, v0, v1}, Ljava/util/HashMap;->put(", bridge)
             fallback = bridge.split(".method private completeWithoutCatalog()V", 1)[1]
