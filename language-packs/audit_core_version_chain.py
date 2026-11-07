@@ -38,12 +38,12 @@ def audit(archive):
     }
     # Search actual invocation syntax rather than merely text matching the method
     # declaration. Decompilation may miss reflection/indirect calls.
-    setter_calls = [(n.removeprefix(ROOT), m.start()) for n, s in java
-                    for m in re.finditer(r"\\.setCoreVersions\\s*\\(", s)]
+    setter_calls = [n.removeprefix(ROOT) for n, source in java
+                    if ".setCoreVersions(" in source]
     report = {
         "reference": Path(archive).name,
         "checks": checks,
-        "static_core_version_setter_invocations": [n for n, _ in setter_calls],
+        "static_core_version_setter_invocations": setter_calls,
         "alpha_core_catalog_value_102": "NOT DETERMINED FROM STATIC SOURCES",
         "native_XT9_version_equals_server_core": "NOT ESTABLISHED",
         "interpretation": "Alpha version is retrieved through host BuildSettings (slot 1). "
