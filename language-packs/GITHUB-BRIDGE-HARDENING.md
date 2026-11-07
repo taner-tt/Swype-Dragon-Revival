@@ -29,3 +29,10 @@ An earlier CI attempt could not download a draft GitHub release APK using the de
 5. Test Swedish download, activation, prediction, uninstall, and re-download without risking the functioning installed app.
 
 No theme/GIF/emoji files changed. Do not merge the experimental branch as a production-ready language server.
+
+
+## 2026-11-07: full catalog preflight before Swype metadata commit
+
+The bridge now validates every catalog entry before calling original `listResponse()`: nonempty language/version/country/display name, a 32-hex MD5, a GitHub HTTPS URL, a numeric major.minor core version, and nonempty positive language IDs. An invalid list triggers the non-destructive fallback rather than letting Swype partially register entries before a later malformed object. This is relevant because the original `listResponse()` catches per-entry JSONException and still commits metadata.
+
+**CI:** https://github.com/taner-tt/Swype-Dragon-Revival/actions/runs/42319827942 — smali regression and actual preserved Swype APK assembly both passed. No APK was published or device-tested. The correct Swedish server Alpha core/package version still needs verification, and public hosting is gated by distribution rights.
