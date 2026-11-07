@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Validate Swedish package structure and metadata generator
-        run: python3 -m unittest -v discover -s language-packs -p 'test_swedish_catalog.py'
+        run: python3 -m unittest discover -v -s language-packs -p 'test_swedish_catalog.py'
       - name: End-to-end synthetic ZIP -> original Nuance catalog schema
         run: |
           set -euo pipefail
