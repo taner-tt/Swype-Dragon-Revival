@@ -103,7 +103,14 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     if-ltz v3, :cond_0
     const/4 v4, 0x0
     invoke-virtual {v1, v2, v4, v3}, Ljava/io/ByteArrayOutputStream;->write([BII)V
-    goto :goto_0
+    invoke-virtual {v1}, Ljava/io/ByteArrayOutputStream;->size()I
+    move-result v4
+    const/high16 v5, 0x100000
+    if-le v4, v5, :goto_0
+    new-instance v4, Ljava/io/IOException;
+    const-string v5, "Language catalog larger than 1 MiB"
+    invoke-direct {v4, v5}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+    throw v4
     :cond_0
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
     new-instance v0, Ljava/lang/String;
@@ -131,14 +138,54 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
     invoke-static {v0, v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
     :cond_empty_catalog
+    # Only a nonempty catalog can update downloadable-language metadata.
+    # An empty response leaves the previous catalog untouched.
+    if-lez v4, :fallback
+    iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+    invoke-virtual {v0}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->onEndProcessing()V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+    return-void
+    :fallback
+    :try_start_fallback
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    :try_end_fallback
+    .catch Ljava/lang/Exception; {:try_start_fallback .. :try_end_fallback} :catch_1
     return-void
     :catch_0
     move-exception v0
     const-string v1, "SwypeGitHubLanguages"
     const-string v2, "Could not retrieve language catalog"
     invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    :try_start_error
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    :try_end_error
+    .catch Ljava/lang/Exception; {:try_start_error .. :try_end_error} :catch_1
+    return-void
+    :catch_1
+    move-exception v0
+    const-string v1, "SwypeGitHubLanguages"
+    const-string v2, "Language transaction fallback failed"
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    return-void
+.end method
+
+# Do not synthesize an empty "43" array: the stock Swype transaction
+# interprets that as no languages available and can overwrite saved state.
+# Instead, a successful response without the catalog key preserves the
+# previous list while acknowledging and completing this transaction.
+.method private completeWithoutCatalog()V
+    .locals 3
+    new-instance v0, Lcom/nuance/connect/comm/Response;
+    invoke-direct {v0}, Lcom/nuance/connect/comm/Response;-><init>()V
+    const/4 v1, 0x1
+    iput v1, v0, Lcom/nuance/connect/comm/Response;->status:I
+    new-instance v1, Ljava/util/HashMap;
+    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+    iput-object v1, v0, Lcom/nuance/connect/comm/Response;->parameters:Ljava/util/HashMap;
+    iget-object v2, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+    invoke-static {v2, v0}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
+    invoke-virtual {v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->onEndProcessing()V
     return-void
 .end method
 ''')
