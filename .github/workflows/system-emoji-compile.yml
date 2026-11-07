@@ -19,6 +19,8 @@ jobs:
           mkdir -p build/emoji-test
           javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/SystemEmojiCatalogTest.java
           java -ea -cp build/emoji-test com.swypedragon.emoji.SystemEmojiCatalogTest
+          javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/StableEmojiRecents.java emoji-gif/system-emoji/StableEmojiRecentsTest.java
+          java -ea -cp build/emoji-test com.swypedragon.emoji.StableEmojiRecentsTest
       - name: Compile Android ICU and glyph support against real Android SDK
         run: |
           set -euo pipefail
@@ -26,8 +28,9 @@ jobs:
           test -s "$SDK_JAR"
           echo "SDK: $SDK_JAR"
           mkdir -p build/android-emoji
-          javac -encoding UTF-8 -source 8 -target 8 -cp "$SDK_JAR" -d build/android-emoji emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/AndroidEmojiSource.java
+          javac -encoding UTF-8 -source 8 -target 8 -cp "$SDK_JAR" -d build/android-emoji emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/AndroidEmojiSource.java emoji-gif/system-emoji/SystemEmojiPage.java
           test -s build/android-emoji/com/swypedragon/emoji/AndroidEmojiSource.class
+          test -s build/android-emoji/com/swypedragon/emoji/SystemEmojiPage.class
       - name: Verify no APK or theme assets were changed
         run: |
           test ! -e build/Swype.apk
