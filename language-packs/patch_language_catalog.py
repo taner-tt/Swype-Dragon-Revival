@@ -89,6 +89,15 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
 .implements Ljava/lang/Runnable;
 
 .field private final transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+.field private static final inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+
+.method static constructor <clinit>()V
+    .locals 1
+    new-instance v0, Ljava/util/concurrent/atomic/AtomicBoolean;
+    invoke-direct {v0}, Ljava/util/concurrent/atomic/AtomicBoolean;-><init>()V
+    sput-object v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    return-void
+.end method
 
 .method public constructor <init>(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;)V
     .locals 0
@@ -99,6 +108,17 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
 
 .method public run()V
     .locals 8
+    # Allow only one remote refresh at a time; duplicate requests acknowledge
+    # without disturbing cached language metadata.
+    sget-object v6, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    const/4 v7, 0x0
+    const/4 v5, 0x1
+    invoke-virtual {v6, v7, v5}, Ljava/util/concurrent/atomic/AtomicBoolean;->compareAndSet(ZZ)Z
+    move-result v6
+    if-nez v6, :start_request
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    return-void
+    :start_request
     :try_start_0
     new-instance v0, Ljava/net/URL;
     const-string v1, "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/language-packs/nuance-language-list.json"
@@ -162,12 +182,14 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     invoke-virtual {v0}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->onEndProcessing()V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
     return-void
     :fallback
     :try_start_fallback
     invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
     :try_end_fallback
     .catch Ljava/lang/Exception; {:try_start_fallback .. :try_end_fallback} :catch_1
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
     return-void
     :catch_0
     move-exception v0
@@ -178,12 +200,22 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
     :try_end_error
     .catch Ljava/lang/Exception; {:try_start_error .. :try_end_error} :catch_1
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
     return-void
     :catch_1
     move-exception v0
     const-string v1, "SwypeGitHubLanguages"
     const-string v2, "Language transaction fallback failed"
     invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
+    return-void
+.end method
+
+.method private static releaseInFlight()V
+    .locals 2
+    sget-object v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    const/4 v1, 0x0
+    invoke-virtual {v0, v1}, Ljava/util/concurrent/atomic/AtomicBoolean;->set(Z)V
     return-void
 .end method
 
