@@ -20,6 +20,14 @@ jobs:
           sdkmanager --install 'platforms;android-35' 'build-tools;35.0.0'
           sudo apt-get update -qq
           sudo apt-get install -y apktool default-jdk unzip
+      - name: Verify KLIPY URL handling
+        run: |
+          set -euo pipefail
+          mkdir -p build/url-tests
+          javac -encoding UTF-8 -d build/url-tests \
+            klipy/android/src/com/swyperevival/klipy/KlipyEndpoints.java \
+            klipy/android/tests/com/swyperevival/klipy/KlipyEndpointsTest.java
+          java -cp build/url-tests com.swyperevival.klipy.KlipyEndpointsTest
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
@@ -37,6 +45,14 @@ jobs:
           gh release download swype-gif-test --repo "$GITHUB_REPOSITORY" --pattern 'Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' --dir input --clobber
           echo '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23  input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' | sha256sum -c
           cp input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk input/base.apk
+          python3 - <<'PY'
+          from zipfile import ZipFile
+          with ZipFile('input/base.apk') as z:
+              assert 'classes.dex' in z.namelist()
+              assert 'classes2.dex' not in z.namelist()
+              assert 'android.permission.INTERNET'.encode('utf-16-le') in z.read('AndroidManifest.xml')
+          print('PASS verified original DEX layout and INTERNET permission')
+          PY
       - name: Patch exact GIF tab handler
         run: |
           set -euo pipefail
@@ -45,6 +61,12 @@ jobs:
           apktool b decoded -o build/rebuilt.apk
           unzip -p build/rebuilt.apk classes.dex > build/patched.dex
           test -s build/patched.dex
+          python3 - <<'PY'
+          from pathlib import Path
+          dex=Path('build/patched.dex').read_bytes()
+          assert b'Lcom/swyperevival/klipy/KlipyGifBridge;' in dex, 'No KLIPY bridge ref in patched Swype DEX'
+          print('PASS: Patched Swype DEX contains KLIPY bridge reference')
+          PY
       - name: Reuse original app assets and add KLIPY DEX
         run: |
           set -euo pipefail
