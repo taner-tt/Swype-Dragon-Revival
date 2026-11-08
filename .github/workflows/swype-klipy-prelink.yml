@@ -52,7 +52,7 @@ jobs:
           src=Path('input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk')
           dst=Path('build/Swype-KLIPY-PRELINK-UNSIGNED-DO-NOT-INSTALL.apk')
           dex=Path('build/dex/classes.dex').read_bytes()
-          assert dex.startswith(b'dex\\n')
+          assert dex.startswith(b'dex\n')
           with ZipFile(src) as source, ZipFile(dst,'w') as out:
               names=set(source.namelist())
               assert 'classes.dex' in names and 'classes2.dex' not in names
