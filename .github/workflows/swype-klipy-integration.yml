@@ -5,6 +5,9 @@ on:
       - '.github/workflows/swype-klipy-integration.yml'
       - 'klipy/android/src/**'
       - 'klipy/tools/patch_emoji_gif_tab.py'
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 permissions:
   contents: read
