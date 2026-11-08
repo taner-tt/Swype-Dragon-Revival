@@ -2,7 +2,7 @@
   "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
-  "count": 272,
+  "count": 273,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
@@ -2451,6 +2451,15 @@
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
       "size": 327227,
       "sha256": "fba12566b94623ab87031efb5a0cdd1bbda5c95fc7b6201bce57f3eab7c74911"
+    },
+    {
+      "id": "RDR.BLACK.AMOLED.SYMBOLER.TEST2",
+      "name": "RDR Black AMOLED – alla symboler TEST 2",
+      "filename": "RDR.BLACK.AMOLED.SYMBOLER.TEST2.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.BLACK.AMOLED.SYMBOLER.TEST2.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
+      "size": 327223,
+      "sha256": "ab57c8f1500080195b67266ddc89db91028a24c4c1f8d9a673d959adfa4f924b"
     }
   ]
 }
