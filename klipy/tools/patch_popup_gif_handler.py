@@ -17,7 +17,7 @@ def patch_text(s):
     owner = "Lcom/nuance/swype/input/KeyboardEx$Key;"
     listener = "Lcom/nuance/swype/input/KeyboardViewEx$OnKeyboardActionListener;"
     signature = f"sendKeyCode({listener}{owner})Z"
-    target = re.compile(r"(?m)^\s*\.method\b[^\n]*" + re.escape(signature) + r"\s*$")
+    target = re.compile(r"(?m)^\s*\.method\b[^\n]*" + re.escape(signature) + r"[ \t]*$")
     matches = list(target.finditer(s))
     if len(matches) != 1:
         raise ValueError(f"Expected one exact popup sendKeyCode method, found {len(matches)}")
@@ -28,7 +28,7 @@ def patch_text(s):
     if end < 0:
         raise ValueError("Missing end of popup method")
     body = s[start:end]
-    declaration = re.search(r"(?m)^[ \t]*\.(registers|locals)\s+(\d+)\s*$", body)
+    declaration = re.search(r"(?m)^[ \t]*\.(registers|locals)[ \t]+(\d+)[ \t]*$", body)
     if not declaration:
         raise ValueError("Missing method register declaration")
     # p2 is already an argument register, so the hook needs NO scratch locals.
