@@ -1,6 +1,9 @@
 name: Swype TEST3 APK build groundwork
 
 on:
+  push:
+    paths:
+      - '.github/workflows/swype-klipy-test3-build.yml'
   workflow_dispatch:
     inputs:
       release_tag:
@@ -38,9 +41,9 @@ jobs:
       - name: Download exact TEST3 release asset
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ inputs.release_tag }}
-          APK_NAME: ${{ inputs.apk_name }}
-          EXPECTED_SHA: ${{ inputs.apk_sha256 }}
+          TAG: ${{ inputs.release_tag || 'swype-gif-test' }}
+          APK_NAME: ${{ inputs.apk_name || 'Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' }}
+          EXPECTED_SHA: ${{ inputs.apk_sha256 || '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23' }}
         run: |
           set -euo pipefail
           mkdir -p input
