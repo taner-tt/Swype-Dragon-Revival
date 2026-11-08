@@ -1,0 +1,75 @@
+name: Package RDR Black AMOLED V3 test theme
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/package-rdr-v3-test.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact uploaded V3 APK and wrap as Swype theme ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rdr-v3
+          gh release download themes-v1 --repo "$GITHUB_REPOSITORY" --pattern 'RDR.BLACK.AMOLED.V3.apk' --dir /tmp/rdr-v3
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, zipfile
+          source=Path('/tmp/rdr-v3/RDR.BLACK.AMOLED.V3.apk')
+          assert source.is_file() and source.stat().st_size > 100000, 'V3 APK absent'
+          with zipfile.ZipFile(source) as apk:
+              assert apk.testzip() is None
+              assert 'AndroidManifest.xml' in apk.namelist()
+              assert 'resources.arsc' in apk.namelist()
+          output=Path('/tmp/rdr-v3/RDR.BLACK.AMOLED.V3.zip')
+          with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as package:
+              package.write(source,'RDR.BLACK.AMOLED.V3.apk')
+          with zipfile.ZipFile(output) as package:
+              assert package.namelist() == ['RDR.BLACK.AMOLED.V3.apk']
+              assert package.read('RDR.BLACK.AMOLED.V3.apk') == source.read_bytes()
+          print('V3 ZIP bytes',output.stat().st_size,'SHA256',hashlib.sha256(output.read_bytes()).hexdigest())
+          PY
+      - name: Publish separate V3 test ZIP (do not touch V1 or Dark)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload themes-v1 /tmp/rdr-v3/RDR.BLACK.AMOLED.V3.zip --repo "$GITHUB_REPOSITORY" --clobber
+      - name: Update only V3 entry in themes.json
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json
+          catalog_path=Path('themes.json')
+          data=json.loads(catalog_path.read_text('utf-8'))
+          name='RDR.BLACK.AMOLED.V3.zip'
+          path=Path('/tmp/rdr-v3')/name
+          item={'id':'RDR.BLACK.AMOLED.V3','name':'RDR.BLACK.AMOLED.V3 (Test)','filename':name,
+                'url':'https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/'+name,
+                'preview':'https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png',
+                'size':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+          existing=[i for i in data['themes'] if i['id']==item['id']]
+          assert len(existing)<=1, 'Duplicate V3 entries'
+          data['themes']=[i for i in data['themes'] if i['id']!=item['id']]
+          data['themes'].append(item)
+          data['count']=len(data['themes'])
+          assert data['count']>=272
+          catalog_path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('Published',item,'catalog total',data['count'])
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add themes.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add RDR Black AMOLED V3 to Swype FÅ TEMA'
+            git pull --rebase
+            git push
+          fi
