@@ -1,0 +1,75 @@
+name: Swype TEST3 APK build groundwork
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag containing your confirmed TEST3 APK (never upload signing keys)'
+        required: true
+        default: 'swype-gif-test'
+        type: string
+      apk_name:
+        description: 'Exact APK asset name in that release'
+        required: true
+        default: 'Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk'
+        type: string
+      apk_sha256:
+        description: 'SHA-256 of the confirmed TEST3 APK'
+        required: true
+        default: '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild-test3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install APK toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y apktool default-jdk unzip
+
+      - name: Download exact TEST3 release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.release_tag }}
+          APK_NAME: ${{ inputs.apk_name }}
+          EXPECTED_SHA: ${{ inputs.apk_sha256 }}
+        run: |
+          set -euo pipefail
+          mkdir -p input
+          case "$APK_NAME" in ''|*/*|*..*) echo 'Unsafe filename'; exit 2;; esac
+          case "$EXPECTED_SHA" in *[!0-9a-fA-F]*|'') echo 'Invalid SHA-256'; exit 2;; esac
+          test "${#EXPECTED_SHA}" -eq 64
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$APK_NAME" --dir input --clobber
+          test -s "input/$APK_NAME"
+          printf '%s  %s\n' "$EXPECTED_SHA" "input/$APK_NAME" | sha256sum --check
+          unzip -t "input/$APK_NAME" > /dev/null
+          cp "input/$APK_NAME" input/base.apk
+
+      - name: Decode and rebuild (no modifications yet)
+        run: |
+          set -euo pipefail
+          apktool d -f input/base.apk -o decoded
+          apktool b decoded -o Swype-TEST3-rebuilt-UNSIGNED.apk
+          unzip -t Swype-TEST3-rebuilt-UNSIGNED.apk > /dev/null
+          sha256sum input/base.apk Swype-TEST3-rebuilt-UNSIGNED.apk | tee build-checksums.txt
+
+      - name: Upload unsigned rebuild and report
+        uses: actions/upload-artifact@v4
+        with:
+          name: swype-test3-unsigned-rebuild
+          path: |
+            Swype-TEST3-rebuilt-UNSIGNED.apk
+            build-checksums.txt
+          retention-days: 7
+
+# BUILD STATUS: infrastructure only.
+# This workflow deliberately does NOT add KLIPY classes, API credentials,
+# or sign/ship an installable APK. No key material belongs in repository.
