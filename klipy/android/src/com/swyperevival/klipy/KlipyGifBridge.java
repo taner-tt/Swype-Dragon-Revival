@@ -40,12 +40,12 @@ public final class KlipyGifBridge {
 
     private static void detach(Session s) {
         if (s == null) return;
+        if (s.shown != null && s.parent != null) {
+            try { s.parent.removeView(s.shown); } catch (Exception ignored) {}
+        }
         if (s.panel != null) {
             s.panel.close();
             s.panel = null;
-        }
-        if (s.shown != null && s.parent != null) {
-            try { s.parent.removeView(s.shown); } catch (Exception ignored) {}
         }
         if (s.originalPager != null) s.originalPager.setVisibility(View.VISIBLE);
         s.shown = null;
@@ -109,7 +109,7 @@ public final class KlipyGifBridge {
         if (controller == null) return false;
         synchronized (SESSIONS) {
             Session old = SESSIONS.get(controller);
-            if (tab == null || !"gif".equalsIgnoreCase(tab.trim())) {
+            if (tab == null || !("gif".equalsIgnoreCase(tab.trim()) || "gifs".equalsIgnoreCase(tab.trim()))) {
                 if (old != null) {
                     detach(old);
                     SESSIONS.remove(controller);
