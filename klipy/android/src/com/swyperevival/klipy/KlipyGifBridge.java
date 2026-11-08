@@ -2,6 +2,7 @@ package com.swyperevival.klipy;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public final class KlipyGifBridge {
     private static final WeakHashMap<Object, Session> SESSIONS = new WeakHashMap<>();
     private static final String PREFS = "swype_revival_klipy";
     private static final String PREF_KEY = "development_api_key";
+    private static volatile long popupGifUntil;
 
     private KlipyGifBridge() {}
 
@@ -29,6 +31,24 @@ public final class KlipyGifBridge {
         Field f = owner.getClass().getDeclaredField(name);
         f.setAccessible(true);
         return f.get(owner);
+    }
+
+    /**
+     * The existing GIF and smiley popup cells have the SAME key code.
+     * Only the actual popup key label distinguishes them. Never put credentials here.
+     * Called before the original popup handler dispatches the key.
+     */
+    public static void notePopupKey(Object popupKey) {
+        try {
+            Object label = popupKey == null ? null : field(popupKey, "label");
+            if (label != null && "GIF".equalsIgnoreCase(label.toString().trim())) {
+                popupGifUntil = SystemClock.uptimeMillis() + 3000L;
+            } else {
+                popupGifUntil = 0L;
+            }
+        } catch (Exception ignored) {
+            popupGifUntil = 0L;
+        }
     }
 
     private static final class Session {
@@ -112,14 +132,19 @@ public final class KlipyGifBridge {
         if (controller == null) return false;
         synchronized (SESSIONS) {
             Session old = SESSIONS.get(controller);
-            if (tab == null || !("gif".equalsIgnoreCase(tab.trim()) || "gifs".equalsIgnoreCase(tab.trim()))) {
+            boolean isGifTab = tab != null && ("gif".equalsIgnoreCase(tab.trim()) || "gifs".equalsIgnoreCase(tab.trim()));
+            boolean requestedByPopup = popupGifUntil > SystemClock.uptimeMillis();
+            if (!isGifTab && !requestedByPopup) {
                 if (old != null) {
                     detach(old);
                     SESSIONS.remove(controller);
                 }
                 return false;
             }
-            if (old != null && old.shown != null) return true;
+            if (old != null && old.shown != null) {
+                if (requestedByPopup) popupGifUntil = 0L;
+                return true;
+            }
             try {
                 View pager = (View) field(controller, "pager");
                 ViewGroup parent = (ViewGroup) pager.getParent();
@@ -143,6 +168,7 @@ public final class KlipyGifBridge {
                             new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                                        ViewGroup.LayoutParams.MATCH_PARENT));
                 }
+                if (requestedByPopup) popupGifUntil = 0L;
                 return true;
             } catch (Exception ex) {
                 Session failed = SESSIONS.remove(controller);
