@@ -12,7 +12,7 @@ root = Path(sys.argv[1])
 if not root.is_dir():
     raise SystemExit("Usage: audit_gif_popup.py <apktool decoded directory>")
 
-TOKENS = re.compile(r"(?i)\b(?:gif|gifs|emoji|smiley|popup|long.press|longclick|search)\b")
+TOKENS = re.compile(r"(?i)(?:gif|emoji|smiley|popup|long.press|longclick|search)")
 METHODS = re.compile(r"(?ms)^\s*\.method\s+([^\n]+)\n(.*?)^\s*\.end method")
 interesting = []
 total = 0
