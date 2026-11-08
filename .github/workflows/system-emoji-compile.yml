@@ -21,6 +21,8 @@ jobs:
           mkdir -p build/emoji-test
           javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/SystemEmojiCatalog.java emoji-gif/system-emoji/SystemEmojiCatalogTest.java
           java -ea -cp build/emoji-test com.swypedragon.emoji.SystemEmojiCatalogTest
+          javac -encoding UTF-8 -cp build/emoji-test -d build/emoji-test emoji-gif/system-emoji/AndroidBrandCompatibilityTest.java
+          java -ea -cp build/emoji-test com.swypedragon.emoji.AndroidBrandCompatibilityTest
           javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/StableEmojiRecents.java emoji-gif/system-emoji/StableEmojiRecentsTest.java
           java -ea -cp build/emoji-test com.swypedragon.emoji.StableEmojiRecentsTest
           javac -encoding UTF-8 -d build/emoji-test emoji-gif/system-emoji/EmojiCatalogBridge.java emoji-gif/system-emoji/EmojiCatalogBridgeTest.java emoji-gif/system-emoji/EmojiPageBridge.java emoji-gif/system-emoji/EmojiPageBridgeTest.java
