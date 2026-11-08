@@ -1,0 +1,84 @@
+name: Swype KLIPY integrated unsigned APK
+on:
+  push:
+    paths:
+      - '.github/workflows/swype-klipy-integration.yml'
+      - 'klipy/android/src/**'
+      - 'klipy/tools/patch_emoji_gif_tab.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: android-actions/setup-android@v3
+      - name: Install tools
+        run: |
+          sdkmanager --install 'platforms;android-35' 'build-tools;35.0.0'
+          sudo apt-get update -qq
+          sudo apt-get install -y apktool default-jdk unzip
+      - name: Compile isolated KLIPY DEX
+        run: |
+          set -euo pipefail
+          mkdir -p build/classes build/klipy-dex
+          find klipy/android/src -name '*.java' | sort > build/sources.txt
+          javac -source 8 -target 8 -encoding UTF-8 -cp "$ANDROID_HOME/platforms/android-35/android.jar" -d build/classes @build/sources.txt
+          "$ANDROID_HOME/build-tools/35.0.0/d8" --release --min-api 23 --lib "$ANDROID_HOME/platforms/android-35/android.jar" --output build/klipy-dex $(find build/classes -name '*.class' | sort)
+          test -s build/klipy-dex/classes.dex
+      - name: Fetch verified TEST3
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p input
+          gh release download swype-gif-test --repo "$GITHUB_REPOSITORY" --pattern 'Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' --dir input --clobber
+          echo '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23  input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' | sha256sum -c
+          cp input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk input/base.apk
+      - name: Patch exact GIF tab handler
+        run: |
+          set -euo pipefail
+          apktool d -r -f input/base.apk -o decoded
+          python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
+          apktool b decoded -o build/rebuilt.apk
+          unzip -p build/rebuilt.apk classes.dex > build/patched.dex
+          test -s build/patched.dex
+      - name: Reuse original app assets and add KLIPY DEX
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from zipfile import ZipFile,ZIP_DEFLATED
+          from pathlib import Path
+          original='input/base.apk'
+          target='build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk'
+          a=Path('build/patched.dex').read_bytes()
+          b=Path('build/klipy-dex/classes.dex').read_bytes()
+          assert a.startswith(b'dex\n') and b.startswith(b'dex\n')
+          with ZipFile(original) as src,ZipFile(target,'w') as dst:
+              assert 'classes2.dex' not in src.namelist()
+              for member in src.infolist():
+                  n=member.filename
+                  if n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA')):continue
+                  dst.writestr(member,a if n=='classes.dex' else src.read(n))
+              dst.writestr('classes2.dex',b,compress_type=ZIP_DEFLATED)
+          with ZipFile(original) as src,ZipFile(target) as dst:
+              assert dst.testzip() is None
+              assert src.read('classes.dex')!=dst.read('classes.dex')
+              for n in src.namelist():
+                  if n=='classes.dex' or (n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA'))):continue
+                  assert src.read(n)==dst.read(n),n
+          print('PASS: all original emoji/theme files preserved')
+          PY
+          sha256sum build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk > build/checksums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: swype-klipy-integration-unsigned-not-installable
+          path: |
+            build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk
+            build/patch-report.txt
+            build/checksums.txt
+          retention-days: 5
+# NOT SIGNED. NOT INSTALLABLE. GIF sending not implemented yet.
+# No API or signing secrets are stored in this public workflow.
