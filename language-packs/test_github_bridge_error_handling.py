@@ -47,7 +47,11 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             (config / "ConnectConfiguration$ConfigProperty.smali").write_text(
                 ".field public static final enum CORE_VERSION_ALPHA:Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;\\n", encoding="utf-8")
             (manager / "AbstractCommandManager.smali").write_text(
-                ".field protected client:Lcom/nuance/connect/service/ConnectClient;\\n", encoding="utf-8")
+                ".field protected client:Lcom/nuance/connect/service/ConnectClient;\\n"
+                ".field protected final activeTransactions:Ljava/util/Map;\\n"
+                ".field private final idleProperty:Lcom/nuance/connect/internal/GenericProperty$BooleanProperty;\\n"
+                ".method protected isTransactionActive(Ljava/lang/String;)Z\\n"
+                "    .locals 1\\n    const/4 v0, 0x0\\n    return v0\\n.end method\\n", encoding="utf-8")
             (manager / "LanguageManager$LanguageListTransaction.smali").write_text(
                 ".class public Ltest;\n"
                 ".field final synthetic this$0:Lcom/nuance/connect/service/manager/LanguageManager;\n"
@@ -69,6 +73,15 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             manager_code = (manager / "LanguageManager.smali").read_text(encoding="utf-8")
             request_code = manager_code.split(".method public requestLanguagesList(", 1)[1].split(".end method", 1)[0]
             self.assertNotIn("->startTransaction(", request_code)
+            self.assertIn("->registerLocalLanguageListTransaction(", request_code)
+            self.assertIn("->startGitHubFetch()V", request_code)
+            transaction_code = (manager / "LanguageManager$LanguageListTransaction.smali").read_text(encoding="utf-8")
+            ctor_getlist = transaction_code.split(".method private getList()V", 1)[1].split(".end method", 1)[0]
+            self.assertNotIn("Ljava/lang/Thread;", ctor_getlist)
+            superclass_code = (manager / "AbstractCommandManager.smali").read_text(encoding="utf-8")
+            self.assertIn("registerLocalLanguageListTransaction(", superclass_code)
+            self.assertIn("activeTransactions:Ljava/util/Map;", superclass_code)
+            self.assertIn("idleProperty:Lcom/nuance/connect/internal/GenericProperty$BooleanProperty;", superclass_code)
             self.assertIn("const/high16 v5, 0x100000", bridge)
             self.assertIn("Language catalog larger than 1 MiB", bridge)
             transaction_code = (manager / "LanguageManager$LanguageListTransaction.smali").read_text(encoding="utf-8")
