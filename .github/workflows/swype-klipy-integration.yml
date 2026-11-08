@@ -5,6 +5,7 @@ on:
       - '.github/workflows/swype-klipy-integration.yml'
       - 'klipy/android/src/**'
       - 'klipy/tools/patch_emoji_gif_tab.py'
+      - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
       - main
@@ -60,6 +61,7 @@ jobs:
         run: |
           set -euo pipefail
           apktool d -r -f input/base.apk -o decoded
+          python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
           python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
           apktool b decoded -o build/rebuilt.apk
           unzip -p build/rebuilt.apk classes.dex > build/patched.dex
@@ -81,20 +83,23 @@ jobs:
           a=Path('build/patched.dex').read_bytes()
           b=Path('build/klipy-dex/classes.dex').read_bytes()
           assert a.startswith(b'dex\n') and b.startswith(b'dex\n')
+          with ZipFile('build/rebuilt.apk') as patched:
+              manifest=patched.read('AndroidManifest.xml')
+              assert manifest!=ZipFile(original).read('AndroidManifest.xml')
           with ZipFile(original) as src,ZipFile(target,'w') as dst:
               assert 'classes2.dex' not in src.namelist()
               for member in src.infolist():
                   n=member.filename
                   if n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA')):continue
-                  dst.writestr(member,a if n=='classes.dex' else src.read(n))
+                  dst.writestr(member,a if n=='classes.dex' else manifest if n=='AndroidManifest.xml' else src.read(n))
               dst.writestr('classes2.dex',b,compress_type=ZIP_DEFLATED)
           with ZipFile(original) as src,ZipFile(target) as dst:
               assert dst.testzip() is None
               assert src.read('classes.dex')!=dst.read('classes.dex')
               for n in src.namelist():
-                  if n=='classes.dex' or (n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA'))):continue
+                  if n in ('classes.dex','AndroidManifest.xml') or (n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA'))):continue
                   assert src.read(n)==dst.read(n),n
-          print('PASS: all original emoji/theme files preserved')
+          print('PASS: original emoji/theme files preserved; provider registered in manifest')
           PY
           sha256sum build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk > build/checksums.txt
       - uses: actions/upload-artifact@v4
