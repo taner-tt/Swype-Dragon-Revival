@@ -1,0 +1,83 @@
+name: Swype KLIPY prelink (unsigned, not installable)
+
+on:
+  push:
+    paths:
+      - '.github/workflows/swype-klipy-prelink.yml'
+      - 'klipy/android/src/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prelink:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out public source
+        uses: actions/checkout@v4
+      - name: Prepare Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install build tools
+        run: sdkmanager --install 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Compile KLIPY Android Java and DEX
+        run: |
+          set -euo pipefail
+          mkdir -p build/classes build/dex
+          find klipy/android/src -name '*.java' | sort > build/sources.txt
+          javac -source 8 -target 8 -encoding UTF-8 \
+            -cp "$ANDROID_HOME/platforms/android-35/android.jar" \
+            -d build/classes @build/sources.txt
+          "$ANDROID_HOME/build-tools/35.0.0/d8" --release --min-api 23 \
+            --lib "$ANDROID_HOME/platforms/android-35/android.jar" \
+            --output build/dex $(find build/classes -name '*.class' | sort)
+          test -s build/dex/classes.dex
+      - name: Fetch confirmed Swype TEST3 APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p input
+          gh release download swype-gif-test --repo "$GITHUB_REPOSITORY" \
+            --pattern Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk --dir input
+          echo '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23  input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' | sha256sum --check
+          unzip -t input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk >/dev/null
+      - name: Prelink KLIPY classes as classes2.dex
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          src=Path('input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk')
+          dst=Path('build/Swype-KLIPY-PRELINK-UNSIGNED-DO-NOT-INSTALL.apk')
+          dex=Path('build/dex/classes.dex').read_bytes()
+          assert dex.startswith(b'dex\\n')
+          with ZipFile(src) as source, ZipFile(dst,'w') as out:
+              names=set(source.namelist())
+              assert 'classes.dex' in names and 'classes2.dex' not in names
+              for member in source.infolist():
+                  out.writestr(member,source.read(member.filename))
+              out.writestr('classes2.dex',dex,compress_type=ZIP_DEFLATED)
+          with ZipFile(src) as old,ZipFile(dst) as new:
+              assert new.testzip() is None
+              assert set(new.namelist())==set(old.namelist())|{'classes2.dex'}
+              for name in old.namelist():
+                  assert old.read(name)==new.read(name),name
+          print('PASS: original entries byte-for-byte preserved as uncompressed content')
+          print('PRELINK ONLY: KLIPY is not hooked to EmojiInputController.')
+          print('DO NOT INSTALL: APK signature invalidated by modification.')
+          PY
+          sha256sum build/Swype-KLIPY-PRELINK-UNSIGNED-DO-NOT-INSTALL.apk build/dex/classes.dex > build/checksums.txt
+      - name: Upload prelink diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swype-klipy-prelink-unsigned-do-not-install
+          path: |
+            build/Swype-KLIPY-PRELINK-UNSIGNED-DO-NOT-INSTALL.apk
+            build/checksums.txt
+          retention-days: 3
+
+# This workflow intentionally has no APK signing and no API key.
+# It DOES NOT yet connect the GIF tab to the new classes or implement GIF sharing.
+# Never install the output on a phone or publish it as an app.
