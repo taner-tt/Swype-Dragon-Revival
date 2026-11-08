@@ -60,7 +60,7 @@ jobs:
       - name: Patch exact GIF tab handler
         run: |
           set -euo pipefail
-          apktool d -r -f input/base.apk -o decoded
+          apktool d -f input/base.apk -o decoded
           python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
           python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
           apktool b decoded -o build/rebuilt.apk
