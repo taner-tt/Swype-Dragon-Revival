@@ -27,7 +27,7 @@ REQUIRED = {
     ],
     "lang": [
         ".method public requestLanguagesList(Ljava/lang/String;)V",
-        "AbstractCommandManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V",
+        "LanguageManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V",
     ],
     "list": [
         ".field final synthetic this$0:Lcom/nuance/connect/service/manager/LanguageManager;",
