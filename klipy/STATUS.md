@@ -55,3 +55,16 @@ A draft PR is used to make GitHub Actions run IDs and logs available for debuggi
 - **Not yet tested on user's Samsung device.** Both GIF entry points, emoji/theme regression, network key entry, GIF rendering and sending need on-device testing.
 - Key must be rotated; previously leaked test key must be revoked. The user can enter the new test key privately in the keyboard; it is not in code.
 - The code is on **draft pull request #11**, branch `klipy/build-verification-nov8`, intentionally unmerged until device validation.
+
+
+## 2026-11-08: Popup GIF root cause and build verified
+
+- Decoded the actual TEST3-derived `res/xml/popup_messaging_return_key.xml` and `popup_smileys_with_return.xml`: the center GIF key and right-hand smiley key both have `codes` pointing at the same resource ID `0x7f0f0040`. The GIF cell has `keyLabel="GIF"`. Thus the original handler cannot distinguish them solely by code.
+- DEX method table confirms `SlideSelectPopupManager.sendKeyCode(OnKeyboardActionListener, KeyboardEx.Key):boolean`; the selected key has a `label` field. `sendKeyCode` forwards to the original `OnKeyboardActionListener.onKey`.
+- Added a narrow `notePopupKey` hook that examines the popup key's actual label before preserving original key dispatch; a temporary GIF request is consumed by `EmojiInputController.onTabChanged` when it creates the KLIPY view. This approach requires runtime verification for the keyboard's precise event ordering.
+- Added `klipy/tools/patch_popup_gif_handler.py` with a strict method signature and duplicate guard; added an offline synthetic smali test.
+- GitHub Actions run **42529544603**: all build steps completed successfully, including URL tests, popup patch test, Java compilation, DEX generation, TEST3 checksum verification, both smali patches, packaging and artifact upload.
+- Artifact **13637080995**: `Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk`, SHA-256 `6678e11aab8c63f14a87b49893acdd71c00ec4520408e9ee7eecfedeab5186ca`.
+- Local ZIP check: 4,273 entries, CRC PASS, only `classes.dex` and `classes2.dex` differ from earlier unsigned KLIPY build; all original non-code resources and manifest are unchanged. New `notePopupKey` is present in the patched DEX and KLIPY DEX; corrected key-error text is present in KLIPY DEX.
+- **NOT INSTALLABLE**: this artifact is unsigned. The matching original TEST3 signing key is not available in this session. Do not replace a working installation with a different signing identity.
+- **NOT DEVICE-VERIFIED**: need Samsung check for popup GIF opening KLIPY, regular smiley unaffected, key activation, trending/search and sending; then emulator/other Android coverage before universal compatibility claims.
