@@ -49,8 +49,51 @@ for label, token, source in required:
         raise RuntimeError(f"Missing {label}: {token}. Check the original smali API before patching.")
 start = s.index(".method private getList()V")
 end = s.index(".end method", start) + len(".end method")
+# Log the *actual configured* Alpha version for compatibility diagnosis.
+# This is a read-only host configuration lookup. Never guess or override
+# the field "102" returned by the language server.
+runtime_verifier = Path(sys.argv[1]) / "smali/com/nuance/connect/service/ConnectClient.smali"
+core_config = Path(sys.argv[1]) / "smali/com/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty.smali"
+abstract_manager = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/AbstractCommandManager.smali"
+checks = [
+    ("ConnectClient.getString", runtime_verifier, ".method public getString(Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;)Ljava/lang/String;"),
+    ("Alpha ConfigProperty", core_config, ".field public static final enum CORE_VERSION_ALPHA:"),
+    ("client field", abstract_manager, ".field protected client:Lcom/nuance/connect/service/ConnectClient;"),
+    ("outer LanguageManager field", p, ".field final synthetic this$0:Lcom/nuance/connect/service/manager/LanguageManager;"),
+]
+for name, file_path, expected in checks:
+    if not file_path.exists() or expected not in file_path.read_text():
+        raise RuntimeError(f"Missing verified runtime Alpha core API: {name}; refusing unsafe patch")
+
 replacement = """.method private getList()V
-    .locals 2
+    .locals 4
+
+    # Diagnostic must not prevent language fetch during early startup.
+    :alpha_try_start
+    # Read-only diagnostic: the real host-configured Alpha core version.
+    iget-object v0, p0, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->this$0:Lcom/nuance/connect/service/manager/LanguageManager;
+    iget-object v0, v0, Lcom/nuance/connect/service/manager/AbstractCommandManager;->client:Lcom/nuance/connect/service/ConnectClient;
+    sget-object v1, Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;->CORE_VERSION_ALPHA:Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;
+    invoke-virtual {v0, v1}, Lcom/nuance/connect/service/ConnectClient;->getString(Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;)Ljava/lang/String;
+    move-result-object v0
+    const-string v1, "SwypeGitHubLanguages"
+    new-instance v2, Ljava/lang/StringBuilder;
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    const-string v3, "Configured runtime Alpha core: "
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v2
+    invoke-static {v1, v2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    :alpha_try_end
+    .catch Ljava/lang/Exception; {:alpha_try_start .. :alpha_try_end} :alpha_error
+    goto :alpha_done
+    :alpha_error
+    move-exception v0
+    const-string v1, "SwypeGitHubLanguages"
+    const-string v2, "Runtime Alpha core not available yet"
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    :alpha_done
 
     new-instance v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
 
@@ -66,12 +109,38 @@ replacement = """.method private getList()V
 .end method"""
 p.write_text(s[:start] + replacement + s[end:])
 
+# The old queue sees currentCommand == null and ends this transaction before
+# the GitHub worker has finished. Avoid enqueueing this list-only transaction.
+# The bridge itself calls listResponse() and onEndProcessing() once it finishes.
+# Other transactions (download/install/uninstall) still use original Swype logic.
+manager = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/LanguageManager.smali"
+if not manager.exists():
+    raise RuntimeError("LanguageManager.smali missing; cannot isolate list transaction from legacy queue")
+manager_smali = manager.read_text()
+request_start = manager_smali.index(".method public requestLanguagesList(Ljava/lang/String;)V")
+request_end = manager_smali.index(".end method", request_start) + len(".end method")
+request = manager_smali[request_start:request_end]
+old_queue_call = "    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/LanguageManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V"
+if request.count(old_queue_call) != 1:
+    raise RuntimeError("Unexpected requestLanguagesList queue path; stopping patch")
+manager_smali = manager_smali[:request_start] + request.replace(old_queue_call, "    # GitHub worker completes this list transaction; no Nuance command queue.") + manager_smali[request_end:]
+manager.write_text(manager_smali)
+
 out = p.parent / "GitHubLanguageCatalog.smali"
 out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
 .super Ljava/lang/Object;
 .implements Ljava/lang/Runnable;
 
 .field private final transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+.field private static final inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+
+.method static constructor <clinit>()V
+    .locals 1
+    new-instance v0, Ljava/util/concurrent/atomic/AtomicBoolean;
+    invoke-direct {v0}, Ljava/util/concurrent/atomic/AtomicBoolean;-><init>()V
+    sput-object v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    return-void
+.end method
 
 .method public constructor <init>(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;)V
     .locals 0
@@ -82,6 +151,17 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
 
 .method public run()V
     .locals 8
+    # Allow only one remote refresh at a time; duplicate requests acknowledge
+    # without disturbing cached language metadata.
+    sget-object v6, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    const/4 v7, 0x0
+    const/4 v5, 0x1
+    invoke-virtual {v6, v7, v5}, Ljava/util/concurrent/atomic/AtomicBoolean;->compareAndSet(ZZ)Z
+    move-result v6
+    if-nez v6, :start_request
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    return-void
+    :start_request
     :try_start_0
     new-instance v0, Ljava/net/URL;
     const-string v1, "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/language-packs/nuance-language-list.json"
@@ -103,7 +183,14 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     if-ltz v3, :cond_0
     const/4 v4, 0x0
     invoke-virtual {v1, v2, v4, v3}, Ljava/io/ByteArrayOutputStream;->write([BII)V
-    goto :goto_0
+    invoke-virtual {v1}, Ljava/io/ByteArrayOutputStream;->size()I
+    move-result v4
+    const/high16 v5, 0x100000
+    if-le v4, v5, :goto_0
+    new-instance v4, Ljava/io/IOException;
+    const-string v5, "Language catalog larger than 1 MiB"
+    invoke-direct {v4, v5}, Ljava/io/IOException;-><init>(Ljava/lang/String;)V
+    throw v4
     :cond_0
     invoke-virtual {v0}, Ljava/io/InputStream;->close()V
     new-instance v0, Ljava/lang/String;
@@ -120,6 +207,11 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     invoke-virtual {v1}, Lorg/json/JSONArray;->length()I
     move-result v4
     if-lez v4, :cond_empty_catalog
+    # Reject malformed/incomplete packages before listResponse() starts a
+    # metadata transaction. A malformed list must not partially replace state.
+    invoke-static {v1}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->isCatalogValid(Lorg/json/JSONArray;)Z
+    move-result v4
+    if-eqz v4, :cond_empty_catalog
     new-instance v2, Lcom/nuance/connect/comm/Response;
     invoke-direct {v2}, Lcom/nuance/connect/comm/Response;-><init>()V
     const/4 v3, 0x1
@@ -131,14 +223,185 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
     invoke-static {v0, v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
     :cond_empty_catalog
+    # Only a nonempty catalog can update downloadable-language metadata.
+    # An empty response leaves the previous catalog untouched.
+    if-lez v4, :fallback
+    iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+    invoke-virtual {v0}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->onEndProcessing()V
     :try_end_0
     .catch Ljava/lang/Exception; {:try_start_0 .. :try_end_0} :catch_0
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
+    return-void
+    :fallback
+    :try_start_fallback
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    :try_end_fallback
+    .catch Ljava/lang/Exception; {:try_start_fallback .. :try_end_fallback} :catch_1
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
     return-void
     :catch_0
     move-exception v0
     const-string v1, "SwypeGitHubLanguages"
     const-string v2, "Could not retrieve language catalog"
     invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    :try_start_error
+    invoke-direct {p0}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->completeWithoutCatalog()V
+    :try_end_error
+    .catch Ljava/lang/Exception; {:try_start_error .. :try_end_error} :catch_1
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
+    return-void
+    :catch_1
+    move-exception v0
+    const-string v1, "SwypeGitHubLanguages"
+    const-string v2, "Language transaction fallback failed"
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    invoke-static {}, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->releaseInFlight()V
+    return-void
+.end method
+
+.method private static releaseInFlight()V
+    .locals 2
+    sget-object v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->inFlight:Ljava/util/concurrent/atomic/AtomicBoolean;
+    const/4 v1, 0x0
+    invoke-virtual {v0, v1}, Ljava/util/concurrent/atomic/AtomicBoolean;->set(Z)V
+    return-void
+.end method
+
+# Guard the entire list before handing it to Swype's transactional parser.
+# The original parser commits metadata even if individual entries throw JSON
+# exceptions; preflight prevents partial registrations from a bad JSON catalog.
+.method private static isCatalogValid(Lorg/json/JSONArray;)Z
+    .locals 8
+    const/4 v0, 0x0
+    invoke-virtual {p0}, Lorg/json/JSONArray;->length()I
+    move-result v1
+    if-lez v1, :invalid_catalog
+    :each_language
+    if-ge v0, v1, :valid_catalog
+    invoke-virtual {p0, v0}, Lorg/json/JSONArray;->getJSONObject(I)Lorg/json/JSONObject;
+    move-result-object v2
+    const-string v3, "11"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "20"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "122"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const-string v3, "124"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    invoke-virtual {v4}, Ljava/lang/String;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+
+    const-string v3, "10"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "[0-9a-fA-F]{32}"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->matches(Ljava/lang/String;)Z
+    move-result v5
+    if-eqz v5, :invalid_catalog
+
+    const-string v3, "51"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "https://github.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_github_release
+    const-string v5, "https://raw.githubusercontent.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :url_valid
+    const-string v5, "https://objects.githubusercontent.com/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->startsWith(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    goto :url_valid
+    :check_github_release
+    const-string v5, "/releases/download/"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    :url_valid
+
+    # Exactly one recognized engine-version field is needed by Swype.
+    const-string v3, "102"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "103"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "104"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-nez v6, :check_core_value
+    const-string v3, "105"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->has(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+    :check_core_value
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getString(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v4
+    const-string v5, "[0-9]+[.][0-9]+"
+    invoke-virtual {v4, v5}, Ljava/lang/String;->matches(Ljava/lang/String;)Z
+    move-result v6
+    if-eqz v6, :invalid_catalog
+
+    const-string v3, "146"
+    invoke-virtual {v2, v3}, Lorg/json/JSONObject;->getJSONArray(Ljava/lang/String;)Lorg/json/JSONArray;
+    move-result-object v4
+    invoke-virtual {v4}, Lorg/json/JSONArray;->length()I
+    move-result v5
+    if-lez v5, :invalid_catalog
+    const/4 v6, 0x0
+    :check_ids
+    if-ge v6, v5, :next_language
+    invoke-virtual {v4, v6}, Lorg/json/JSONArray;->getInt(I)I
+    move-result v7
+    if-lez v7, :invalid_catalog
+    add-int/lit8 v6, v6, 0x1
+    goto :check_ids
+    :next_language
+    add-int/lit8 v0, v0, 0x1
+    goto :each_language
+    :valid_catalog
+    const/4 v0, 0x1
+    return v0
+    :invalid_catalog
+    const/4 v0, 0x0
+    return v0
+.end method
+
+# Do not synthesize an empty "43" array: the stock Swype transaction
+# interprets that as no languages available and can overwrite saved state.
+# Instead, a successful response without the catalog key preserves the
+# previous list while acknowledging and completing this transaction.
+.method private completeWithoutCatalog()V
+    .locals 3
+    new-instance v0, Lcom/nuance/connect/comm/Response;
+    invoke-direct {v0}, Lcom/nuance/connect/comm/Response;-><init>()V
+    const/4 v1, 0x1
+    iput v1, v0, Lcom/nuance/connect/comm/Response;->status:I
+    new-instance v1, Ljava/util/HashMap;
+    invoke-direct {v1}, Ljava/util/HashMap;-><init>()V
+    iput-object v1, v0, Lcom/nuance/connect/comm/Response;->parameters:Ljava/util/HashMap;
+    iget-object v2, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
+    invoke-static {v2, v0}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->access$100(Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;Lcom/nuance/connect/comm/Response;)V
+    invoke-virtual {v2}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->onEndProcessing()V
     return-void
 .end method
 ''')

@@ -1,0 +1,78 @@
+name: Check GitHub language bridge (no release)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'language-packs/patch_language_catalog.py'
+      - 'language-packs/test_github_bridge_error_handling.py'
+      - '.github/workflows/check-language-bridge.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  smali-and-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install smali assembler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsmali-java
+          test -f /usr/share/java/smali.jar
+      - name: Test original-key catalog, bounded responses, transaction lifecycle and smali assembly
+        env:
+          SWYPE_SMALI_ASSEMBLE: '1'
+        run: python3 -m unittest discover -v -s language-packs -p 'test_github_bridge_error_handling.py'
+      - name: Explicit test boundary
+        run: echo 'Synthetic smali compilation does not establish Android runtime behavior.'
+
+  original-apk-smali-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download preserved decompiled Swype inspection artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: swype-inspection
+          run-id: 42079023597
+          repository: ${{ github.repository }}
+          github-token: ${{ github.token }}
+          path: inspection
+      - name: Check original class signatures
+        run: |
+          set -euo pipefail
+          test -f inspection/decoded/apktool.yml
+          test -f 'inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali'
+          test -f inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager.smali
+          test -f inspection/decoded/smali/com/nuance/connect/comm/Response.smali
+      - name: Install APK assembler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apktool
+      - name: Patch real original smali with synthetic non-distributable catalog
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/swype-language-bridge-check
+          cp language-packs/patch_language_catalog.py /tmp/swype-language-bridge-check/
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          # Synthetic values prevent use as a real language catalog or download URL.
+          entry = {"11": "Swedish", "20": "TEST",
+                   "51": "https://github.com/example/test/releases/download/v1/placeholder.zip",
+                   "10": "0123456789abcdef0123456789abcdef",
+                   "122": "SE", "124": "Svenska", "146": [285],
+                   "102": "0.0"}
+          Path("/tmp/swype-language-bridge-check/nuance-language-list.json").write_text(json.dumps({"43": [entry]}))
+          PY
+          python3 /tmp/swype-language-bridge-check/patch_language_catalog.py inspection/decoded
+      - name: Assemble actual modified Swype APK without signing or publishing
+        run: |
+          set -euo pipefail
+          apktool b inspection/decoded -o /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk
+          unzip -t /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk >/dev/null
+          test -s /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk
+          echo 'Real original decompiled APK assembled with patched catalog bridge; no APK published.'
