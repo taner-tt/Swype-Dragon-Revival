@@ -2,7 +2,7 @@
   "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
-  "count": 272,
+  "count": 273,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
@@ -2451,6 +2451,15 @@
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
       "size": 327239,
       "sha256": "5b84f419250954c608df6ba0535aa4dfe87b0ade82e92b9f3e306d22746c624e"
+    },
+    {
+      "id": "com.nuance.swype.theme.rdr_dark_clean_control",
+      "name": "RDR Dark Clean Control",
+      "filename": "RDR_DARK_CLEAN_IDENTITY_CONTROL.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR_DARK_CLEAN_IDENTITY_CONTROL.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/nuance.theme.dark.png",
+      "size": 312282,
+      "sha256": "65eaadc4651d64b4330209a6a00f8ca6762db13d23d85a82bed4cb20797f8277"
     }
   ]
 }
