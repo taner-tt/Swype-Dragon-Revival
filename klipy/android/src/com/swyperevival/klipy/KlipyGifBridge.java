@@ -58,11 +58,8 @@ public final class KlipyGifBridge {
             try { s.parent.removeView(s.shown); } catch (Exception ignored) {}
         }
         if (s.panel != null) s.panel.close();
-        KlipyGifPanel view = new KlipyGifPanel(context, key, gif -> {
-            // Selection deliberately stays disabled until URI grant/commitContent
-            // and KLIPY terms have been checked. Never silently send a URL as text.
-            android.widget.Toast.makeText(context, "GIF-skickning inte inkopplad än", android.widget.Toast.LENGTH_SHORT).show();
-        });
+        KlipyGifPanel view = new KlipyGifPanel(context, key, gif ->
+                KlipyGifSender.send(context, gif, key));
         s.panel = view;
         s.shown = view;
         s.parent.addView(view, Math.min(s.parent.getChildCount(), s.parent.indexOfChild(s.originalPager) + 1),
