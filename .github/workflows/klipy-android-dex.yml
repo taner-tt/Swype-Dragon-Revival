@@ -1,0 +1,54 @@
+name: KLIPY Android DEX compilation
+
+on:
+  push:
+    paths:
+      - 'klipy/android/src/**'
+      - '.github/workflows/klipy-android-dex.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android platform and DEX build tools
+        run: |
+          sdkmanager --install 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Compile KLIPY Java source
+        run: |
+          set -euo pipefail
+          mkdir -p build/klipy-classes build/klipy-dex
+          find klipy/android/src -name '*.java' | sort > build/sources.txt
+          javac -source 8 -target 8 -encoding UTF-8 \
+            -cp "$ANDROID_HOME/platforms/android-35/android.jar" \
+            -d build/klipy-classes @build/sources.txt
+      - name: Convert KLIPY classes to isolated DEX
+        run: |
+          set -euo pipefail
+          "$ANDROID_HOME/build-tools/35.0.0/d8" --release \
+            --min-api 23 \
+            --lib "$ANDROID_HOME/platforms/android-35/android.jar" \
+            --output build/klipy-dex \
+            $(find build/klipy-classes -name '*.class' | sort)
+          test -s build/klipy-dex/classes.dex
+          sha256sum build/klipy-dex/classes.dex | tee build/klipy-dex-sha256.txt
+      - name: Store isolated KLIPY DEX (NOT an installable APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: klipy-android-classes-dex
+          path: |
+            build/klipy-dex/classes.dex
+            build/klipy-dex-sha256.txt
+          retention-days: 7
+
+# SAFETY: This workflow only compiles independent KLIPY classes.
+# It does not modify the stable Swype TEST3 APK.
+# GIF tab hook / APK integration / GIF sending / signing are NOT implemented.
+# Never commit KLIPY test credentials or Android signing keys.
