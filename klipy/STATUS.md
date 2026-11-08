@@ -39,3 +39,19 @@
 
 ## Build verification PR
 A draft PR is used to make GitHub Actions run IDs and logs available for debugging. Do not merge unverified builds.
+
+## 2026-11-08: Signed GIF-sharing TEST APK produced locally (not publicly published)
+
+- GitHub Actions pull-request build 42520730630 **succeeded**, artifact ID 13632329475.
+- This build contains `KlipyGifBridge`, `KlipyGifPanel`, `KlipyGifSender`, `KlipyGifStreamProvider`, and a private manifest provider `com.nuance.swype.dtc.klipy.gif` with URI grants.
+- Sends `image/gif` via `InputConnection.commitContent` on Android >= 7.1 *when the receiving editor advertises GIF support*. For other apps, a message indicates unsupported content; there is no text URL fallback.
+- The provider pipes KLIPY media over HTTPS to the receiving app. No persistent media file is stored in this APK implementation. GIF share analytics POST implemented as best-effort.
+- Downloaded unsigned GitHub artifact, locally signed with the user's **matching** private Swype test signing certificate. **No signing key was committed/uploaded**.
+- Signed file created in the conversation: `Swype-3722-RDR-KLIPY-GIF-SHARING-SIGNED-TEST.apk`.
+- Signed SHA-256: `4a1cec462e0cb4e8602e00c76f3b715a293b5805447e9366bab262be5e442723`.
+- Signing certificate SHA-256 matches original TEST3: `49434500d4914ed87375a69f852c2f69e10e85e9b8a7f985c19ef60ad6e5053b`.
+- All original non-code APK entries, including all 3722-emoji data and RDR theme files, verified identical; only `classes.dex`, `AndroidManifest.xml`, and signature differ, plus `classes2.dex`.
+- APK ZIP integrity and `jarsigner -verify` passed.
+- **Not yet tested on user's Samsung device.** Both GIF entry points, emoji/theme regression, network key entry, GIF rendering and sending need on-device testing.
+- Key must be rotated; previously leaked test key must be revoked. The user can enter the new test key privately in the keyboard; it is not in code.
+- The code is on **draft pull request #11**, branch `klipy/build-verification-nov8`, intentionally unmerged until device validation.
