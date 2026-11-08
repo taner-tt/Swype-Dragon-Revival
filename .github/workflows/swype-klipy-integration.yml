@@ -6,6 +6,8 @@ on:
       - 'klipy/android/src/**'
       - 'klipy/tools/patch_emoji_gif_tab.py'
       - 'klipy/tools/audit_gif_popup.py'
+      - 'klipy/tools/patch_popup_gif_handler.py'
+      - 'klipy/tools/test_popup_gif_patch.py'
       - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
@@ -33,6 +35,8 @@ jobs:
             klipy/android/src/com/swyperevival/klipy/KlipyEndpoints.java \
             klipy/android/tests/com/swyperevival/klipy/KlipyEndpointsTest.java
           java -cp build/url-tests com.swyperevival.klipy.KlipyEndpointsTest
+      - name: Test popup GIF patch against synthetic smali
+        run: python3 klipy/tools/test_popup_gif_patch.py
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
@@ -66,6 +70,7 @@ jobs:
           cat build/popup-handler-audit.txt
           python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
           python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
+          python3 klipy/tools/patch_popup_gif_handler.py decoded | tee -a build/patch-report.txt
           apktool b decoded -o build/rebuilt.apk
           unzip -p build/rebuilt.apk classes.dex > build/patched.dex
           test -s build/patched.dex
@@ -73,6 +78,7 @@ jobs:
           from pathlib import Path
           dex=Path('build/patched.dex').read_bytes()
           assert b'Lcom/swyperevival/klipy/KlipyGifBridge;' in dex, 'No KLIPY bridge ref in patched Swype DEX'
+          assert b'notePopupKey' in dex, 'No popup GIF label hook method in patched Swype DEX'
           print('PASS: Patched Swype DEX contains KLIPY bridge reference')
           PY
       - name: Reuse original app assets and add KLIPY DEX
