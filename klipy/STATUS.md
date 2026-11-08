@@ -36,3 +36,6 @@
 - Build success and runtime behavior are **not yet verified**. No signed installable GIF APK yet.
 - The GIF tab bridge routes only a tab whose category name is exactly `GIF` ignoring case; actual on-device tab name and layout behavior require testing.
 - GIF sending is intentionally not wired yet. Selection currently only shows a message.
+
+## Build verification PR
+A draft PR is used to make GitHub Actions run IDs and logs available for debugging. Do not merge unverified builds.
