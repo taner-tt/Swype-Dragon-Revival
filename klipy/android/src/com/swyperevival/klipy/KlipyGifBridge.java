@@ -81,14 +81,20 @@ public final class KlipyGifBridge {
         key.setSingleLine(true);
         key.setHint("Klistra in KLIPY-testnyckeln");
         key.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        key.setTextColor(0xffffffff);
+        key.setHintTextColor(0xffaaaaaa);
         entry.addView(key);
         Button activate = new Button(context);
         activate.setText("Aktivera GIF-sökning");
         entry.addView(activate);
         activate.setOnClickListener(v -> {
             String value = key.getText().toString().trim();
+            if (value.isEmpty()) {
+                key.setError("Klistra in din KLIPY-testnyckel först");
+                return;
+            }
             if (!value.matches("[A-Za-z0-9_-]{16,256}")) {
-                key.setError("Ogiltig testnyckel");
+                key.setError("Kontrollera nyckelns format (16–256 tecken). KLIPY har inte kontaktats.");
                 return;
             }
             context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
