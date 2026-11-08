@@ -49,8 +49,40 @@ for label, token, source in required:
         raise RuntimeError(f"Missing {label}: {token}. Check the original smali API before patching.")
 start = s.index(".method private getList()V")
 end = s.index(".end method", start) + len(".end method")
+# Log the *actual configured* Alpha version for compatibility diagnosis.
+# This is a read-only host configuration lookup. Never guess or override
+# the field "102" returned by the language server.
+runtime_verifier = Path(sys.argv[1]) / "smali/com/nuance/connect/service/ConnectClient.smali"
+core_config = Path(sys.argv[1]) / "smali/com/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty.smali"
+abstract_manager = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/AbstractCommandManager.smali"
+checks = [
+    ("ConnectClient.getString", runtime_verifier, ".method public getString(Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;)Ljava/lang/String;"),
+    ("Alpha ConfigProperty", core_config, ".field public static final enum CORE_VERSION_ALPHA:"),
+    ("client field", abstract_manager, ".field protected client:Lcom/nuance/connect/service/ConnectClient;"),
+    ("outer LanguageManager field", p, ".field final synthetic this$0:Lcom/nuance/connect/service/manager/LanguageManager;"),
+]
+for name, file_path, expected in checks:
+    if not file_path.exists() or expected not in file_path.read_text():
+        raise RuntimeError(f"Missing verified runtime Alpha core API: {name}; refusing unsafe patch")
+
 replacement = """.method private getList()V
-    .locals 2
+    .locals 4
+
+    # Read-only diagnostic: the real host-configured Alpha core version.
+    iget-object v0, p0, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->this$0:Lcom/nuance/connect/service/manager/LanguageManager;
+    iget-object v0, v0, Lcom/nuance/connect/service/manager/AbstractCommandManager;->client:Lcom/nuance/connect/service/ConnectClient;
+    sget-object v1, Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;->CORE_VERSION_ALPHA:Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;
+    invoke-virtual {v0, v1}, Lcom/nuance/connect/service/ConnectClient;->getString(Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;)Ljava/lang/String;
+    move-result-object v0
+    const-string v1, "SwypeGitHubLanguages"
+    new-instance v2, Ljava/lang/StringBuilder;
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+    const-string v3, "Configured runtime Alpha core: "
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2, v0}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+    move-result-object v2
+    invoke-static {v1, v2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
 
     new-instance v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
 
