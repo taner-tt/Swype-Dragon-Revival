@@ -6,6 +6,7 @@ on:
     paths:
       - 'language-packs/patch_language_catalog.py'
       - 'language-packs/test_github_bridge_error_handling.py'
+      - 'language-packs/audit_real_lifecycle_contract.py'
       - '.github/workflows/check-language-bridge.yml'
 
 permissions:
@@ -48,6 +49,8 @@ jobs:
           test -f 'inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali'
           test -f inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager.smali
           test -f inspection/decoded/smali/com/nuance/connect/comm/Response.smali
+      - name: Verify exact original transaction lifecycle contracts
+        run: python3 language-packs/audit_real_lifecycle_contract.py inspection/decoded
       - name: Install APK assembler
         run: |
           sudo apt-get update
