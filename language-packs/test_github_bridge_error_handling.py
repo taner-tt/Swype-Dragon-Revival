@@ -38,8 +38,19 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             comm = dst / "comm"
             manager.mkdir(parents=True)
             comm.mkdir(parents=True)
+            service = dst / "service"
+            config = service / "configuration"
+            config.mkdir(parents=True)
+            (service / "ConnectClient.smali").write_text(
+                ".method public getString(Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;)Ljava/lang/String;\\n"
+                "    .locals 1\\n    const/4 v0, 0x0\\n    return-object v0\\n.end method\\n", encoding="utf-8")
+            (config / "ConnectConfiguration$ConfigProperty.smali").write_text(
+                ".field public static final enum CORE_VERSION_ALPHA:Lcom/nuance/connect/service/configuration/ConnectConfiguration$ConfigProperty;\\n", encoding="utf-8")
+            (manager / "AbstractCommandManager.smali").write_text(
+                ".field protected client:Lcom/nuance/connect/service/ConnectClient;\\n", encoding="utf-8")
             (manager / "LanguageManager$LanguageListTransaction.smali").write_text(
                 ".class public Ltest;\n"
+                ".field final synthetic this$0:Lcom/nuance/connect/service/manager/LanguageManager;\n"
                 ".method private getList()V\n    .locals 0\n    return-void\n.end method\n"
                 "# access$100(\n", encoding="utf-8")
             (manager / "LanguageManager.smali").write_text(
@@ -60,6 +71,10 @@ class GitHubLanguageBridgeTest(unittest.TestCase):
             self.assertNotIn("->startTransaction(", request_code)
             self.assertIn("const/high16 v5, 0x100000", bridge)
             self.assertIn("Language catalog larger than 1 MiB", bridge)
+            transaction_code = (manager / "LanguageManager$LanguageListTransaction.smali").read_text(encoding="utf-8")
+            self.assertIn("Configured runtime Alpha core: ", transaction_code)
+            self.assertIn("ConnectClient;->getString(", transaction_code)
+            self.assertIn("ConfigProperty;->CORE_VERSION_ALPHA:", transaction_code)
             self.assertIn("GitHubLanguageCatalog;->isCatalogValid(Lorg/json/JSONArray;)Z", bridge)
             self.assertIn('const-string v3, "146"', bridge)
             self.assertIn('const-string v3, "102"', bridge)
