@@ -1,0 +1,23 @@
+name: Verify Swype GitHub language response bridge
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'language-packs/patch_language_catalog.py'
+      - 'language-packs/test_github_language_bridge.py'
+      - '.github/workflows/test-language-bridge.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bridge-unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test generated response map key (synthetic smali)
+        run: python3 -m unittest -v language-packs/test_github_language_bridge.py

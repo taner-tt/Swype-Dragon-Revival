@@ -126,6 +126,8 @@ out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLangu
     iput v3, v2, Lcom/nuance/connect/comm/Response;->status:I
     new-instance v3, Ljava/util/HashMap;
     invoke-direct {v3}, Ljava/util/HashMap;-><init>()V
+    # Verified against decompiled MessageAPI.java: LANGUAGE_LIST = "43".
+    # Response.parameters is HashMap<String, Object>, so the String key is correct.
     invoke-virtual {v3, v0, v1}, Ljava/util/HashMap;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
     iput-object v3, v2, Lcom/nuance/connect/comm/Response;->parameters:Ljava/util/HashMap;
     iget-object v0, p0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;->transaction:Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;
