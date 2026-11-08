@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/swype-klipy-prelink.yml'
       - 'klipy/android/src/**'
+      - 'klipy/tools/audit_emoji_hook.py'
   workflow_dispatch:
 
 permissions:
@@ -43,6 +44,23 @@ jobs:
             --pattern Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk --dir input
           echo '22080f447de71f5f1b9dd1d8ca191a6b4db64510fbdff38000235742aed05d23  input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk' | sha256sum --check
           unzip -t input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk >/dev/null
+      - name: Install apktool for read-only hook audit
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y apktool
+      - name: Inspect the TEST3 emoji tab wiring (read-only)
+        run: |
+          set -euo pipefail
+          apktool d -f --no-res input/Swype-3722-EmojiStrip-CODE-FIX-TEST3.apk -o decoded
+          python3 klipy/tools/audit_emoji_hook.py decoded build/emoji-hook-audit.txt
+      - name: Upload emoji hook mapping
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swype-gif-tab-hook-audit
+          path: build/emoji-hook-audit.txt
+          if-no-files-found: warn
+          retention-days: 5
       - name: Prelink KLIPY classes as classes2.dex
         run: |
           set -euo pipefail
