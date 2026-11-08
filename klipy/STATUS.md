@@ -28,3 +28,11 @@
 - Green GitHub workflow means Java/DEX compilation, not device runtime validation.
 - The GUI is not fully functional simply because `classes2.dex` has been appended.
 - Do not publish an unsigned diagnostic artifact as a test-ready APK.
+
+## 2026-11-08: Experimental real GIF tab hook added
+- New `klipy/android/src/com/swyperevival/klipy/KlipyGifBridge.java` provides GIF-only handling, fallback to original tab behavior and an on-device test-key entry. No secrets embedded in public source.
+- New `klipy/tools/patch_emoji_gif_tab.py` adds a guarded single call at the start of TEST3 `EmojiInputController.onTabChanged(String)`.
+- New workflow `.github/workflows/swype-klipy-integration.yml` compiles the KLIPY classes, patches the original DEX, and assembles **UNSIGNED / DO NOT INSTALL** output while checking emoji/theme resources are byte-identical.
+- Build success and runtime behavior are **not yet verified**. No signed installable GIF APK yet.
+- The GIF tab bridge routes only a tab whose category name is exactly `GIF` ignoring case; actual on-device tab name and layout behavior require testing.
+- GIF sending is intentionally not wired yet. Selection currently only shows a message.
