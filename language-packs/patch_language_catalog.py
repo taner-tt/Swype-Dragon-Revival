@@ -66,6 +66,13 @@ for name, file_path, expected in checks:
         raise RuntimeError(f"Missing verified runtime Alpha core API: {name}; refusing unsafe patch")
 
 replacement = """.method private getList()V
+    .locals 0
+    # Original constructor calls getList(). Do not spawn the GitHub worker
+    # until LanguageManager has registered this transaction as active.
+    return-void
+.end method
+
+.method public startGitHubFetch()V
     .locals 4
 
     # Diagnostic must not prevent language fetch during early startup.
@@ -123,8 +130,87 @@ request = manager_smali[request_start:request_end]
 old_queue_call = "    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/LanguageManager;->startTransaction(Lcom/nuance/connect/comm/Transaction;)V"
 if request.count(old_queue_call) != 1:
     raise RuntimeError("Unexpected requestLanguagesList queue path; stopping patch")
-manager_smali = manager_smali[:request_start] + request.replace(old_queue_call, "    # GitHub worker completes this list transaction; no Nuance command queue.") + manager_smali[request_end:]
+# Register the transaction with Swype's original active/idle tracking before
+# starting the worker. Do not send the transaction to Nuance's CommandQueue.
+# Constructor getList() is now a no-op, so registration happens before network.
+request_replacement = """    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/LanguageManager;->registerLocalLanguageListTransaction(Lcom/nuance/connect/comm/Transaction;)Z
+
+    move-result v0
+
+    if-eqz v0, :github_done
+
+    # The original transaction object has already been registered. Retrieve
+    # it from activeTransactions by name without creating a second instance.
+    const-string v0, "LanguageListTransaction"
+    # placeholder replaced below after checking original getName() semantics.
+"""
+# Use a preserved local register v1 to avoid any identity/name lookup.
+request_new = request.replace(".locals 1", ".locals 2")
+request_new = request_new.replace(
+    old_queue_call,
+    """    move-object v1, v0
+
+    invoke-virtual {p0, v1}, Lcom/nuance/connect/service/manager/LanguageManager;->registerLocalLanguageListTransaction(Lcom/nuance/connect/comm/Transaction;)Z
+
+    move-result v0
+
+    if-eqz v0, :github_done
+
+    invoke-virtual {v1}, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->startGitHubFetch()V
+
+    :github_done"""
+)
+manager_smali = manager_smali[:request_start] + request_new + manager_smali[request_end:]
 manager.write_text(manager_smali)
+
+# Add one narrow tracking method to the original manager superclass. This is
+# called ONLY by the patched language-list request and changes no queue logic.
+superclass_path = Path(sys.argv[1]) / "smali/com/nuance/connect/service/manager/AbstractCommandManager.smali"
+if not superclass_path.exists():
+    raise RuntimeError("AbstractCommandManager.smali missing")
+superclass = superclass_path.read_text()
+for marker in (
+    ".field protected final activeTransactions:Ljava/util/Map;",
+    ".field private final idleProperty:Lcom/nuance/connect/internal/GenericProperty$BooleanProperty;",
+    ".method protected isTransactionActive(Ljava/lang/String;)Z",
+):
+    if marker not in superclass:
+        raise RuntimeError(f"Required original transaction tracking API absent: {marker}")
+if "registerLocalLanguageListTransaction(" in superclass:
+    raise RuntimeError("Language local transaction method already present")
+superclass += """
+
+# Keep Swype's original activeTransactions/idleProperty bookkeeping but omit
+# the Nuance command dispatch, which would end this HTTP-free transaction early.
+.method protected registerLocalLanguageListTransaction(Lcom/nuance/connect/comm/Transaction;)Z
+    .locals 4
+
+    invoke-interface {p1}, Lcom/nuance/connect/comm/Transaction;->getName()Ljava/lang/String;
+    move-result-object v0
+
+    invoke-virtual {p0, v0}, Lcom/nuance/connect/service/manager/AbstractCommandManager;->isTransactionActive(Ljava/lang/String;)Z
+    move-result v1
+    if-nez v1, :already_active
+
+    iget-object v1, p0, Lcom/nuance/connect/service/manager/AbstractCommandManager;->activeTransactions:Ljava/util/Map;
+    invoke-interface {v1, v0, p1}, Ljava/util/Map;->put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    iget-object v1, p0, Lcom/nuance/connect/service/manager/AbstractCommandManager;->idleProperty:Lcom/nuance/connect/internal/GenericProperty$BooleanProperty;
+    const/4 v2, 0x0
+    invoke-static {v2}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+    move-result-object v2
+    sget-object v3, Lcom/nuance/connect/internal/Property$Source;->DEFAULT:Lcom/nuance/connect/internal/Property$Source;
+    invoke-virtual {v1, v2, v3}, Lcom/nuance/connect/internal/GenericProperty$BooleanProperty;->setValue(Ljava/lang/Boolean;Lcom/nuance/connect/internal/Property$Source;)V
+
+    const/4 v0, 0x1
+    return v0
+
+    :already_active
+    const/4 v0, 0x0
+    return v0
+.end method
+"""
+superclass_path.write_text(superclass)
 
 out = p.parent / "GitHubLanguageCatalog.smali"
 out.write_text(r'''.class public Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
