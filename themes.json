@@ -2453,13 +2453,13 @@
       "sha256": "fba12566b94623ab87031efb5a0cdd1bbda5c95fc7b6201bce57f3eab7c74911"
     },
     {
-      "id": "RDR.STRIP.TEST",
-      "name": "RDR STRIP TEST – rosa remsa",
-      "filename": "RDR.STRIP.TEST.zip",
-      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.STRIP.TEST.zip",
+      "id": "RDR.BLACK.AMOLED.ALL.ALT.GRAY",
+      "name": "RDR Black AMOLED – alla grå symboler",
+      "filename": "RDR-BLACK-AMOLED-ALLA-SYMBOLER-GRA-TEST.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR-BLACK-AMOLED-ALLA-SYMBOLER-GRA-TEST.zip",
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
-      "size": 327253,
-      "sha256": "17e8cbe655f527a8a0bce7db77d28ec9144c8eb326340c7fb95925ce933438f4"
+      "size": 327319,
+      "sha256": "dabba0bdc05d20cd0cb191488737b0d307166876ec0abcdcd7f8e5925ab9c8e7"
     }
   ]
 }
