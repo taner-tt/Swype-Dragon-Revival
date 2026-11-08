@@ -2,7 +2,7 @@
   "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
-  "count": 274,
+  "count": 272,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
@@ -2449,26 +2449,8 @@
       "filename": "RDR.BLACK.AMOLED.V1.zip",
       "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.BLACK.AMOLED.V1.zip",
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
-      "size": 327239,
-      "sha256": "5b84f419250954c608df6ba0535aa4dfe87b0ade82e92b9f3e306d22746c624e"
-    },
-    {
-      "id": "RDR.TEST",
-      "name": "RDR TEST – nedladdningskontroll",
-      "filename": "RDR.TEST.zip",
-      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.TEST.zip",
-      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
-      "size": 329184,
-      "sha256": "536ad1f38438789ebe6921f4ca2881d37e538edc5af34ee2342adb09ed4d3e63"
-    },
-    {
-      "id": "RDR.FIX",
-      "name": "RDR FIX – Class Match TEST",
-      "filename": "RDR.FIX.zip",
-      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.FIX.zip",
-      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
-      "size": 327188,
-      "sha256": "aa17d23d1d97fa683f6485d94cf42df34153f8b68de64d2783cc6ebcc606e08e"
+      "size": 327227,
+      "sha256": "fba12566b94623ab87031efb5a0cdd1bbda5c95fc7b6201bce57f3eab7c74911"
     }
   ]
 }
