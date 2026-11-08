@@ -1,0 +1,121 @@
+name: Publish RDR AMOLED V1 trial to FÅ TEMA
+on:
+  push:
+    branches: ['experiment/rdr-black-amoled-v1']
+    paths: ['.github/workflows/rdr-amoled-publish.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: rdr-amoled-v1-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild original Flat Black v3 into isolated RDR theme
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p rdr-work/input/source rdr-work/output
+          gh release download themes-v1 --pattern Flat_Black_v3.zip --dir rdr-work/input
+          unzip -t rdr-work/input/Flat_Black_v3.zip >/dev/null
+          unzip -q rdr-work/input/Flat_Black_v3.zip -d rdr-work/input/source
+          test -s rdr-work/input/source/Flat_Black_v3.apk
+          curl -fLsS --retry 3 https://github.com/iBotPeaches/Apktool/releases/download/v3.0.3/apktool_3.0.3.jar -o /tmp/apktool.jar
+          echo 'dbf930b076c6b9be08d57c449cacefc3bdd6b71ebd59b3066fc0e1f5b14f9423  /tmp/apktool.jar' | sha256sum -c -
+          python3 -m pip install --disable-pip-version-check pillow
+          java -jar /tmp/apktool.jar d -f rdr-work/input/source/Flat_Black_v3.apk -o rdr-work/theme
+          python3 rdr-amoled/make_previews.py rdr-work/theme rdr-work/input/source/preview/Flat_Black_v3.png rdr-work/output/preview
+          python3 rdr-amoled/patch_flat_black.py rdr-work/theme
+          java -jar /tmp/apktool.jar b rdr-work/theme -o rdr-work/output/RDR.BLACK.AMOLED.V1-unsigned.apk
+      - name: Sign test-theme APK with independent disposable signer
+        run: |
+          set -euo pipefail
+          ANDROID_APKSIGNER="$(find "$ANDROID_HOME/build-tools" -mindepth 2 -maxdepth 2 -name apksigner -type f | sort -V | tail -1)"
+          test -x "$ANDROID_APKSIGNER"
+          keytool -genkeypair -keystore rdr-work/rdr-test.jks -alias rdr -keyalg RSA -keysize 3072 -validity 3650 -storepass changeit -keypass changeit -dname 'CN=RDR AMOLED test,O=Swype Dragon Revival' -noprompt
+          "$ANDROID_APKSIGNER" sign --ks rdr-work/rdr-test.jks --ks-key-alias rdr --ks-pass pass:changeit --key-pass pass:changeit --out rdr-work/output/RDR.BLACK.AMOLED.V1.apk rdr-work/output/RDR.BLACK.AMOLED.V1-unsigned.apk
+          "$ANDROID_APKSIGNER" verify --verbose rdr-work/output/RDR.BLACK.AMOLED.V1.apk
+          rm -f rdr-work/rdr-test.jks rdr-work/output/RDR.BLACK.AMOLED.V1-unsigned.apk
+          (cd rdr-work/output && zip -q -r ../RDR.BLACK.AMOLED.V1.zip RDR.BLACK.AMOLED.V1.apk preview)
+          unzip -t rdr-work/RDR.BLACK.AMOLED.V1.zip
+      - name: Verify color policy, name and package before publishing
+        run: |
+          python3 - <<'PY'
+          import os, json, hashlib, zipfile
+          from PIL import Image, ImageStat
+          p='rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png'
+          im=Image.open(p).convert('RGB')
+          assert max(ImageStat.Stat(im).stddev)>10, 'Preview is blank'
+          assert set(im.getdata()).issubset({(0,0,0),(255,255,255)}), 'Preview contains non-black/white pixels'
+          with zipfile.ZipFile('rdr-work/RDR.BLACK.AMOLED.V1.zip') as z:
+            assert z.testzip() is None
+            assert 'RDR.BLACK.AMOLED.V1.apk' in z.namelist()
+            assert 'preview/RDR.BLACK.AMOLED.V1.png' in z.namelist()
+            assert z.read('preview/RDR.BLACK.AMOLED.V1.png') == open(p,'rb').read()
+          decoded=open('rdr-work/theme/AndroidManifest.xml',encoding='utf8').read()
+          assert 'com.nuance.swype.theme.rdr_black_amoled_v1' in decoded
+          assert 'com.nuance.swype.theme.flatblack_v3xx' not in decoded.split('package=',1)[1].split('"',2)[1], 'Original package collision'
+          print('RDR package, matching black/white preview, signed ZIP verified')
+          PY
+      - name: Upload RDR ZIP to existing themes-v1 release, preserving all existing themes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release view themes-v1 --json assets --jq '.assets[].name' | grep -Fx 'Flat_Black_v3.zip'
+          if gh release view themes-v1 --json assets --jq '.assets[].name' | grep -Fx 'RDR.BLACK.AMOLED.V1.zip'; then
+            echo "RDR version already published; will not silently overwrite an existing release asset"
+            exit 1
+          fi
+          gh release upload themes-v1 rdr-work/RDR.BLACK.AMOLED.V1.zip --clobber=false
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: catalog-main
+      - name: Add ONLY RDR preview and catalog entry to main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cp rdr-work/output/preview/RDR.BLACK.AMOLED.V1.png catalog-main/theme-previews/RDR.BLACK.AMOLED.V1.png
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          file=Path('catalog-main/themes.json')
+          d=json.loads(file.read_text(encoding='utf8'))
+          assert d['schema']==2 and d['count']==len(d['themes'])
+          assert any(x['id']=='Flat_Black_v3' for x in d['themes'])
+          assert not any(x['id']=='RDR.BLACK.AMOLED.V1' for x in d['themes']), 'Already in catalog'
+          path=Path('rdr-work/RDR.BLACK.AMOLED.V1.zip')
+          id='RDR.BLACK.AMOLED.V1'
+          base='https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/'
+          d['themes'].append({
+            'id':id,'name':id,'filename':id+'.zip',
+            'url':base+id+'.zip',
+            'preview':'https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/'+id+'.png',
+            'size':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+          })
+          d['themes'].sort(key=lambda x:x['id'].lower())
+          d['count']=len(d['themes'])
+          assert d['count']>=272
+          file.write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+          print('Catalog now contains',d['count'],'themes')
+          PY
+          cd catalog-main
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add themes.json theme-previews/RDR.BLACK.AMOLED.V1.png
+          git commit -m 'Publish RDR.BLACK.AMOLED.V1 test theme in catalog'
+          git push origin main
+      - name: Confirm live catalog and theme asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release view themes-v1 --json assets --jq '.assets[].name' | grep -Fx 'RDR.BLACK.AMOLED.V1.zip'
+          git -C catalog-main show HEAD:themes.json | grep -F '"id": "RDR.BLACK.AMOLED.V1"'
+          echo 'RDR AMOLED V1 published to FÅ TEMA catalog on main'
