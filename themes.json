@@ -2,7 +2,7 @@
   "schema": 2,
   "repository": "taner-tt/Swype-Dragon-Revival",
   "release": "themes-v1",
-  "count": 272,
+  "count": 273,
   "themes": [
     {
       "id": "btm.theme.garfield_bestfriends",
@@ -2451,6 +2451,15 @@
       "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
       "size": 327239,
       "sha256": "5b84f419250954c608df6ba0535aa4dfe87b0ade82e92b9f3e306d22746c624e"
+    },
+    {
+      "id": "RDR.BLACK.AMOLED.V3",
+      "name": "RDR.BLACK.AMOLED.V3 (Test)",
+      "filename": "RDR.BLACK.AMOLED.V3.zip",
+      "url": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/themes-v1/RDR.BLACK.AMOLED.V3.zip",
+      "preview": "https://raw.githubusercontent.com/taner-tt/Swype-Dragon-Revival/main/theme-previews/RDR.BLACK.AMOLED.V1.png",
+      "size": 292182,
+      "sha256": "945cdf655cc19d70f2b760d0206a04429c7aa0085477ea0d62a720c5521fa733"
     }
   ]
 }
