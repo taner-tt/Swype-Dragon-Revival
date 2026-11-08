@@ -68,6 +68,8 @@ for name, file_path, expected in checks:
 replacement = """.method private getList()V
     .locals 4
 
+    # Diagnostic must not prevent language fetch during early startup.
+    :alpha_try_start
     # Read-only diagnostic: the real host-configured Alpha core version.
     iget-object v0, p0, Lcom/nuance/connect/service/manager/LanguageManager$LanguageListTransaction;->this$0:Lcom/nuance/connect/service/manager/LanguageManager;
     iget-object v0, v0, Lcom/nuance/connect/service/manager/AbstractCommandManager;->client:Lcom/nuance/connect/service/ConnectClient;
@@ -83,6 +85,15 @@ replacement = """.method private getList()V
     invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
     move-result-object v2
     invoke-static {v1, v2}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
+    :alpha_try_end
+    .catch Ljava/lang/Exception; {:alpha_try_start .. :alpha_try_end} :alpha_error
+    goto :alpha_done
+    :alpha_error
+    move-exception v0
+    const-string v1, "SwypeGitHubLanguages"
+    const-string v2, "Runtime Alpha core not available yet"
+    invoke-static {v1, v2, v0}, Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+    :alpha_done
 
     new-instance v0, Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;
 
