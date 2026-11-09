@@ -77,25 +77,6 @@ jobs:
           Path("/tmp/swype-language-bridge-check/nuance-language-list.json").write_text(json.dumps({"43": [entry]}))
           PY
           python3 /tmp/swype-language-bridge-check/patch_language_catalog.py inspection/decoded
-      - name: Install packaging and signature tools for offline owner-side 3722 testing
-        run: |
-          sudo apt-get install -y zipalign apksigner
-          command -v zipalign
-          command -v apksigner
-      - name: Package offline Android build tools, never private APK or keys
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/swype-toolchain/bin /tmp/swype-toolchain/usr/share
-          cp /usr/bin/apktool /usr/bin/apksigner /usr/bin/zipalign /tmp/swype-toolchain/bin/
-          cp -a /usr/share/java /tmp/swype-toolchain/usr/share/
-          tar -czf /tmp/swype-offline-toolchain.tar.gz -C /tmp swype-toolchain
-          ls -lh /tmp/swype-offline-toolchain.tar.gz
-      - name: Upload offline toolchain for private local APK build
-        uses: actions/upload-artifact@v4
-        with:
-          name: swype-offline-toolchain
-          path: /tmp/swype-offline-toolchain.tar.gz
-          retention-days: 1
       - name: Assemble actual modified Swype APK without signing or publishing
         run: |
           set -euo pipefail
