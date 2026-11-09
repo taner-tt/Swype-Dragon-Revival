@@ -2,91 +2,98 @@ package com.swyperevival.klipy;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Search input controlled inside the IME itself. An Android EditText hosted in
- * an input method attempts to summon another IME / edits the receiving editor.
- * These button presses edit only the search query, never the conversation.
+ * Compact dark search UI within the keyboard. It never injects a search query
+ * into the currently focused chat editor and never starts another IME.
+ *
+ * The search layout deliberately resembles the existing black Swype theme:
+ * white glyphs directly on black, no light rounded keycaps. It does not
+ * replace or modify the user's ordinary Swype keyboard or theme resources.
  */
 public final class KlipySearchKeyboard extends LinearLayout {
+    private static final int BACKGROUND = Color.BLACK;
+    private static final int SEARCH_BACKGROUND = 0xff191919;
     private final TextView queryView;
     private final LinearLayout keys;
     private final StringBuilder query = new StringBuilder();
     private final Runnable onSearch;
-    private final int px;
+    private final int dp;
 
     public KlipySearchKeyboard(Context context, Runnable onSearch) {
         super(context);
         this.onSearch = onSearch;
-        px = Math.max(1, (int) (context.getResources().getDisplayMetrics().density + .5f));
+        dp = Math.max(1, (int)(context.getResources().getDisplayMetrics().density + 0.5f));
         setOrientation(VERTICAL);
-        setBackgroundColor(0xff121212);
+        setBackgroundColor(BACKGROUND);
 
-        LinearLayout bar = new LinearLayout(context);
-        bar.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout header = new LinearLayout(context);
+        header.setGravity(Gravity.CENTER_VERTICAL);
         queryView = new TextView(context);
         queryView.setTextColor(Color.WHITE);
-        queryView.setHintTextColor(0xffbbbbbb);
-        queryView.setHint("Search KLIPY – tryck för att skriva");
-        queryView.setTextSize(16f);
+        queryView.setHintTextColor(0xffaaaaaa);
+        queryView.setTextSize(15f);
+        queryView.setSingleLine(true);
         queryView.setGravity(Gravity.CENTER_VERTICAL);
-        queryView.setPadding(10 * px, 0, 6 * px, 0);
-        queryView.setBackgroundColor(0xff292929);
-        bar.addView(queryView, new LayoutParams(0, 46 * px, 1f));
-        Button go = button(context, "Sök");
-        bar.addView(go, new LayoutParams(70 * px, 46 * px));
-        addView(bar, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        queryView.setPadding(10 * dp, 0, 6 * dp, 0);
+        queryView.setBackgroundColor(SEARCH_BACKGROUND);
+        header.addView(queryView, new LayoutParams(0, 38 * dp, 1f));
+        header.addView(key(context, "Sök", 14, this::submit), new LayoutParams(56 * dp, 38 * dp));
+        header.addView(key(context, "×", 22, () -> keys.setVisibility(View.GONE)),
+                new LayoutParams(34 * dp, 38 * dp));
+        addView(header, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
         keys = new LinearLayout(context);
         keys.setOrientation(VERTICAL);
         keys.setVisibility(View.GONE);
+        keys.setBackgroundColor(BACKGROUND);
         addView(keys);
         addRow(context, "qwertyuiop");
         addRow(context, "asdfghjkl");
         addRow(context, "zxcvbnmåäö");
+
         LinearLayout controls = new LinearLayout(context);
-        controls.addView(action(context, "Mellanslag", () -> append(" ")), new LayoutParams(0, 42 * px, 3f));
-        controls.addView(action(context, "⌫", this::backspace), new LayoutParams(0, 42 * px, 1f));
-        controls.addView(action(context, "Rensa", this::clear), new LayoutParams(0, 42 * px, 1.5f));
+        controls.addView(key(context, "123", 13, () -> { }), new LayoutParams(0, 34 * dp, 1f));
+        controls.addView(key(context, "Mellanslag", 13, () -> append(" ")),
+                new LayoutParams(0, 34 * dp, 3f));
+        controls.addView(key(context, "⌫", 19, this::backspace), new LayoutParams(0, 34 * dp, 1f));
+        controls.addView(key(context, "Rensa", 13, this::clear), new LayoutParams(0, 34 * dp, 1.2f));
         keys.addView(controls);
-        queryView.setOnClickListener(v -> keys.setVisibility(keys.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
-        go.setOnClickListener(v -> submit());
+        queryView.setOnClickListener(v ->
+                keys.setVisibility(keys.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
         update();
     }
 
-    private Button button(Context c, String label) {
-        Button b = new Button(c);
-        b.setAllCaps(false);
-        b.setText(label);
-        b.setTextSize(13f);
-        b.setMinHeight(0);
-        b.setMinimumHeight(0);
-        b.setPadding(0, 0, 0, 0);
-        return b;
-    }
-
-    private Button action(Context c, String title, Runnable run) {
-        Button b = button(c, title);
-        b.setOnClickListener(v -> run.run());
-        return b;
+    private TextView key(Context context, String label, int textSize, Runnable action) {
+        TextView key = new TextView(context);
+        key.setText(label);
+        key.setTextColor(Color.WHITE);
+        key.setTextSize(textSize);
+        key.setGravity(Gravity.CENTER);
+        key.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+        key.setBackgroundColor(BACKGROUND);
+        key.setClickable(true);
+        key.setOnClickListener(v -> action.run());
+        return key;
     }
 
     private void addRow(Context context, String letters) {
         LinearLayout row = new LinearLayout(context);
         for (int i = 0; i < letters.length(); i++) {
             final String letter = String.valueOf(letters.charAt(i));
-            row.addView(action(context, letter, () -> append(letter)),
-                    new LayoutParams(0, 42 * px, 1f));
+            row.addView(key(context, letter, 20, () -> append(letter)),
+                    new LayoutParams(0, 36 * dp, 1f));
         }
         keys.addView(row);
     }
 
     private void append(String text) {
-        if (query.length() >= 200) return;
+        if (query.length() + text.length() > 200) return;
         query.append(text);
         update();
     }
@@ -103,7 +110,7 @@ public final class KlipySearchKeyboard extends LinearLayout {
 
     private void update() {
         queryView.setText(query.toString());
-        queryView.setHint("Search KLIPY – tryck för att skriva");
+        queryView.setHint("Search KLIPY");
     }
 
     private void submit() {
