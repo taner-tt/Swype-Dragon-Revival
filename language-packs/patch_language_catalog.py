@@ -10,10 +10,16 @@ import sys
 # A catalog with no downloadable packs cannot complete a usable language refresh.
 # Fail the release build rather than silently leaving the transaction pending.
 import json
+import os
+DIAGNOSTIC_ONLY = os.getenv("SWYPE_LANGUAGE_DIAGNOSTIC_ONLY") == "1"
 catalog = Path(__file__).with_name("nuance-language-list.json")
 entries = json.loads(catalog.read_text(encoding="utf-8")).get("43")
-if not isinstance(entries, list) or not entries:
+if not isinstance(entries, list) or (not entries and not DIAGNOSTIC_ONLY):
     raise RuntimeError("GitHub language catalog has no verified downloadable packs; refusing to produce a misleading installable APK")
+if DIAGNOSTIC_ONLY:
+    if entries:
+        raise RuntimeError("Diagnostic-only mode requires an EMPTY catalog to prevent a pretend language release")
+    print("DIAGNOSTIC ONLY: empty GitHub catalog; measures CORE_VERSION_ALPHA at list refresh. No downloads are possible.")
 # These are the literal Nuance JSON field identifiers consumed by listResponse().
 # In particular checksum 10 is MD5, not the SHA-256 used by the public manifest.
 from urllib.parse import urlparse
