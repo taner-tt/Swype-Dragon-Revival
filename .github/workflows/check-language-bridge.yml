@@ -6,6 +6,10 @@ on:
     paths:
       - 'language-packs/patch_language_catalog.py'
       - 'language-packs/test_github_bridge_error_handling.py'
+      - 'language-packs/audit_real_lifecycle_contract.py'
+      - 'language-packs/audit_swype_3722_dex.py'
+      - 'language-packs/verify_3722_language_candidate.py'
+      - 'language-packs/test_3722_guard.py'
       - '.github/workflows/check-language-bridge.yml'
 
 permissions:
@@ -17,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Compile 3722 guard scripts (private reference only tested locally)
+        run: python3 -m py_compile language-packs/audit_swype_3722_dex.py language-packs/verify_3722_language_candidate.py language-packs/test_3722_guard.py
       - name: Install smali assembler
         run: |
           sudo apt-get update
@@ -48,6 +54,8 @@ jobs:
           test -f 'inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali'
           test -f inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager.smali
           test -f inspection/decoded/smali/com/nuance/connect/comm/Response.smali
+      - name: Verify exact original transaction lifecycle contracts
+        run: python3 language-packs/audit_real_lifecycle_contract.py inspection/decoded
       - name: Install APK assembler
         run: |
           sudo apt-get update
@@ -76,3 +84,84 @@ jobs:
           unzip -t /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk >/dev/null
           test -s /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk
           echo 'Real original decompiled APK assembled with patched catalog bridge; no APK published.'
+
+      - name: Install standalone local APK signing and alignment tools
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y zipalign apksigner
+          command -v apktool
+          command -v zipalign
+          command -v apksigner
+      - name: Export only offline Android toolchain (no APK or secrets)
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/swype-offline/bin /tmp/swype-offline/share /tmp/swype-offline/lib
+          cp /usr/bin/apktool /usr/bin/zipalign /usr/bin/apksigner /tmp/swype-offline/bin/
+          cp -a /usr/share/java /tmp/swype-offline/share/
+          cp -a /usr/share/apktool /tmp/swype-offline/share/
+          if test -f /usr/share/android-framework-res/framework-res.apk; then
+            mkdir -p /tmp/swype-offline/share/android-framework-res
+            cp /usr/share/android-framework-res/framework-res.apk /tmp/swype-offline/share/android-framework-res/
+          fi
+          mkdir -p /tmp/swype-offline/patch
+          cp language-packs/patch_language_catalog.py /tmp/swype-offline/patch/
+          for library in $(ldd /usr/bin/zipalign | awk '/=>/ {print $3}'); do
+            case "$library" in
+              */libc.so.*|*/libm.so.*|*/libstdc++.so.*|*/libgcc_s.so.*|*/libz.so.*|*/libpthread.so.*|*/libdl.so.*) continue ;;
+            esac
+            cp -L "$library" /tmp/swype-offline/lib/ || true
+          done
+          tar -czf /tmp/swype-offline-tools.tar.gz -C /tmp swype-offline
+          du -h /tmp/swype-offline-tools.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: swype-local-apk-toolchain
+          path: /tmp/swype-offline-tools.tar.gz
+          retention-days: 1
+
+
+  diagnostic-empty-catalog-smali-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download preserved decompiled reference (not the new private 3722)
+        uses: actions/download-artifact@v4
+        with:
+          name: swype-inspection
+          run-id: 42079023597
+          repository: ${{ github.repository }}
+          github-token: ${{ github.token }}
+          path: inspection
+      - name: Verify original transaction lifecycle contracts
+        run: python3 language-packs/audit_real_lifecycle_contract.py inspection/decoded
+      - name: Install APK assembler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y apktool
+      - name: Patch exact EMPTY public catalog using diagnostic-only flag
+        env:
+          SWYPE_LANGUAGE_DIAGNOSTIC_ONLY: '1'
+        run: |
+          set -euo pipefail
+          python3 language-packs/patch_language_catalog.py inspection/decoded
+          test -f inspection/decoded/smali/com/nuance/connect/service/manager/GitHubLanguageCatalog.smali
+          grep -q 'Configured runtime Alpha core:' 'inspection/decoded/smali/com/nuance/connect/service/manager/LanguageManager$LanguageListTransaction.smali'
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path('language-packs/nuance-language-list.json').read_text())
+          assert c == {'43': []}, 'Diagnostic-only test must NOT have downloadable languages'
+          PY
+      - name: Build unsigned diagnostic-only older reference APK
+        run: |
+          set -euo pipefail
+          apktool b inspection/decoded -o /tmp/swype-OLDER-REFERENCE-DIAGNOSTIC-UNSIGNED.apk
+          unzip -t /tmp/swype-OLDER-REFERENCE-DIAGNOSTIC-UNSIGNED.apk >/dev/null
+          python3 - <<'PY'
+          import zipfile
+          with zipfile.ZipFile('/tmp/swype-OLDER-REFERENCE-DIAGNOSTIC-UNSIGNED.apk') as apk:
+              dex = apk.read('classes.dex')
+              assert b'GitHubLanguageCatalog' in dex
+              assert b'Configured runtime Alpha core:' in dex
+          print('PASS: diagnostic patch assembles with empty catalog on preserved reference; NOT 3722, NOT signed, NOT runtime-tested')
+          PY
