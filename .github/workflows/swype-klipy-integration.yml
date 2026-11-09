@@ -9,6 +9,8 @@ on:
       - 'klipy/tools/patch_popup_gif_handler.py'
       - 'klipy/tools/test_popup_gif_patch.py'
       - 'klipy/tools/test_klipy_inherited_label.py'
+      - 'klipy/tools/patch_swype_ime_gif_sender.py'
+      - 'klipy/tools/test_swype_ime_gif_sender.py'
       - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
@@ -40,6 +42,8 @@ jobs:
         run: python3 klipy/tools/test_popup_gif_patch.py
       - name: Test inherited popup key label against real Java reflection helper
         run: python3 klipy/tools/test_klipy_inherited_label.py
+      - name: Test actual Swype IME binding patch
+        run: python3 klipy/tools/test_swype_ime_gif_sender.py
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
@@ -74,6 +78,7 @@ jobs:
           python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
           python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
           python3 klipy/tools/patch_popup_gif_handler.py decoded | tee -a build/patch-report.txt
+          python3 klipy/tools/patch_swype_ime_gif_sender.py decoded | tee -a build/patch-report.txt
           apktool b decoded -o build/rebuilt.apk
           unzip -p build/rebuilt.apk classes.dex > build/patched.dex
           test -s build/patched.dex
@@ -82,6 +87,7 @@ jobs:
           dex=Path('build/patched.dex').read_bytes()
           assert b'Lcom/swyperevival/klipy/KlipyGifBridge;' in dex, 'No KLIPY bridge ref in patched Swype DEX'
           assert b'notePopupKey' in dex, 'No popup GIF label hook method in patched Swype DEX'
+          assert b'bindService' in dex, 'No actual IME service binding in patched Swype DEX'
           print('PASS: Patched Swype DEX contains KLIPY bridge reference')
           PY
       - name: Reuse original app assets and add KLIPY DEX
