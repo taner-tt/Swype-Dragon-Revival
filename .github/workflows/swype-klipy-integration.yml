@@ -8,6 +8,7 @@ on:
       - 'klipy/tools/audit_gif_popup.py'
       - 'klipy/tools/patch_popup_gif_handler.py'
       - 'klipy/tools/test_popup_gif_patch.py'
+      - 'klipy/tools/test_klipy_inherited_label.py'
       - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
@@ -37,6 +38,8 @@ jobs:
           java -cp build/url-tests com.swyperevival.klipy.KlipyEndpointsTest
       - name: Test popup GIF patch against synthetic smali
         run: python3 klipy/tools/test_popup_gif_patch.py
+      - name: Test inherited popup key label against real Java reflection helper
+        run: python3 klipy/tools/test_klipy_inherited_label.py
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
