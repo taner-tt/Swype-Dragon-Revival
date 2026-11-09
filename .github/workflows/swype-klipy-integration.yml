@@ -5,6 +5,14 @@ on:
       - '.github/workflows/swype-klipy-integration.yml'
       - 'klipy/android/src/**'
       - 'klipy/tools/patch_emoji_gif_tab.py'
+      - 'klipy/tools/audit_gif_popup.py'
+      - 'klipy/tools/patch_popup_gif_handler.py'
+      - 'klipy/tools/test_popup_gif_patch.py'
+      - 'klipy/tools/test_klipy_inherited_label.py'
+      - 'klipy/tools/patch_swype_ime_gif_sender.py'
+      - 'klipy/tools/test_swype_ime_gif_sender.py'
+      - 'klipy/tools/audit_popup_flow.py'
+      - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
       - main
@@ -17,10 +25,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - uses: android-actions/setup-android@v3
       - name: Install tools
         run: |
-          sdkmanager --install 'platforms;android-35' 'build-tools;35.0.0'
+          export ANDROID_HOME="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install 'platforms;android-35' 'build-tools;35.0.0'
           sudo apt-get update -qq
           sudo apt-get install -y apktool default-jdk unzip
       - name: Verify KLIPY URL handling
@@ -31,6 +39,27 @@ jobs:
             klipy/android/src/com/swyperevival/klipy/KlipyEndpoints.java \
             klipy/android/tests/com/swyperevival/klipy/KlipyEndpointsTest.java
           java -cp build/url-tests com.swyperevival.klipy.KlipyEndpointsTest
+      - name: Test popup GIF patch against synthetic smali
+        run: python3 klipy/tools/test_popup_gif_patch.py
+      - name: Test inherited popup key label against real Java reflection helper
+        run: python3 klipy/tools/test_klipy_inherited_label.py
+      - name: Test actual Swype IME binding patch
+        run: python3 klipy/tools/test_swype_ime_gif_sender.py
+      - name: Verify compact AMOLED search and GIF sharing fallback contract
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path('klipy/android/src/com/swyperevival/klipy')
+          ui=(src/'KlipySearchKeyboard.java').read_text(encoding='utf-8')
+          sender=(src/'KlipyGifSender.java').read_text(encoding='utf-8')
+          assert 'new Button(' not in ui, 'Old bright search button layout still present'
+          assert 'Color.BLACK' in ui and 'keys.setVisibility(View.GONE)' in ui
+          assert 'Intent.ACTION_SEND' in sender and 'image/gif' in sender
+          assert 'FLAG_GRANT_READ_URI_PERMISSION' in sender
+          assert 'connection.commitContent' in sender
+          print('PASS: compact black search, direct GIF send and safe share fallback present')
+          PY
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
@@ -59,8 +88,14 @@ jobs:
       - name: Patch exact GIF tab handler
         run: |
           set -euo pipefail
-          apktool d -r -f input/base.apk -o decoded
+          apktool d -f input/base.apk -o decoded
+          python3 klipy/tools/audit_popup_flow.py decoded build/popup-flow-audit.txt
+          python3 klipy/tools/audit_gif_popup.py decoded > build/popup-handler-audit.txt
+          cat build/popup-handler-audit.txt
+          python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
           python3 klipy/tools/patch_emoji_gif_tab.py decoded | tee build/patch-report.txt
+          python3 klipy/tools/patch_popup_gif_handler.py decoded | tee -a build/patch-report.txt
+          python3 klipy/tools/patch_swype_ime_gif_sender.py decoded | tee -a build/patch-report.txt
           apktool b decoded -o build/rebuilt.apk
           unzip -p build/rebuilt.apk classes.dex > build/patched.dex
           test -s build/patched.dex
@@ -68,6 +103,8 @@ jobs:
           from pathlib import Path
           dex=Path('build/patched.dex').read_bytes()
           assert b'Lcom/swyperevival/klipy/KlipyGifBridge;' in dex, 'No KLIPY bridge ref in patched Swype DEX'
+          assert b'notePopupKey' in dex, 'No popup GIF label hook method in patched Swype DEX'
+          assert b'bindService' in dex, 'No actual IME service binding in patched Swype DEX'
           print('PASS: Patched Swype DEX contains KLIPY bridge reference')
           PY
       - name: Reuse original app assets and add KLIPY DEX
@@ -81,20 +118,23 @@ jobs:
           a=Path('build/patched.dex').read_bytes()
           b=Path('build/klipy-dex/classes.dex').read_bytes()
           assert a.startswith(b'dex\n') and b.startswith(b'dex\n')
+          with ZipFile('build/rebuilt.apk') as patched:
+              manifest=patched.read('AndroidManifest.xml')
+              assert manifest!=ZipFile(original).read('AndroidManifest.xml')
           with ZipFile(original) as src,ZipFile(target,'w') as dst:
               assert 'classes2.dex' not in src.namelist()
               for member in src.infolist():
                   n=member.filename
                   if n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA')):continue
-                  dst.writestr(member,a if n=='classes.dex' else src.read(n))
+                  dst.writestr(member,a if n=='classes.dex' else manifest if n=='AndroidManifest.xml' else src.read(n))
               dst.writestr('classes2.dex',b,compress_type=ZIP_DEFLATED)
           with ZipFile(original) as src,ZipFile(target) as dst:
               assert dst.testzip() is None
               assert src.read('classes.dex')!=dst.read('classes.dex')
               for n in src.namelist():
-                  if n=='classes.dex' or (n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA'))):continue
+                  if n in ('classes.dex','AndroidManifest.xml') or (n.startswith('META-INF/') and n.endswith(('.SF','.RSA','.DSA'))):continue
                   assert src.read(n)==dst.read(n),n
-          print('PASS: all original emoji/theme files preserved')
+          print('PASS: original emoji/theme files preserved; provider registered in manifest')
           PY
           sha256sum build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk > build/checksums.txt
       - uses: actions/upload-artifact@v4
@@ -103,6 +143,8 @@ jobs:
           path: |
             build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk
             build/patch-report.txt
+            build/popup-handler-audit.txt
+            build/popup-flow-audit.txt
             build/checksums.txt
           retention-days: 5
 # NOT SIGNED. NOT INSTALLABLE. GIF sending not implemented yet.
