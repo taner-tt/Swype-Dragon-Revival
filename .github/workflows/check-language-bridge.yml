@@ -85,6 +85,34 @@ jobs:
           test -s /tmp/swype-language-bridge-SYNTHETIC-UNSIGNED.apk
           echo 'Real original decompiled APK assembled with patched catalog bridge; no APK published.'
 
+      - name: Install standalone local APK signing and alignment tools
+        run: |
+          set -euo pipefail
+          sudo apt-get install -y zipalign apksigner
+          command -v apktool
+          command -v zipalign
+          command -v apksigner
+      - name: Export only offline Android toolchain (no APK or secrets)
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/swype-offline/bin /tmp/swype-offline/share /tmp/swype-offline/lib
+          cp /usr/bin/apktool /usr/bin/zipalign /usr/bin/apksigner /tmp/swype-offline/bin/
+          cp -a /usr/share/java /tmp/swype-offline/share/
+          for library in $(ldd /usr/bin/zipalign | awk '/=> \\// {print $3}'); do
+            case "$library" in
+              */libc.so.*|*/libm.so.*|*/libstdc++.so.*|*/libgcc_s.so.*|*/libz.so.*|*/libpthread.so.*|*/libdl.so.*) continue ;;
+            esac
+            cp -L "$library" /tmp/swype-offline/lib/ || true
+          done
+          tar -czf /tmp/swype-offline-tools.tar.gz -C /tmp swype-offline
+          du -h /tmp/swype-offline-tools.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: swype-local-apk-toolchain
+          path: /tmp/swype-offline-tools.tar.gz
+          retention-days: 1
+
+
   diagnostic-empty-catalog-smali-integration:
     runs-on: ubuntu-latest
     steps:
