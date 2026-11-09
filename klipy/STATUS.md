@@ -68,3 +68,14 @@ A draft PR is used to make GitHub Actions run IDs and logs available for debuggi
 - Local ZIP check: 4,273 entries, CRC PASS, only `classes.dex` and `classes2.dex` differ from earlier unsigned KLIPY build; all original non-code resources and manifest are unchanged. New `notePopupKey` is present in the patched DEX and KLIPY DEX; corrected key-error text is present in KLIPY DEX.
 - **NOT INSTALLABLE**: this artifact is unsigned. The matching original TEST3 signing key is not available in this session. Do not replace a working installation with a different signing identity.
 - **NOT DEVICE-VERIFIED**: need Samsung check for popup GIF opening KLIPY, regular smiley unaffected, key activation, trending/search and sending; then emulator/other Android coverage before universal compatibility claims.
+
+
+## 2026-11-09: GIF search, sending and intermittent tab recovery test build
+- User verified GIF panel opens and renders 24 KLIPY GIF results but the Android nested `EditText` search was unusable, GIF selection showed `Kan inte nå tangentbordets inmatning`, and the GIF tab sometimes needed switching to Emoji/Senaste and back.
+- Introduced `KlipySearchKeyboard` to enter queries inside the GIF panel without invoking another Android IME.
+- Added a guarded hook in the actual Swype `IME.onStartInputView` and `KlipyGifSender.bindService` so GIF sending can obtain the real current input connection rather than searching themed view contexts.
+- Updated `KlipyGifBridge.intercept` to detect stale/detached GIF views; it restores visibility and foreground order if attached, or rebuilds the session if detached. A repeated tap may still require device validation for Swype's tab event dispatch.
+- CI GitHub Actions run **42667511699**: succeeded, including URL tests, popup smali tests, inherited label reflection test, new IME binder test, Android compilation and packaging.
+- Unsigned APK SHA-256: `9678152f7b7190c87ba7f4585c308d3eef990b81b71620e00b21f465116658a5`.
+- A privately signed test APK was produced locally in conversation: `Swype-3722-KLIPY-GIF-SEARCH-SEND-RECOVERY-SIGNED-TEST.apk`; SHA-256 `14edf3433a2ad5c595f3d5ca2ad29cdf7995bb75fc3347ef537320b0635b0e94`; certificate matches previous signed TEST version; jarsigner verified; signing changed only META-INF files. No keystore, password or API key published in repo.
+- Device runtime and receiver MIME support are **not yet verified**. Incompatible receiving apps may reject IME image/gif content despite valid keyboard binding.
