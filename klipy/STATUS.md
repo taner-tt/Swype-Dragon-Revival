@@ -79,3 +79,9 @@ A draft PR is used to make GitHub Actions run IDs and logs available for debuggi
 - Unsigned APK SHA-256: `9678152f7b7190c87ba7f4585c308d3eef990b81b71620e00b21f465116658a5`.
 - A privately signed test APK was produced locally in conversation: `Swype-3722-KLIPY-GIF-SEARCH-SEND-RECOVERY-SIGNED-TEST.apk`; SHA-256 `14edf3433a2ad5c595f3d5ca2ad29cdf7995bb75fc3347ef537320b0635b0e94`; certificate matches previous signed TEST version; jarsigner verified; signing changed only META-INF files. No keystore, password or API key published in repo.
 - Device runtime and receiver MIME support are **not yet verified**. Incompatible receiving apps may reject IME image/gif content despite valid keyboard binding.
+
+## 2026-11-09: Separate compact search and share-fallback candidate
+- New draft PR #14 (against main) contains compact black search layout replacing the oversized light Android buttons.
+- The GIF sender now attempts Android ACTION_SEND with image/gif and URI grant when the focused editor cannot receive keyboard commitContent.
+- Diagnostic code extracts Swype's actual popup/emoji dispatch methods to an artifact for inspection. No speculative extra popup redirect has been shipped.
+- Still unverified in phone runtime. Do not merge into stable branch or claim that GIF sends in Messenger until tested.
