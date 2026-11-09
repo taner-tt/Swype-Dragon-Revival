@@ -151,8 +151,24 @@ public final class KlipyGifBridge {
                 return false;
             }
             if (old != null && old.shown != null) {
-                if (requestedByPopup) popupGifUntil = 0L;
-                return true;
+                // A stale/detached page can survive an emoji view recreation.
+                // Never claim that GIF is visible unless it belongs to the live pager.
+                try {
+                    View currentPager = (View) field(controller, "pager");
+                    ViewGroup liveParent = (ViewGroup) currentPager.getParent();
+                    if (liveParent != null && old.originalPager == currentPager
+                            && old.parent == liveParent && old.shown.getParent() == liveParent) {
+                        currentPager.setVisibility(View.GONE);
+                        old.shown.setVisibility(View.VISIBLE);
+                        old.shown.bringToFront();
+                        if (requestedByPopup) popupGifUntil = 0L;
+                        return true;
+                    }
+                } catch (Exception ignored) {
+                    // Discard the invalid session and rebuild the panel.
+                }
+                detach(old);
+                SESSIONS.remove(controller);
             }
             try {
                 View pager = (View) field(controller, "pager");
