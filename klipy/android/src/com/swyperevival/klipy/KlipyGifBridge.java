@@ -2,6 +2,7 @@ package com.swyperevival.klipy;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +23,41 @@ public final class KlipyGifBridge {
     private static final WeakHashMap<Object, Session> SESSIONS = new WeakHashMap<>();
     private static final String PREFS = "swype_revival_klipy";
     private static final String PREF_KEY = "development_api_key";
+    private static volatile long popupGifUntil;
 
     private KlipyGifBridge() {}
 
     private static Object field(Object owner, String name) throws Exception {
-        Field f = owner.getClass().getDeclaredField(name);
-        f.setAccessible(true);
-        return f.get(owner);
+        // KeyboardEx.Key inherits Android Keyboard.Key.label on some builds.
+        // getDeclaredField() on the concrete class alone misses inherited fields.
+        for (Class<?> type = owner.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                Field f = type.getDeclaredField(name);
+                f.setAccessible(true);
+                return f.get(owner);
+            } catch (NoSuchFieldException ignored) {
+                // Continue through parent types; do not swallow other failures.
+            }
+        }
+        throw new NoSuchFieldException(name);
+    }
+
+    /**
+     * The existing GIF and smiley popup cells have the SAME key code.
+     * Only the actual popup key label distinguishes them. Never put credentials here.
+     * Called before the original popup handler dispatches the key.
+     */
+    public static void notePopupKey(Object popupKey) {
+        try {
+            Object label = popupKey == null ? null : field(popupKey, "label");
+            if (label != null && "GIF".equalsIgnoreCase(label.toString().trim())) {
+                popupGifUntil = SystemClock.uptimeMillis() + 3000L;
+            } else {
+                popupGifUntil = 0L;
+            }
+        } catch (Exception ignored) {
+            popupGifUntil = 0L;
+        }
     }
 
     private static final class Session {
@@ -58,11 +87,8 @@ public final class KlipyGifBridge {
             try { s.parent.removeView(s.shown); } catch (Exception ignored) {}
         }
         if (s.panel != null) s.panel.close();
-        KlipyGifPanel view = new KlipyGifPanel(context, key, gif -> {
-            // Selection deliberately stays disabled until URI grant/commitContent
-            // and KLIPY terms have been checked. Never silently send a URL as text.
-            android.widget.Toast.makeText(context, "GIF-skickning inte inkopplad än", android.widget.Toast.LENGTH_SHORT).show();
-        });
+        KlipyGifPanel view = new KlipyGifPanel(context, key, gif ->
+                KlipyGifSender.send(context, gif, key));
         s.panel = view;
         s.shown = view;
         s.parent.addView(view, Math.min(s.parent.getChildCount(), s.parent.indexOfChild(s.originalPager) + 1),
@@ -84,14 +110,20 @@ public final class KlipyGifBridge {
         key.setSingleLine(true);
         key.setHint("Klistra in KLIPY-testnyckeln");
         key.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        key.setTextColor(0xffffffff);
+        key.setHintTextColor(0xffaaaaaa);
         entry.addView(key);
         Button activate = new Button(context);
         activate.setText("Aktivera GIF-sökning");
         entry.addView(activate);
         activate.setOnClickListener(v -> {
             String value = key.getText().toString().trim();
+            if (value.isEmpty()) {
+                key.setError("Klistra in din KLIPY-testnyckel först");
+                return;
+            }
             if (!value.matches("[A-Za-z0-9_-]{16,256}")) {
-                key.setError("Ogiltig testnyckel");
+                key.setError("Kontrollera nyckelns format (16–256 tecken). KLIPY har inte kontaktats.");
                 return;
             }
             context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
@@ -109,14 +141,35 @@ public final class KlipyGifBridge {
         if (controller == null) return false;
         synchronized (SESSIONS) {
             Session old = SESSIONS.get(controller);
-            if (tab == null || !("gif".equalsIgnoreCase(tab.trim()) || "gifs".equalsIgnoreCase(tab.trim()))) {
+            boolean isGifTab = tab != null && ("gif".equalsIgnoreCase(tab.trim()) || "gifs".equalsIgnoreCase(tab.trim()));
+            boolean requestedByPopup = popupGifUntil > SystemClock.uptimeMillis();
+            if (!isGifTab && !requestedByPopup) {
                 if (old != null) {
                     detach(old);
                     SESSIONS.remove(controller);
                 }
                 return false;
             }
-            if (old != null && old.shown != null) return true;
+            if (old != null && old.shown != null) {
+                // A stale/detached page can survive an emoji view recreation.
+                // Never claim that GIF is visible unless it belongs to the live pager.
+                try {
+                    View currentPager = (View) field(controller, "pager");
+                    ViewGroup liveParent = (ViewGroup) currentPager.getParent();
+                    if (liveParent != null && old.originalPager == currentPager
+                            && old.parent == liveParent && old.shown.getParent() == liveParent) {
+                        currentPager.setVisibility(View.GONE);
+                        old.shown.setVisibility(View.VISIBLE);
+                        old.shown.bringToFront();
+                        if (requestedByPopup) popupGifUntil = 0L;
+                        return true;
+                    }
+                } catch (Exception ignored) {
+                    // Discard the invalid session and rebuild the panel.
+                }
+                detach(old);
+                SESSIONS.remove(controller);
+            }
             try {
                 View pager = (View) field(controller, "pager");
                 ViewGroup parent = (ViewGroup) pager.getParent();
@@ -140,6 +193,7 @@ public final class KlipyGifBridge {
                             new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                                        ViewGroup.LayoutParams.MATCH_PARENT));
                 }
+                if (requestedByPopup) popupGifUntil = 0L;
                 return true;
             } catch (Exception ex) {
                 Session failed = SESSIONS.remove(controller);
