@@ -7,6 +7,9 @@ on:
       - 'language-packs/patch_language_catalog.py'
       - 'language-packs/test_github_bridge_error_handling.py'
       - 'language-packs/audit_real_lifecycle_contract.py'
+      - 'language-packs/audit_swype_3722_dex.py'
+      - 'language-packs/verify_3722_language_candidate.py'
+      - 'language-packs/test_3722_guard.py'
       - '.github/workflows/check-language-bridge.yml'
 
 permissions:
@@ -18,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Compile 3722 guard scripts (private reference only tested locally)
+        run: python3 -m py_compile language-packs/audit_swype_3722_dex.py language-packs/verify_3722_language_candidate.py language-packs/test_3722_guard.py
       - name: Install smali assembler
         run: |
           sudo apt-get update
