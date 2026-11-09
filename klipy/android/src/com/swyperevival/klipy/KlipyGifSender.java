@@ -9,13 +9,21 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputContentInfo;
 import android.widget.Toast;
 import java.util.Locale;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /** Sends GIF content URIs with the Android IME grant flag on supported receivers. */
 public final class KlipyGifSender {
+    private static volatile WeakReference<InputMethodService> activeIme = new WeakReference<>(null);
     private KlipyGifSender(){}
+    /** Called from the actual Swype IME lifecycle, not from the themed GIF view context. */
+    public static void bindService(InputMethodService ime) {
+        if (ime != null) activeIme = new WeakReference<>(ime);
+    }
     private static InputMethodService service(Context ctx) {
+        InputMethodService bound = activeIme.get();
+        if (bound != null) return bound;
         for (int i=0;i<12 && ctx!=null;i++) {
             if(ctx instanceof InputMethodService)return (InputMethodService)ctx;
             if(!(ctx instanceof ContextWrapper))break;
