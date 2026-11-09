@@ -98,6 +98,11 @@ jobs:
           mkdir -p /tmp/swype-offline/bin /tmp/swype-offline/share /tmp/swype-offline/lib
           cp /usr/bin/apktool /usr/bin/zipalign /usr/bin/apksigner /tmp/swype-offline/bin/
           cp -a /usr/share/java /tmp/swype-offline/share/
+          cp -a /usr/share/apktool /tmp/swype-offline/share/
+          if test -f /usr/share/android-framework-res/framework-res.apk; then
+            mkdir -p /tmp/swype-offline/share/android-framework-res
+            cp /usr/share/android-framework-res/framework-res.apk /tmp/swype-offline/share/android-framework-res/
+          fi
           mkdir -p /tmp/swype-offline/patch
           cp language-packs/patch_language_catalog.py /tmp/swype-offline/patch/
           for library in $(ldd /usr/bin/zipalign | awk '/=>/ {print $3}'); do
