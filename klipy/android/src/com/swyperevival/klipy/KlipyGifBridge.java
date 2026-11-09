@@ -28,9 +28,18 @@ public final class KlipyGifBridge {
     private KlipyGifBridge() {}
 
     private static Object field(Object owner, String name) throws Exception {
-        Field f = owner.getClass().getDeclaredField(name);
-        f.setAccessible(true);
-        return f.get(owner);
+        // KeyboardEx.Key inherits Android Keyboard.Key.label on some builds.
+        // getDeclaredField() on the concrete class alone misses inherited fields.
+        for (Class<?> type = owner.getClass(); type != null; type = type.getSuperclass()) {
+            try {
+                Field f = type.getDeclaredField(name);
+                f.setAccessible(true);
+                return f.get(owner);
+            } catch (NoSuchFieldException ignored) {
+                // Continue through parent types; do not swallow other failures.
+            }
+        }
+        throw new NoSuchFieldException(name);
     }
 
     /**
