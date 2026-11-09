@@ -55,7 +55,14 @@ def inspect_dex(data):
             params = [types[struct.unpack_from('<H', data, params_offset + 4 + j * 2)[0]] for j in range(count)]
         descriptor = '(' + ''.join(params) + ')' + types[return_type_index]
         methods.setdefault(class_descriptor, {}).setdefault(method, []).append(descriptor)
-    return methods
+    definitions_count, definitions_offset = read_u32(96), read_u32(100)
+    if definitions_count > 1000000 or definitions_offset + 32 * definitions_count > len(data):
+        raise ValueError("Invalid DEX class definitions")
+    defined_classes = {
+        types[read_u32(definitions_offset + 32 * i)]
+        for i in range(definitions_count)
+    }
+    return methods, defined_classes
 
 def audit(apk):
     result = {'apk_filename': apk.name, 'bytes': apk.stat().st_size,
@@ -74,9 +81,13 @@ def audit(apk):
             blob = archive.read(name)
             result['dex'][name] = {
                 'size': len(blob), 'sha256': hashlib.sha256(blob).hexdigest(),
-                'github_bridge_present': b'GitHubLanguageCatalog' in blob
+                'github_bridge_text_present': b'GitHubLanguageCatalog' in blob
             }
-            for cls, methods in inspect_dex(blob).items():
+            found, classes = inspect_dex(blob)
+            result['dex'][name]['github_bridge_present'] = (
+                'Lcom/nuance/connect/service/manager/GitHubLanguageCatalog;' in classes
+            )
+            for cls, methods in found.items():
                 for method, descriptors in methods.items():
                     all_methods.setdefault(cls, {}).setdefault(method, []).extend(descriptors)
         result['method_signatures'] = all_methods
