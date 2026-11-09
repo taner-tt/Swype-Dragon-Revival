@@ -58,7 +58,6 @@ public final class KlipySearchKeyboard extends LinearLayout {
         addRow(context, "zxcvbnmåäö");
 
         LinearLayout controls = new LinearLayout(context);
-        controls.addView(key(context, "123", 13, () -> { }), new LayoutParams(0, 34 * dp, 1f));
         controls.addView(key(context, "Mellanslag", 13, () -> append(" ")),
                 new LayoutParams(0, 34 * dp, 3f));
         controls.addView(key(context, "⌫", 19, this::backspace), new LayoutParams(0, 34 * dp, 1f));
