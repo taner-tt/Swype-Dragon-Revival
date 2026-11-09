@@ -45,6 +45,21 @@ jobs:
         run: python3 klipy/tools/test_klipy_inherited_label.py
       - name: Test actual Swype IME binding patch
         run: python3 klipy/tools/test_swype_ime_gif_sender.py
+      - name: Verify compact AMOLED search and GIF sharing fallback contract
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path('klipy/android/src/com/swyperevival/klipy')
+          ui=(src/'KlipySearchKeyboard.java').read_text(encoding='utf-8')
+          sender=(src/'KlipyGifSender.java').read_text(encoding='utf-8')
+          assert 'new Button(' not in ui, 'Old bright search button layout still present'
+          assert 'Color.BLACK' in ui and 'keys.setVisibility(View.GONE)' in ui
+          assert 'Intent.ACTION_SEND' in sender and 'image/gif' in sender
+          assert 'FLAG_GRANT_READ_URI_PERMISSION' in sender
+          assert 'connection.commitContent' in sender
+          print('PASS: compact black search, direct GIF send and safe share fallback present')
+          PY
       - name: Compile isolated KLIPY DEX
         run: |
           set -euo pipefail
