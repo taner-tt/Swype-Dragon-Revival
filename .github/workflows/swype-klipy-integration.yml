@@ -11,6 +11,7 @@ on:
       - 'klipy/tools/test_klipy_inherited_label.py'
       - 'klipy/tools/patch_swype_ime_gif_sender.py'
       - 'klipy/tools/test_swype_ime_gif_sender.py'
+      - 'klipy/tools/audit_popup_flow.py'
       - 'klipy/tools/patch_manifest_provider.py'
   pull_request:
     branches:
@@ -73,6 +74,7 @@ jobs:
         run: |
           set -euo pipefail
           apktool d -f input/base.apk -o decoded
+          python3 klipy/tools/audit_popup_flow.py decoded build/popup-flow-audit.txt
           python3 klipy/tools/audit_gif_popup.py decoded > build/popup-handler-audit.txt
           cat build/popup-handler-audit.txt
           python3 klipy/tools/patch_manifest_provider.py decoded/AndroidManifest.xml
@@ -127,6 +129,7 @@ jobs:
             build/Swype-KLIPY-INTEGRATION-UNSIGNED-DO-NOT-INSTALL.apk
             build/patch-report.txt
             build/popup-handler-audit.txt
+            build/popup-flow-audit.txt
             build/checksums.txt
           retention-days: 5
 # NOT SIGNED. NOT INSTALLABLE. GIF sending not implemented yet.
