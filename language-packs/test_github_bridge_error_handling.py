@@ -15,6 +15,41 @@ PATCHER = Path(__file__).with_name("patch_language_catalog.py")
 
 
 class GitHubLanguageBridgeTest(unittest.TestCase):
+    def test_empty_catalog_diagnostic_mode_is_explicit_and_non_distributable(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            script = root / PATCHER.name
+            shutil.copyfile(PATCHER, script)
+            (root / "nuance-language-list.json").write_text('{"43":[]}', encoding="utf-8")
+            decoded = root / "decoded"
+            decoded.mkdir()
+
+            # Ordinary production patches must never accept an empty catalog.
+            production = subprocess.run(
+                [sys.executable, str(script), str(decoded)],
+                capture_output=True, text=True)
+            self.assertNotEqual(production.returncode, 0)
+            self.assertIn("no verified downloadable packs", production.stderr)
+
+            # Diagnostic mode is explicitly marked and progresses to the
+            # expected missing-smali guard; it must not silently claim success.
+            diagnostic_env = {**os.environ, "SWYPE_LANGUAGE_DIAGNOSTIC_ONLY": "1"}
+            diagnostic = subprocess.run(
+                [sys.executable, str(script), str(decoded)],
+                capture_output=True, text=True, env=diagnostic_env)
+            self.assertNotEqual(diagnostic.returncode, 0)
+            self.assertIn("DIAGNOSTIC ONLY", diagnostic.stdout)
+            self.assertNotIn("no verified downloadable packs", diagnostic.stderr)
+
+            # Diagnostic mode refuses even valid-looking downloadable entries.
+            (root / "nuance-language-list.json").write_text(
+                '{"43":[{"11":"Swedish"}]}', encoding="utf-8")
+            forbidden = subprocess.run(
+                [sys.executable, str(script), str(decoded)],
+                capture_output=True, text=True, env=diagnostic_env)
+            self.assertNotEqual(forbidden.returncode, 0)
+            self.assertIn("requires an EMPTY catalog", forbidden.stderr)
+
     def test_catalog_fallback_does_not_clear_existing_languages(self):
         with tempfile.TemporaryDirectory() as temp:
             base = Path(temp)
