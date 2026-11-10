@@ -5,7 +5,7 @@ on:
       release_tag:
         description: Published release containing German and French ZIPs
         required: true
-        default: language-packs-v1
+        default: swedish-test-1
       distribution_authorized:
         description: I confirm permission to distribute these language packs
         required: true
