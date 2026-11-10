@@ -1,0 +1,88 @@
+name: Publish verified language catalog
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Published release containing German and French ZIPs
+        required: true
+        default: language-packs-v1
+      distribution_authorized:
+        description: I confirm permission to distribute these language packs
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: language-catalog
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: inputs.distribution_authorized == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/language-list-transaction-registration
+      - name: Verify public assets and update catalog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          python3 - <<'PY'
+          import datetime, gzip, hashlib, io, json, os, pathlib, re, subprocess, zipfile
+          from urllib.parse import quote
+          repo = os.environ['GITHUB_REPOSITORY']
+          tag = os.environ['RELEASE_TAG']
+          if not re.fullmatch(r'[A-Za-z0-9._-]+', tag):
+              raise SystemExit('Invalid release tag')
+          release = json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/{quote(tag)}']))
+          if release['draft']:
+              raise SystemExit('Release must be published')
+          shared = {'name':'database_le.dat','bytes':1893196,'sha256':'d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191'}
+          specs = [
+              ('de','Deutsch','German','Swype-German-GitHub-Test-Package.zip','839e8a047ed31f8f205b186c90e748a925a6166563ea72e4bf52ab961f0ffa83','DEusUN_xt9_ALM3.ldb',5210453,'086fd59948d44fdb3c8399e12c120ebbf6b64880d8a471bbb70e866997abd965'),
+              ('fr','Français','French','Swype-French-GitHub-Test-Package.zip','c78d53a19a3506f046345efcc32d7f0c3c179cd2ab8e4d45f8ba656177b7f927','FRusUN_xt9_ALM3.ldb',4981595,'a6bf7df7133a3a3af4cb5e4a5019519debb699bc3cb7903bf801ecfe36470657')]
+          p = pathlib.Path('language-packs/language2.json')
+          catalog = json.loads(p.read_text())
+          entries = []
+          for id_, name, internal, filename, digest, ldb, size, ldbhash in specs:
+              matches = [a for a in release['assets'] if a['name'] == filename]
+              if len(matches) != 1:
+                  raise SystemExit(f'Missing exact asset: {filename}')
+              asset = matches[0]
+              url = asset['browser_download_url']
+              expected = f'https://github.com/{repo}/releases/download/{tag}/{filename}'
+              if url != expected or asset['size'] > 10000000:
+                  raise SystemExit('Invalid asset URL or size')
+              data = subprocess.check_output(['curl','--fail','--silent','--show-error','--location','--proto','=https','--proto-redir','=https','--max-time','120','--max-filesize','10000000',url])
+              if hashlib.sha256(data).hexdigest() != digest:
+                  raise SystemExit(f'Archive hash mismatch: {filename}')
+              files = [{'name':ldb,'bytes':size,'sha256':ldbhash},shared]
+              with zipfile.ZipFile(io.BytesIO(data)) as z:
+                  if sorted(z.namelist()) != sorted([ldb+'.mp3','database_le.dat.mp3',internal+'.mdf']):
+                      raise SystemExit('Unexpected ZIP entries')
+                  for f in files:
+                      with z.open(f['name']+'.mp3') as member, gzip.GzipFile(fileobj=member) as gz:
+                          raw = gz.read(f['bytes']+1)
+                      if len(raw)!=f['bytes'] or hashlib.sha256(raw).hexdigest()!=f['sha256']:
+                          raise SystemExit('Invalid database')
+              entries.append(dict(id=id_,name=name,nativeName=name,version=tag,status='available',downloadUrl=url,sha256=digest,installedByDefault=False,archiveVerified=True,redistributionAuthorized=True,compatibilityStatus='candidate-not-device-verified',install=dict(schemaVersion=1,internalName=internal,engineVersion='XT9 V11.03.07.00',files=files)))
+          for entry in entries:
+              old = next((x for x in catalog['languages'] if x['id']==entry['id']),None)
+              if old and old != entry:
+                  raise SystemExit('Refusing to overwrite existing language '+entry['id'])
+              if not old:
+                  catalog['languages'].append(entry)
+          catalog['updated']=datetime.date.today().isoformat()
+          p.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n')
+          PY
+      - name: Commit catalog only
+        run: |
+          git diff --check
+          git add language-packs/language2.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Enable verified German and French language packs"
+          git push origin HEAD:fix/language-list-transaction-registration
