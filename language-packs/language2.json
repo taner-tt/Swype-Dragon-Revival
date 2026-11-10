@@ -102,6 +102,254 @@
           }
         ]
       }
+    },
+    {
+      "id": "tr",
+      "name": "Türkçe",
+      "nativeName": "Türkçe",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Turkish-GitHub-Test-Package.zip",
+      "sha256": "8ff80f5f7234edf902ecf4a0d4ec5af559c1665810b6ab28ce7843d56d8e85f5",
+      "installedByDefault": false,
+      "languageId": 287,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Turkish",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "TRlsUN_xt9_HC_ALM3.ldb",
+            "bytes": 4866904,
+            "sha256": "835eb22389e091b1cedaf558ff182250114b6c5f6a855c4327026bc7f2b46811"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "no",
+      "name": "Norsk",
+      "nativeName": "Norsk",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Norwegian-GitHub-Test-Package.zip",
+      "sha256": "0a1c14699604b55ba8b588f2495bc287fb3ff2262dd2d2c9fa1d92818c172686",
+      "installedByDefault": false,
+      "languageId": 276,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Norwegian",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "NOusUN_xt9_ALM3.ldb",
+            "bytes": 5007691,
+            "sha256": "d069be930eb90d94924308a7f45717e8430461091994dee3149047d6942e1c5b"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "da",
+      "name": "Dansk",
+      "nativeName": "Dansk",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Danish-GitHub-Test-Package.zip",
+      "sha256": "fc4a920c57f8fbd47416685f2327fcaed6a27e16b55566703f5e5b429ea6d49b",
+      "installedByDefault": false,
+      "languageId": 262,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Danish",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "DAusUN_xt9_ALM3.ldb",
+            "bytes": 4871055,
+            "sha256": "ef8ff64ece9e8ba4c0371c263764a950269e7c523cc9cd58c1ea04f170342ddb"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fi",
+      "name": "Suomi",
+      "nativeName": "Suomi",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Finnish-GitHub-Test-Package.zip",
+      "sha256": "a545a2dabba93be9d3981baa26041ed36dd13efa991d85f4c98c102536468523",
+      "installedByDefault": false,
+      "languageId": 267,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Finnish",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "FIusUN_xt9_HC_ALM3.ldb",
+            "bytes": 4797011,
+            "sha256": "9dffb93ade4c890126d1e1f556f5d2d5a7b366c58ba59d3f9ab56c09d461e58f"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "es",
+      "name": "Español",
+      "nativeName": "Español",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Spanish-GitHub-Test-Package.zip",
+      "sha256": "6450b56601d4869bcf8b345f7bbc68511dd28ffdd8b48c4746234063d4d59602",
+      "installedByDefault": false,
+      "languageId": 266,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Spanish",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "ESusUN_xt9_ALM3.ldb",
+            "bytes": 5106598,
+            "sha256": "ae5132b5f7843c1428fa4109b9423d0b773e3eb73f6f367f32b26712b4c7eedb"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "it",
+      "name": "Italiano",
+      "nativeName": "Italiano",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Italian-GitHub-Test-Package.zip",
+      "sha256": "4dd1542b56bb6b776c1fe86638af27ca384407415aff8ca95f12047828ef82d3",
+      "installedByDefault": false,
+      "languageId": 272,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Italian",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "ITusUN_xt9_ALM3.ldb",
+            "bytes": 5150037,
+            "sha256": "27fc4e2d9e6e879d8df52df7a992c9c1c66331ecf6d177042071c3bdafed028c"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pl",
+      "name": "Polski",
+      "nativeName": "Polski",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Polish-GitHub-Test-Package.zip",
+      "sha256": "2a76b12d67a5fd80a1124d47ffa1a493b16786144d29dce38e25a52f5c6816b5",
+      "installedByDefault": false,
+      "languageId": 277,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Polish",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "PLusUN_xt9_ALM3.ldb",
+            "bytes": 4941429,
+            "sha256": "d42b981828c0f2e3d171e7dd0cc88c545019d4d2defb136b9c0baadb601d604d"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nl",
+      "name": "Nederlands",
+      "nativeName": "Nederlands",
+      "version": "batch1-test-1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/swedish-test-1/Swype-Dutch-GitHub-Test-Package.zip",
+      "sha256": "adab1a854ae76169a9744095067a571c01106852356a2c6476ef6b693c7e6091",
+      "installedByDefault": false,
+      "languageId": 275,
+      "archiveVerified": true,
+      "redistributionAuthorized": false,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "Dutch",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "NLusUN_xt9_ALM3.ldb",
+            "bytes": 5283938,
+            "sha256": "15385c90b5350a7157bf5c6f1f06fda8bfdeea651f607df0b912c0b27098183b"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
     }
   ]
 }
