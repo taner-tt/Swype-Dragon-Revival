@@ -42,6 +42,66 @@
       "downloadUrl": null,
       "sha256": null,
       "installedByDefault": true
+    },
+    {
+      "id": "de",
+      "name": "Deutsch",
+      "nativeName": "Deutsch",
+      "version": "language-packs-v1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/language-packs-v1/Swype-German-GitHub-Test-Package.zip",
+      "sha256": "839e8a047ed31f8f205b186c90e748a925a6166563ea72e4bf52ab961f0ffa83",
+      "installedByDefault": false,
+      "archiveVerified": true,
+      "redistributionAuthorized": true,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "German",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "DEusUN_xt9_ALM3.ldb",
+            "bytes": 5210453,
+            "sha256": "086fd59948d44fdb3c8399e12c120ebbf6b64880d8a471bbb70e866997abd965"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fr",
+      "name": "Français",
+      "nativeName": "Français",
+      "version": "language-packs-v1",
+      "status": "available",
+      "downloadUrl": "https://github.com/taner-tt/Swype-Dragon-Revival/releases/download/language-packs-v1/Swype-French-GitHub-Test-Package.zip",
+      "sha256": "c78d53a19a3506f046345efcc32d7f0c3c179cd2ab8e4d45f8ba656177b7f927",
+      "installedByDefault": false,
+      "archiveVerified": true,
+      "redistributionAuthorized": true,
+      "compatibilityStatus": "candidate-not-device-verified",
+      "install": {
+        "schemaVersion": 1,
+        "internalName": "French",
+        "engineVersion": "XT9 V11.03.07.00",
+        "files": [
+          {
+            "name": "FRusUN_xt9_ALM3.ldb",
+            "bytes": 4981595,
+            "sha256": "a6bf7df7133a3a3af4cb5e4a5019519debb699bc3cb7903bf801ecfe36470657"
+          },
+          {
+            "name": "database_le.dat",
+            "bytes": 1893196,
+            "sha256": "d83c25fa6d0beaf42adc5475a684c7d78c816456e22084e2a7796dfc521cb191"
+          }
+        ]
+      }
     }
   ]
 }
